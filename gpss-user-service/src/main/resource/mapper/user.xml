@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpss.user.service.dao.IUserDao">
+	<!-- <select id="findMemberByAccountNum" parameterType="java.util.Map" resultType="cn.fssyer.api.vo.Member"> 
+		SELECT mid,name,password,locked,accountNum FROM member WHERE accountNum=#{accountNum} 
+		<if test="mid!=null"> and mid=#{mid} </if> </select> -->
+
+	<insert id="doCreateUser"
+		parameterType="com.lyyzoo.gpss.api.vo.User">
+		insert into user( uid ,name,password,locked) values(
+		#{uid},#{name},#{password},#{locked});
+	</insert>
+
+
+	<select id="doGetUser" parameterType="java.util.Map"
+		resultType="com.lyyzoo.gpss.api.vo.User">
+		select uid ,name ,password, locked from user
+		<if test="uid != null &amp; uid != &quot;&quot;">
+			where uid = #{uid}
+		</if>
+	</select>
+	
+	<select id="doGetEmployee" parameterType="java.util.Map"
+		resultType="com.lyyzoo.gpss.api.vo.Employee">
+		select eid ,name ,mobile, birthday, etypeid, updatedTime, updater  from employee
+		 where name =#{name}
+	</select>
+
+	<select id="doGetRoles" parameterType="String"
+		resultType="com.lyyzoo.gpss.api.vo.Role">
+		select rid,name from role where rid in(
+		select rid from user_role where uid = #{uid}
+		)
+	</select>
+
+	<select id="doGetUsersDataItems" parameterType="java.util.Map"
+		resultType="com.lyyzoo.gpss.api.vo.UsersDataItem">
+		select u.uid,ur.rid,r.name rolename, e.name realname, e.eid
+		, e.updatedtime , u.locked from
+		employee e right outer join
+		user u on e.eid = u.eid left outer join
+		user_role ur on ur.uid = u.uid left outer join
+		role r on ur.rid = r.rid limit #{offset} , #{pagesize}
+	</select>
+
+	<select id="doGetUsersDataItemCount" resultType="long">
+		select
+		count(u.uid) from
+		employee e right outer join
+		user u on e.eid = u.eid left outer join
+		user_role ur on ur.uid = u.uid left outer join
+		role r on ur.rid = r.rid
+	</select>
+
+	<update id="doLock" parameterType="java.util.Map">
+		update user set locked =
+		#{locked} where uid = #{uid}
+	</update>
+
+	<update id="doUpdateEmployee" parameterType="java.util.Map">
+		update employee e right outer join user u on e.eid = u.eid
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name!=null">e.name = #{name},</if>
+			<if test="mobile!=null">e.mobile = #{mobile},</if>
+			<if test="birthday!=null ">e.birthday = #{birthday},</if>
+			<if test="etypeid!=null &amp; etypeid != &quot;&quot;">e.etypeid = #{etypeid} ,</if>
+			<if test="updatedtime!=null">e.updatedtime = #{updatedtime},</if>
+			<if test="updater!=null">e.updater = #{updater}</if>
+		</trim>
+		where e.eid = #{eid}
+	</update>
+	
+	<update id="doUpdateProfile" parameterType="java.util.Map">
+		update user 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="newPassword != null">
+				password = #{newPassword}
+			</if>
+		</trim>
+		 where uid = #{uid}
+	</update>
+</mapper>

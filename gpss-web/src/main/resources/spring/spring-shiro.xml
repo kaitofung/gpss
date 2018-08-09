@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+ 	<bean id="userRealm" class="com.lyyzoo.gpss.realm.UserRealm"></bean>
+	
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="userRealm"></property>
+		<property name="sessionManager" ref="sessionManager"></property>
+	</bean>
+	
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"></property>
+		<property name="loginUrl" value="/user/login"></property>
+		<property name="successUrl" value="/user/adminsystem"></property>
+		<property name="unauthorizedUrl" value="/user/login"></property>
+		<property name="filterChainDefinitions" >
+			<value>
+				/pages/auth/*=authc
+				/user/login=authc
+				/user/adminsystem=user
+				/user/logout=logout
+			</value>
+		</property>
+		<property name="filters">
+			<map>
+				<entry key="authc" value-ref="formAuthenticationFilter">
+				</entry>
+				<entry key="logout" value-ref="logoutFilter">
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- 表单认证  -->
+	<bean id="formAuthenticationFilter" class="com.lyyzoo.gpss.shiro.BaseAuthenticationFilter">
+		<property name="loginUrl" value="/user/login"></property>
+		<property name="usernameParam" value="uid"></property>
+		<property name="passwordParam" value="password"></property>
+		<property name="failureKeyAttribute" value="error"></property>
+	</bean>
+	
+	
+	<!-- 账户登出  -->
+	<bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+		<property name="redirectUrl" value="/user/login"></property>
+	</bean>
+	
+	<!-- Session管理  -->
+	<bean id ="SessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator">
+	</bean>
+
+	<bean id ="sessionDao" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+		<property name="activeSessionsCacheName" value="shiro-activeSessionCache"></property>
+		<property name="sessionIdGenerator" ref="SessionIdGenerator"></property>
+	</bean>
+	<bean id ="sessionCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<property name="name" value="gpss-session-id"></property>
+	</bean>
+	<bean id ="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="sessionDAO" ref="sessionDao"></property>
+		<property name="sessionIdCookie" ref="sessionCookie"></property>
+		<property name="globalSessionTimeout" value="30000000"></property>
+		<property name="deleteInvalidSessions" value="true"></property>
+		<property name="sessionIdCookieEnabled" value="true"></property>
+	</bean>
+	
+
+</beans>

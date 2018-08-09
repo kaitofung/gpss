@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpss.supplier.service.dao.ISupplierDao">
+	
+<select id="doGetSuppliers" resultType="com.lyyzoo.gpss.api.vo.Supplier" parameterType="java.util.Map">
+	select sid, name, mobile, contacts_name, address, description, updatetime 
+		from supplier 
+		<if test="pageSize != null &amp; offset != null">
+			limit #{offset}, #{pageSize}
+		</if>
+</select>
+
+<select id="doGetSuppliersCount" resultType="int" >
+	select count(sid)
+		from supplier 
+</select>
+
+</mapper>

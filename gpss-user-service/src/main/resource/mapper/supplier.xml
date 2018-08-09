@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpss.user.service.dao.ISupplierDao">
+	
+<select id="doGetSuppliers" resultType="com.lyyzoo.gpss.api.vo.Supplier" parameterType="java.util.Map">
+	select sid, name, mobile, contacts_name, address, description, updatetime 
+		from supplier 
+		<if test="name != null &amp; name != &quot;&quot;">
+			where name like #{name}
+		</if>
+		<if test="pagesize != null &amp; offset != null">
+			limit #{offset}, #{pagesize}
+		</if>
+</select>
+
+<select id="doGetSuppliersCount" resultType="int" parameterType="java.util.Map">
+	select count(sid)
+		from supplier 
+		<if test="name != null &amp; name != &quot;&quot;">
+			where name like #{name}
+		</if>
+</select>
+
+<delete id="doDeleteSuppliers" parameterType="list">
+	delete from supplier where sid in
+	<foreach collection="list" open="(" close=")" separator="," item="item">
+		#{item}
+	</foreach>
+</delete>
+
+<insert id="doCreateSupplier" parameterType="com.lyyzoo.gpss.api.vo.Supplier">
+	insert into supplier( name, mobile, contacts_name, address, description, updatetime)
+		values(#{name},#{mobile},#{contacts_name}
+		,#{address},#{description},#{updatetime});
+</insert>
+
+<update id="doUpdateSupplier" parameterType="com.lyyzoo.gpss.api.vo.Supplier">
+	update  supplier set name =#{name}, mobile=#{mobile}, contacts_name=#{contacts_name}, address=#{contacts_name}, description=#{description}, updatetime=#{updatetime}
+		where sid = #{sid}
+</update>
+
+</mapper>
