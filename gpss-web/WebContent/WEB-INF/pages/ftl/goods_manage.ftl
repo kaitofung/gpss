@@ -28,7 +28,7 @@
 			<span class="glyphicon glyphicon-search"></span> 查询
 		</button>
 		<button data-toggle="modal" data-target="#creategoodsesModal"
-			url="${context}/goods/delete" id="btn_create_goodses"
+			url="${context}/goods/create" id="btn_create_goodses"
 			type="button" class="btn btn-default btn-primary">
 			<span class="glyphicon glyphicon-plus"></span> 新增
 		</button>
@@ -47,6 +47,8 @@
 				<th>商品名称</th>
 				<th>食品生产商</th>
 				<th>商品价格/元</th>
+				<th>商品类别</th>
+				<th>商品规格</th>
 				<th>商品图片</th>
 				<th>商品描述</th>
 				<th>操作</th>

@@ -8,6 +8,7 @@ public class Goods {
 	private String producer;
 	private String description;
 	private String gspecification_id;
+	private String gspecification_name;
 	private float price;
 	private String photo;
 	public String getGid() {
@@ -52,6 +53,12 @@ public class Goods {
 	public void setGspecification_id(String gspecification_id) {
 		this.gspecification_id = gspecification_id;
 	}
+	public String getGspecification_name() {
+		return gspecification_name;
+	}
+	public void setGspecification_name(String gspecification_name) {
+		this.gspecification_name = gspecification_name;
+	}
 	public float getPrice() {
 		return price;
 	}
@@ -67,7 +74,7 @@ public class Goods {
 	@Override
 	public String toString() {
 		return "Goods [gid=" + gid + ", name=" + name + ", gtype_id=" + gtype_id + ", gtype=" + gtype + ", producer="
-				+ producer + ", description=" + description + ", gspecification_id=" + gspecification_id + ", price="
+				+ producer + ", description=" + description + ", gspecification_id=" + gspecification_id + ", gspecification_name=" + gspecification_name + ", price="
 				+ price + ", photo=" + photo + "]";
 	}
 	

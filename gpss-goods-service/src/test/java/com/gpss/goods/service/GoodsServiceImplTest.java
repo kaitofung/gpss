@@ -1,9 +1,5 @@
 package com.gpss.goods.service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -12,10 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.lyyzoo.gpss.api.service.IGoodsService;
-import com.lyyzoo.gpss.api.service.IStorageService;
-import com.lyyzoo.gpss.api.service.ISupplierService;
-import com.lyyzoo.gpss.api.vo.Storage;
-import com.lyyzoo.gpss.api.vo.Supplier;
+import com.lyyzoo.gpss.api.vo.Goods;
 
 
 @ContextConfiguration(locations = { "classpath*:spring/spring-*.xml" })
@@ -40,33 +33,44 @@ public class GoodsServiceImplTest  {
 //		System.out.println(goodsService.getGoodsesCount());
 //	}
 	
-	@Test
-	public void testGetGoodsesCountByName() {
-		System.out.println("xxx"+goodsService.getGoodsesCount("可乐"));
-	}
+//	@Test
+//	public void testGetGoodsesCountByName() {
+//		System.out.println("xxx"+goodsService.getGoodsesCount("可乐"));
+//	}
 	
 //	@Test
 //	public void testDeleteSuppliers() {
 //		List<String> list = new ArrayList<>();
 //		list.add("1");
-//		System.out.println(storageService.deleteStorages(list));
+//		System.out.println(goodsService.deleteGoodses(list));
 //	}
 	
+	
+	
+//	@Test
+//	public void testGetGoodsTypes() {
+//		System.out.println(goodsService.getGoodsType());
+//	}
+//	@Test
+//	public void testGetGoodsSpecifications() {
+//		System.out.println(goodsService.getGoodsSpecifications());
+//	}
 //	@Test
 //	public void testGetStorages() {
 //		System.out.println(storageService.getStoragesByName("仓", 8, 1L));
 //	}
-//	@Test
-//	public void testCreateSuppliers() {
-//		Supplier supplier = new Supplier();
-//		supplier.setAddress("Tokyo");
-//		supplier.setContacts_name("曹操");
-//		supplier.setDescription("神秘组织");
-//		supplier.setMobile("1547996523");
-//		supplier.setName("日本鱼肝油");
-//		supplier.setUpdatetime(new Date());
-//		System.out.println(supplierService.createSupplier(supplier));
-//	}
+	@Test
+	public void testCreateGoods() {
+		Goods goods =new Goods();
+		goods.setDescription("good");
+		goods.setGspecification_id("2");
+		goods.setGtype_id("2");
+		goods.setName("xxxxx");
+		goods.setPhoto("D:\\mldn_workspace\\ssm2\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\gpss-web\\upload\\764cf34b-c021-41bd-aa45-6ec3ee7104b1.txt");
+		goods.setPrice(5);
+		goods.setProducer("太极");
+		System.out.println(goodsService.createGoods(goods));
+	}
 	
 //	@Test
 //	public void testEditStorage() {

@@ -161,10 +161,10 @@ CREATE TABLE goods(
    name                 varchar(30)not null,
    gtype_id              int not null,
    producer             varchar(32)not null,
-   description             varchar(32)not null,
+   description             varchar(300)not null,
    gspecification_id           int not null,
    price          float not null,
-   photo          varchar(100)not null,
+   photo          varchar(500)not null,
    CONSTRAINT pk_gid PRIMARY KEY (gid),
    CONSTRAINT fk_gtype_id FOREIGN KEY(gtype_id) REFERENCES goods_type(gtype_id),
    CONSTRAINT fk_gspecification_id FOREIGN KEY(gspecification_id) REFERENCES goods_specification(gspecification_id)

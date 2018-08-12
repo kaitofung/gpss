@@ -28,7 +28,6 @@ $(document).ready(function(){
 	
 	//根据页码查询数据
 	function getgoodses(num){
-		console.log(name+"----------");
 		$("#cb_goods_manage_all").prop("checked",false);
     	var url = $("#url_holder_goods_manage").attr("url")
     	+"?pageSize=" + pageSize 
@@ -37,7 +36,6 @@ $(document).ready(function(){
         $.ajax({  
             url: url,  
             success: function(data) {
-            	log(data);
             	var html = '';  
             	if(data == null || "" == data) {
             		html +=
@@ -53,6 +51,8 @@ $(document).ready(function(){
                 		+"<td col-goods-name_gid='" + data[i].gid + "'>" + data[i].name + "</td>"
                 		+"<td col-goods-ename_gid='" + data[i].gid + "'>" + data[i].producer + "</td>"
                 		+"<td col-goods-mobile_gid='" + data[i].gid + "'>" + data[i].price + "</td>"
+                		+"<td col-goods-mobile_gid='" + data[i].gid + "'>" + data[i].gtype + "</td>"
+                		+"<td col-goods-mobile_gid='" + data[i].gid + "'>" + data[i].gspecification_name + "</td>"
                 		+"<td col-goods-address_gid='" + data[i].gid + "'><img style='width:100px;height:100px;' alt='无图' src='" + data[i].photo + "'></td>"
                 		+"<td col-goods-description_gid='" + data[i].gid + "'>" + data[i].description + "</td>"
                 		+"<td>" 
@@ -153,6 +153,9 @@ $(document).ready(function(){
 			$("#editgoodsesModal").attr("gid",gid);
 		});
 	}
+	
+
+	
 
 });
 

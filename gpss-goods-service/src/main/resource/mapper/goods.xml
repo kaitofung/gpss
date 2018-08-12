@@ -4,7 +4,7 @@
 <mapper namespace="com.gpss.goods.service.dao.IGoodsDao">
 	
  <select id="doGetBeans" resultType="com.lyyzoo.gpss.api.vo.Goods" parameterType="java.util.Map">
-	select g.gid, g.name,  gt.name, g.producer,g.description, gs.name,g.price, g.photo from
+	select g.gid, g.name,  gt.name gtype, g.producer,g.description, gs.name gspecification_name,g.price, g.photo from
 		goods g left join goods_type gt on 
 			g.gtype_id = gt.gtype_id 
 				left join goods_specification gs 
@@ -32,6 +32,21 @@
 	</foreach>
 </delete>
 
+
+<select id="doGetGoodsTypes" resultType="com.lyyzoo.gpss.api.vo.GoodsType">
+	select gtype_id gtypeId, name from goods_type
+</select>
+
+<select id="doGetGoodsSpecifications" resultType="com.lyyzoo.gpss.api.vo.GoodsSpecification">
+	select gspecification_id gspecificationId, name, description, gspecification_type gspecificationType
+	 from goods_specification
+</select>
+
+<insert id="doCreateBean" parameterType="com.lyyzoo.gpss.api.vo.Goods">
+	insert into goods( name, gtype_id, producer, gspecification_id, price, description, photo)
+		values(#{name}, #{gtype_id}, #{producer}, #{gspecification_id}, #{price}, #{description}
+		,#{photo});
+</insert>
 
 </mapper>
 

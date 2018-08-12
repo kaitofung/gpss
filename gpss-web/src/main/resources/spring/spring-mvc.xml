@@ -74,8 +74,8 @@
 			</props>
 		</property>
 	</bean>
-	
-		<bean id="fmXmlEscape"
+
+	<bean id="fmXmlEscape"
 		class="freemarker.template.utility.XmlEscape" />
 
 	<bean
@@ -110,9 +110,13 @@
 	<mvc:resources location="/WEB-INF/font/"
 		mapping="/font/**"></mvc:resources>
 
-	<!-- <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
-		id="commonsMultipartResolver"> <property name="maxInMemorySize"></property> 
-		<property name="maxUploadSize"></property> <property name="maxUploadSizePerFile"></property> 
-		</bean> <bean id="" class="org.springframework.context.support.ResourceBundleMessageSource"> 
-		<property name="basename"></property> </bean> -->
+	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+		<property name="maxUploadSize" value="10000000"></property>
+		<property name="maxInMemorySize" value="10000000"></property>
+		<property name="maxUploadSizePerFile" value="10000000"></property>
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
+	<bean id=""
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+	</bean>
 </beans>
