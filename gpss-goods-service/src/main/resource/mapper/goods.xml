@@ -2,51 +2,76 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gpss.goods.service.dao.IGoodsDao">
-	
- <select id="doGetBeans" resultType="com.lyyzoo.gpss.api.vo.Goods" parameterType="java.util.Map">
-	select g.gid, g.name,  gt.name gtype, g.producer,g.description, gs.name gspecification_name,g.price, g.photo from
-		goods g left join goods_type gt on 
-			g.gtype_id = gt.gtype_id 
-				left join goods_specification gs 
-					on g.gspecification_id = gs.gspecification_id
+
+	<select id="doGetBeans"
+		resultType="com.lyyzoo.gpss.api.vo.Goods"
+		parameterType="java.util.Map">
+		select g.gid, g.name, gt.name gtype, g.producer,g.description, gs.name
+		gspecification_name,g.price, g.photo from
+		goods g left join goods_type
+		gt on
+		g.gtype_id = gt.gtype_id
+		left join goods_specification gs
+		on g.gspecification_id = gs.gspecification_id
 		<if test="name != null &amp; name != &quot;&quot;">
 			where g.name like #{name}
 		</if>
 		<if test="pagesize != null &amp; offset != null">
 			limit #{offset}, #{pagesize}
 		</if>
-</select>
+	</select>
 
-<select id="doGetBeansCount" resultType="long" parameterType="java.util.Map">
-	select count(gid)
-		from goods 
+	<select id="doGetBeansCount" resultType="long"
+		parameterType="java.util.Map">
+		select count(gid)
+		from goods
 		<if test="name != null &amp; name != &quot;&quot;">
 			where name like #{name}
 		</if>
-</select>
+	</select>
 
-<delete id="doDeleteBeans" parameterType="list">
-	delete from goods where gid in
-	<foreach collection="list" open="(" close=")" separator="," item="item">
-		#{item}
-	</foreach>
-</delete>
+	<delete id="doDeleteBeans" parameterType="list">
+		delete from goods where gid in
+		<foreach collection="list" open="(" close=")" separator=","
+			item="item">
+			#{item}
+		</foreach>
+	</delete>
 
 
-<select id="doGetGoodsTypes" resultType="com.lyyzoo.gpss.api.vo.GoodsType">
-	select gtype_id gtypeId, name from goods_type
-</select>
+	<select id="doGetGoodsTypes"
+		resultType="com.lyyzoo.gpss.api.vo.GoodsType">
+		select gtype_id gtypeId, name from goods_type
+	</select>
 
-<select id="doGetGoodsSpecifications" resultType="com.lyyzoo.gpss.api.vo.GoodsSpecification">
-	select gspecification_id gspecificationId, name, description, gspecification_type gspecificationType
-	 from goods_specification
-</select>
+	<select id="doGetGoodsSpecifications"
+		resultType="com.lyyzoo.gpss.api.vo.GoodsSpecification">
+		select gspecification_id gspecificationId, name, description,
+		gspecification_type gspecificationType
+		from goods_specification
+	</select>
 
-<insert id="doCreateBean" parameterType="com.lyyzoo.gpss.api.vo.Goods">
-	insert into goods( name, gtype_id, producer, gspecification_id, price, description, photo)
-		values(#{name}, #{gtype_id}, #{producer}, #{gspecification_id}, #{price}, #{description}
+	<insert id="doCreateBean"
+		parameterType="com.lyyzoo.gpss.api.vo.Goods">
+		insert into goods( name, gtype_id, producer, gspecification_id, price,
+		description, photo)
+		values(#{name}, #{gtype_id}, #{producer},
+		#{gspecification_id}, #{price}, #{description}
 		,#{photo});
-</insert>
+	</insert>
+
+	<update id="doUpdateBean"
+		parameterType="com.lyyzoo.gpss.api.vo.Goods">
+		update goods set name =#{name}, gtype_id=#{gtype_id},
+		producer=#{producer},
+		description=#{description},gspecification_id=#{gspecification_id},
+		price=#{price}
+		
+		<if test="photo != null &amp; photo != &quot;&quot;">
+			,photo=#{photo}
+		</if>
+		where gid = #{gid}
+	</update>
 
 </mapper>
 

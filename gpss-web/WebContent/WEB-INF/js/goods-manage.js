@@ -49,11 +49,11 @@ $(document).ready(function(){
                 		+"<td><input cb_goods_manage_gid='" + data[i].gid + "' id='cb_goods_manage_" + data[i].gid + "'  type='checkbox'/></td>"
                 		+"<td>" + data[i].gid + "</td>"
                 		+"<td col-goods-name_gid='" + data[i].gid + "'>" + data[i].name + "</td>"
-                		+"<td col-goods-ename_gid='" + data[i].gid + "'>" + data[i].producer + "</td>"
-                		+"<td col-goods-mobile_gid='" + data[i].gid + "'>" + data[i].price + "</td>"
-                		+"<td col-goods-mobile_gid='" + data[i].gid + "'>" + data[i].gtype + "</td>"
-                		+"<td col-goods-mobile_gid='" + data[i].gid + "'>" + data[i].gspecification_name + "</td>"
-                		+"<td col-goods-address_gid='" + data[i].gid + "'><img style='width:100px;height:100px;' alt='无图' src='" + data[i].photo + "'></td>"
+                		+"<td col-goods-producer_gid='" + data[i].gid + "'>" + data[i].producer + "</td>"
+                		+"<td col-goods-price_gid='" + data[i].gid + "'>" + data[i].price + "</td>"
+                		+"<td col-goods-gtype_gid='" + data[i].gid + "'>" + data[i].gtype + "</td>"
+                		+"<td col-goods-gspecification_name_gid='" + data[i].gid + "'>" + data[i].gspecification_name + "</td>"
+                		+"<td col-goods-photo_gid='" + data[i].gid + "'><img style='width:100px;height:100px;' alt='无图' src='" + data[i].photo + "'></td>"
                 		+"<td col-goods-description_gid='" + data[i].gid + "'>" + data[i].description + "</td>"
                 		+"<td>" 
                 			+ "<button  data-toggle='modal' data-target='#editgoodsesModal' edit_btn_gid='"+ data[i].gid + "' type='button' class='edited-goods-btn btn btn-default btn-info btn-xs fa fa-edit 'style='margin: 2px'>编辑</button>" 
@@ -146,7 +146,7 @@ $(document).ready(function(){
 		});
 	}
 	
-	//编辑仓库信息
+	//编辑商品信息
 	function initEdit(){
 		$(".edited-goods-btn").click(function(){
 			var gid = $(this).attr("edit_btn_gid");

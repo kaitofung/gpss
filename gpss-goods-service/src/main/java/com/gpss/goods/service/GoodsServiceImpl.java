@@ -12,12 +12,9 @@ import com.gpss.common.utils.IMappingParameter;
 import com.gpss.goods.service.dao.IGoodsDao;
 import com.lyyzoo.gpss.api.service.AbstractService;
 import com.lyyzoo.gpss.api.service.IGoodsService;
-import com.lyyzoo.gpss.api.service.IRoleService;
 import com.lyyzoo.gpss.api.vo.Goods;
 import com.lyyzoo.gpss.api.vo.GoodsSpecification;
 import com.lyyzoo.gpss.api.vo.GoodsType;
-import com.lyyzoo.gpss.api.vo.Role;
-
 @Service
 public class GoodsServiceImpl extends AbstractService implements IGoodsService,IMappingParameter {
 
@@ -64,6 +61,11 @@ public class GoodsServiceImpl extends AbstractService implements IGoodsService,I
 	@Override
 	public boolean createGoods(Goods goods) {
 		return goodsDao.doCreateBean(goods) > 0;
+	}
+
+	@Override
+	public boolean modifyGoods(Goods goods) {
+		return goodsDao.doUpdateBean(goods) > 0;
 	}
 
 

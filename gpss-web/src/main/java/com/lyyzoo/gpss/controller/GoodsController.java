@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import com.lyyzoo.gpss.controller.AbstractController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -67,7 +68,6 @@ public class GoodsController extends AbstractController implements IMappingParam
 	@RequestMapping("/create")
 	public Object createGoods(Goods goods, MultipartFile photox) throws IllegalStateException, IOException {
 		System.err.println(goods);
-		System.err.println(getRequest().getCharacterEncoding());
 		if(photox !=null && !photox.isEmpty()) {
 			String suffix = photox.getOriginalFilename().substring(photox.getOriginalFilename().lastIndexOf("."));
 			String path = getRequest().getServletContext().getRealPath("/upload/") + UUID.randomUUID() + suffix;
@@ -79,12 +79,20 @@ public class GoodsController extends AbstractController implements IMappingParam
 		}
 		return paramToMap("isSucceed" , goodsService.createGoods(goods));
 	}
-//	
-//	@ResponseBody
-//	@RequestMapping("/edit")
-//	public Object editStorage(Storage storage) {
-//		return paramToMap("isSucceed" , storageService.editStorage(storage) >0);
-//	}
+	
+	@ResponseBody
+	@RequestMapping("/edit")
+	public Object editGoods(Goods goods, MultipartFile photox) throws IllegalStateException, IOException {
+		System.err.println(goods);
+		if(photox !=null && !photox.isEmpty()) {
+			String suffix = photox.getOriginalFilename().substring(photox.getOriginalFilename().lastIndexOf("."));
+			String path = getRequest().getServletContext().getRealPath("/upload/") + UUID.randomUUID() + suffix;
+			System.err.println(path);
+			photox.transferTo(new File(path));
+			goods.setPhoto(path);
+		} 
+		return paramToMap("isSucceed" , goodsService.modifyGoods(goods));
+	}
 
 	
 }

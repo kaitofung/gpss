@@ -59,27 +59,32 @@ public class GoodsServiceImplTest  {
 //	public void testGetStorages() {
 //		System.out.println(storageService.getStoragesByName("仓", 8, 1L));
 //	}
-	@Test
-	public void testCreateGoods() {
-		Goods goods =new Goods();
-		goods.setDescription("good");
-		goods.setGspecification_id("2");
-		goods.setGtype_id("2");
-		goods.setName("xxxxx");
-		goods.setPhoto("D:\\mldn_workspace\\ssm2\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\gpss-web\\upload\\764cf34b-c021-41bd-aa45-6ec3ee7104b1.txt");
-		goods.setPrice(5);
-		goods.setProducer("太极");
-		System.out.println(goodsService.createGoods(goods));
-	}
-	
 //	@Test
-//	public void testEditStorage() {
-//		Storage storage = storageService.getStorages(1, 1L).get(0);
-//		storage.setName("55");
-//		storage.setAddress("zz");
-//		storage.setDescription("zz");
-//		System.out.println(storageService.editStorage(storage));
+//	public void testCreateGoods() {
+//		Goods goods =new Goods();
+//		goods.setDescription("good");
+//		goods.setGspecification_id("2");
+//		goods.setGtype_id("2");
+//		goods.setName("xxxxx");
+//		goods.setPhoto("D:\\mldn_workspace\\ssm2\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\gpss-web\\upload\\764cf34b-c021-41bd-aa45-6ec3ee7104b1.txt");
+//		goods.setPrice(5);
+//		goods.setProducer("太极");
+//		System.out.println(goodsService.createGoods(goods));
 //	}
+	
+	@Test
+	public void testEditStorage() {
+		Goods goods = new Goods();
+		goods.setName("xxxx");
+		goods.setDescription("xxxxxx");
+		goods.setGid("12");
+		goods.setGspecification_id("1");
+		goods.setGtype_id("1");
+		goods.setPhoto("xxxx");
+		goods.setPrice(0.424f);
+		goods.setProducer("xxxxf");
+		System.out.println(goodsService.modifyGoods(goods));
+	}
 	
 //	@Test
 //	public void testCreateStorage() {

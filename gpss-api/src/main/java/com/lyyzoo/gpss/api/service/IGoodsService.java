@@ -22,5 +22,8 @@ public interface IGoodsService {
 	List<GoodsType> getGoodsType();
 	
 	List<GoodsSpecification> getGoodsSpecifications();
+	
+	boolean modifyGoods(Goods goods);
+	
 
 }

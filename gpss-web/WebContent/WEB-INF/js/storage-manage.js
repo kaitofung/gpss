@@ -28,7 +28,6 @@ $(document).ready(function(){
 	
 	//根据页码查询数据
 	function getStorages(num){
-		console.log(name+"----------");
 		$("#cb_storage_manage_all").prop("checked",false);
     	var url = $("#url_holder_storage_manage").attr("url")
     	+"?pageSize=" + pageSize 
