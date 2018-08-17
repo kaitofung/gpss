@@ -13,17 +13,30 @@ public interface IGoodsService {
 	
 	boolean deleteGoodses(List<String> gids);
 	
+	boolean deleteGoodsSpecifications(List<String> gspecificationIds);
+	
 	boolean createGoods(Goods goods);
 	
+	boolean createGoodsSpecification(GoodsSpecification goodsSpecification);
+	
 	Long getGoodsesCount(String name);
+	
+	Long getGoodsSpecificationsCount(String gspecificationType);
+	
+	Long getGoodsSpecificationsCount();
 	
 	Long getGoodsesCount();
 	
 	List<GoodsType> getGoodsType();
 	
+	List<GoodsSpecification> getGoodsSpecifications(int pageSize, Long currentPage, String gspecificationType);
+	
 	List<GoodsSpecification> getGoodsSpecifications();
+	
+	List<String> getGoodsSpecificationTypes();
 	
 	boolean modifyGoods(Goods goods);
 	
-
+	boolean modifyGoodsSpecification(GoodsSpecification goodSpecification);
+	
 }

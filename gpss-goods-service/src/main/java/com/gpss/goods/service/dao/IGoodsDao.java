@@ -13,5 +13,15 @@ public interface IGoodsDao extends IBaseDao<Goods>{
 	
 	List<GoodsType> doGetGoodsTypes();
 	
-	List<GoodsSpecification> doGetGoodsSpecifications();
+	List<GoodsSpecification> doGetGoodsSpecifications(Map<String,Object> param);
+	
+	List<String> doGetGoodsSpecificationTypes();
+	
+	Long doGetGoodsSpecificationsCount(Map<String,Object> param);
+	
+	Long doDeleteGoodsSepcifications(List<String> gspecificationIds);
+	
+	Long doCreateGoodsSpecification(GoodsSpecification goodsSpecificationn);
+	
+	Long doUpdateGoodsSpecification(GoodsSpecification goodspecification);
 }

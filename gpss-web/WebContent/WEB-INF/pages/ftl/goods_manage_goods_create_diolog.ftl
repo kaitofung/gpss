@@ -73,7 +73,7 @@
 								aria-required="true">*</span>
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<select type="text" url="${context}/goods/goods_specifications" id="goods_specification_input_create" name="goods_specification_input_create" required="required"
+								<select type="text" url="${context}/goods/goods_specification_name" id="goods_specification_input_create" name="goods_specification_input_create" required="required"
 									class="form-control col-md-7 col-xs-12" aria-required="true"
 									placeholder="" >
 									<option value="" id="select_goods_specification_first">请选择商品规格</option>

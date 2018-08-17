@@ -2,7 +2,6 @@ DROP DATABASE IF EXISTS gpss;
 create database gpss;
 USE gpss;
 
---
 drop table if exists employee_type;
 CREATE TABLE employee_type(
    etypeid              int not null auto_increment, 
@@ -88,7 +87,6 @@ CREATE TABLE permission(
    CONSTRAINT pk_mid PRIMARY KEY (pid)
 ) engine='innodb'  default charset=utf8;
 
---供应商表
 drop table if exists supplier;
 CREATE TABLE supplier(
    sid                  int not null auto_increment, 
@@ -110,7 +108,6 @@ insert into supplier(name,mobile , contacts_name, address, description, updateti
 insert into supplier(name,mobile , contacts_name, address, description, updatetime) values('伊利','16554788956' , '马小如' , '广东省广州市' ,'食品供应商', '2016-12-20-07:30');
 insert into supplier(name,mobile , contacts_name, address, description, updatetime) values('阿尔卑斯','16554788956' , '陈梦兰' , '广东省广州市' ,'食品供应商', '2016-12-20-07:30');
 
---仓库表
 drop table if exists storage;
 CREATE TABLE storage(
    sid                 int not null auto_increment, 
@@ -127,7 +124,6 @@ insert into storage(eid, name, address, description) values(2,"成都仓库","�
 insert into storage(eid, name, address, description) values(2,"上海仓库","上海市","三号仓库");
 insert into storage(eid, name, address, description) values(2,"广州仓库","北京市海淀区","四号仓库");
 
---商品类别表
 drop table if exists goods_type;
 CREATE TABLE goods_type(
    gtype_id                 int not null auto_increment, 
@@ -140,7 +136,6 @@ insert into goods_type( name) values("儿童食品");
 insert into goods_type( name) values("能量饮料");
 insert into goods_type( name) values("调味品");
 
---商品规格表
 drop table if exists goods_specification;
 CREATE TABLE goods_specification(
    gspecification_id                 int not null auto_increment, 
@@ -154,7 +149,6 @@ insert into goods_specification( name, description, gspecification_type) values(
 insert into goods_specification( name, description, gspecification_type) values("标准瓶", "500ml", "瓶");
 insert into goods_specification( name, description, gspecification_type) values("加大瓶", "1L", "瓶");
 
---商品表
 drop table if exists goods;
 CREATE TABLE goods(
    gid                 int not null auto_increment, 
@@ -169,8 +163,8 @@ CREATE TABLE goods(
    CONSTRAINT fk_gtype_id FOREIGN KEY(gtype_id) REFERENCES goods_type(gtype_id),
    CONSTRAINT fk_gspecification_id FOREIGN KEY(gspecification_id) REFERENCES goods_specification(gspecification_id)
 ) engine='innodb' default charset=utf8;
-INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '红烧牛肉面', 2, '康师傅', '方便面', 5, 2, 'https://gd1.alicdn.com/imgextra/i1/2930413916/TB2Fy3Qb4Rzc1FjSZFPXXcGAFXa_!!2930413916.jpg_400x400.j');
+INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '红烧牛肉面', 2, '康师傅', '方便面', 5, 2, 'https://gd1.alicdn.com/imgextra/i1/2930413916/TB2Fy3Qb4Rzc1FjSZFPXXcGAFXa_!!2930413916.jpg_400x400.jpg');
 INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '旺旺仙贝', 2, '旺旺食品', '休闲食品', 5, 4, 'https://img.alicdn.com/bao/uploaded/i1/TB2jMoTIMmTBuNjy1XbXXaMrVXa_!!0-rate.jpg_400x400.jpg');
-INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '可口可乐', 4, '可口可乐公司', '碳酸饮料', 4, 5, 'https://img.alicdn.com/imgextra/i4/725677994/TB2sLUffeGSBuNjSspbXXciipXa_!!725677994.jpg_430x430q90.');
-INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '鲜橙多', 4, '鲜橙多食品', '果汁', 4, 6, 'https://img.alicdn.com/imgextra/i2/725677994/TB2y5P_m3vD8KJjSsplXXaIEFXa_!!725677994.jpg_430x430q90.');
+INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '可口可乐', 4, '可口可乐公司', '碳酸饮料', 4, 5, 'https://img.alicdn.com/imgextra/i4/725677994/TB2sLUffeGSBuNjSspbXXciipXa_!!725677994.jpg_430x430q90.jpg');
+INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '鲜橙多', 4, '鲜橙多食品', '果汁', 4, 6, 'https://img.alicdn.com/imgextra/i2/725677994/TB2y5P_m3vD8KJjSsplXXaIEFXa_!!725677994.jpg_430x430q90.jpg');
 

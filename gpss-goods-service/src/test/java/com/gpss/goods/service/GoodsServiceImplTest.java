@@ -1,5 +1,8 @@
 package com.gpss.goods.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -8,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.lyyzoo.gpss.api.service.IGoodsService;
-import com.lyyzoo.gpss.api.vo.Goods;
+import com.lyyzoo.gpss.api.vo.GoodsSpecification;
 
 
 @ContextConfiguration(locations = { "classpath*:spring/spring-*.xml" })
@@ -37,9 +40,27 @@ public class GoodsServiceImplTest  {
 //	public void testGetGoodsesCountByName() {
 //		System.out.println("xxx"+goodsService.getGoodsesCount("可乐"));
 //	}
+//	@Test
+//	public void testGetGoodsSpecifications() {
+//		System.out.println(goodsService.getGoodsSpecifications("瓶"));
+//	}
+//	@Test
+//	public void testGetGoodsSpecificationCount() {
+//		System.out.println(goodsService.getGoodsSpecificationsCount("瓶"));
+//	}
+//	@Test
+//	public void testGetGoodsSpecificationTypes() {
+//		System.out.println(goodsService.getGoodsSpecificationTypes());
+//	}
 	
 //	@Test
-//	public void testDeleteSuppliers() {
+//	public void testDeleteGoodsSpecifications() {
+//		List<String> list = new ArrayList<>();
+//		list.add("1");
+//		System.out.println(goodsService.deleteGoodsSpecifications(list));
+//	}
+//	@Test
+//	public void testDeleteGoodses() {
 //		List<String> list = new ArrayList<>();
 //		list.add("1");
 //		System.out.println(goodsService.deleteGoodses(list));
@@ -53,8 +74,9 @@ public class GoodsServiceImplTest  {
 //	}
 //	@Test
 //	public void testGetGoodsSpecifications() {
-//		System.out.println(goodsService.getGoodsSpecifications());
+//		System.err.println(goodsService.getGoodsSpecifications(2, 1L, "瓶")+ "!!!");
 //	}
+	
 //	@Test
 //	public void testGetStorages() {
 //		System.out.println(storageService.getStoragesByName("仓", 8, 1L));
@@ -71,20 +93,37 @@ public class GoodsServiceImplTest  {
 //		goods.setProducer("太极");
 //		System.out.println(goodsService.createGoods(goods));
 //	}
+//	@Test
+//	public void testCreateGoodsSpecification() {
+//		GoodsSpecification gs = new GoodsSpecification();
+//		gs.setDescription("xxxxx");
+//		gs.setGspecificationType("xxxxxxxxx");
+//		gs.setName("xxxxxxxxxxxxxxxxxxxx");
+//		System.out.println(goodsService.createGoodsSpecification(gs));
+//	}
 	
 	@Test
 	public void testEditStorage() {
-		Goods goods = new Goods();
-		goods.setName("xxxx");
-		goods.setDescription("xxxxxx");
-		goods.setGid("12");
-		goods.setGspecification_id("1");
-		goods.setGtype_id("1");
-		goods.setPhoto("xxxx");
-		goods.setPrice(0.424f);
-		goods.setProducer("xxxxf");
-		System.out.println(goodsService.modifyGoods(goods));
+		GoodsSpecification gs = new GoodsSpecification();
+		gs.setGspecificationId("8");
+		gs.setDescription("xxxxxxx");
+		gs.setGspecificationType("xx");
+		gs.setName("111");
+		System.out.println(goodsService.modifyGoodsSpecification(gs));
 	}
+//	@Test
+//	public void testEditStorage() {
+//		Goods goods = new Goods();
+//		goods.setName("xxxx");
+//		goods.setDescription("xxxxxx");
+//		goods.setGid("12");
+//		goods.setGspecification_id("1");
+//		goods.setGtype_id("1");
+//		goods.setPhoto("xxxx");
+//		goods.setPrice(0.424f);
+//		goods.setProducer("xxxxf");
+//		System.out.println(goodsService.modifyGoods(goods));
+//	}
 	
 //	@Test
 //	public void testCreateStorage() {

@@ -3,6 +3,7 @@ package com.gpss.goods.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Resource;
 
@@ -20,7 +21,6 @@ public class GoodsServiceImpl extends AbstractService implements IGoodsService,I
 
 	@Resource
 	IGoodsDao goodsDao;
-
 
 	@Override
 	public List<Goods> getGoodses(int pageSize, Long currentPage) {
@@ -55,7 +55,7 @@ public class GoodsServiceImpl extends AbstractService implements IGoodsService,I
 
 	@Override
 	public List<GoodsSpecification> getGoodsSpecifications() {
-		return goodsDao.doGetGoodsSpecifications();
+		return goodsDao.doGetGoodsSpecifications(paramToMap("gspecificationType", ""));
 	}
 
 	@Override
@@ -68,7 +68,41 @@ public class GoodsServiceImpl extends AbstractService implements IGoodsService,I
 		return goodsDao.doUpdateBean(goods) > 0;
 	}
 
+	@Override
+	public List<GoodsSpecification> getGoodsSpecifications(int pageSize, Long currentPage,String gspecificationType) {
+		return goodsDao.doGetGoodsSpecifications(fuzzyQuery(gspecificationType, "gspecificationType", pageSize, currentPage));
+	}
 
-	
+	@Override
+	public List<String> getGoodsSpecificationTypes() {
+		return goodsDao.doGetGoodsSpecificationTypes();
+	}
+
+	@Override
+	public Long getGoodsSpecificationsCount(String gspecificationType) {
+		if(Objects.isNull(gspecificationType) || "".equals(gspecificationType))
+		return  getGoodsSpecificationsCount();
+		return goodsDao.doGetGoodsSpecificationsCount(paramToMap("gspecificationType", "%" + gspecificationType + "%"));
+	}
+
+	@Override
+	public boolean deleteGoodsSpecifications(List<String> gspecificationIds) {
+		return goodsDao.doDeleteGoodsSepcifications(gspecificationIds) > 0;
+	}
+
+	@Override
+	public Long getGoodsSpecificationsCount() {
+		return goodsDao.doGetGoodsSpecificationsCount(paramToMap("gspecificationType", ""));
+	}
+
+	@Override
+	public boolean createGoodsSpecification(GoodsSpecification goodsSpecification) {
+		return goodsDao.doCreateGoodsSpecification(goodsSpecification) > 0;
+	}
+
+	@Override
+	public boolean modifyGoodsSpecification(GoodsSpecification goodSpecification) {
+		return goodsDao.doUpdateGoodsSpecification(goodSpecification) >0;
+	}
 
 }

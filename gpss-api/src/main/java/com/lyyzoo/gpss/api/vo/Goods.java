@@ -1,6 +1,8 @@
 package com.lyyzoo.gpss.api.vo;
 
-public class Goods {
+import com.lyyzoo.gpss.api.IPhotoSetter;
+
+public class Goods implements IPhotoSetter{
 	private String gid;
 	private String name;
 	private String gtype_id;
@@ -68,6 +70,7 @@ public class Goods {
 	public String getPhoto() {
 		return photo;
 	}
+	@Override
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}

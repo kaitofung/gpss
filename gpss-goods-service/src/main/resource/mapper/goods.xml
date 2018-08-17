@@ -12,7 +12,8 @@
 		gt on
 		g.gtype_id = gt.gtype_id
 		left join goods_specification gs
-		on g.gspecification_id = gs.gspecification_id
+		on
+		g.gspecification_id = gs.gspecification_id
 		<if test="name != null &amp; name != &quot;&quot;">
 			where g.name like #{name}
 		</if>
@@ -30,8 +31,25 @@
 		</if>
 	</select>
 
+	<select id="doGetGoodsSpecificationsCount" resultType="long"
+		parameterType="java.util.Map">
+		select count(gspecification_id)
+		from goods_specification
+		<if
+			test="gspecificationType != null &amp; gspecificationType != &quot;&quot;">
+			where gspecification_type like #{gspecificationType}
+		</if>
+	</select>
+
 	<delete id="doDeleteBeans" parameterType="list">
 		delete from goods where gid in
+		<foreach collection="list" open="(" close=")" separator=","
+			item="item">
+			#{item}
+		</foreach>
+	</delete>
+	<delete id="doDeleteGoodsSepcifications" parameterType="list">
+		delete from goods_specification where gspecification_id in
 		<foreach collection="list" open="(" close=")" separator=","
 			item="item">
 			#{item}
@@ -45,19 +63,47 @@
 	</select>
 
 	<select id="doGetGoodsSpecifications"
-		resultType="com.lyyzoo.gpss.api.vo.GoodsSpecification">
+		resultType="com.lyyzoo.gpss.api.vo.GoodsSpecification"
+		parameterType="java.util.Map">
 		select gspecification_id gspecificationId, name, description,
 		gspecification_type gspecificationType
+		from goods_specification
+		<if
+			test="gspecificationType != null &amp; gspecificationType != &quot;&quot;">
+			where gspecification_type like #{gspecificationType}
+		</if>
+		<if test="pagesize != null &amp; offset != null">
+			limit #{offset}, #{pagesize}
+		</if>
+	</select>
+
+	<select id="doGetGoodsSpecificationTypes"
+		resultType="java.lang.String">
+		select distinct gspecification_type
+		gspecificationType
 		from goods_specification
 	</select>
 
 	<insert id="doCreateBean"
 		parameterType="com.lyyzoo.gpss.api.vo.Goods">
-		insert into goods( name, gtype_id, producer, gspecification_id, price,
+		insert into goods( name, gtype_id, producer,
+		gspecification_id, price,
 		description, photo)
-		values(#{name}, #{gtype_id}, #{producer},
-		#{gspecification_id}, #{price}, #{description}
+		values(#{name},
+		#{gtype_id}, #{producer},
+		#{gspecification_id}, #{price},
+		#{description}
 		,#{photo});
+	</insert>
+	
+	<insert id="doCreateGoodsSpecification"
+		parameterType="com.lyyzoo.gpss.api.vo.GoodsSpecification">
+		insert into goods_specification( name,
+		gspecification_type ,
+		description)
+		values(#{name},
+		#{gspecificationType},
+		#{description});
 	</insert>
 
 	<update id="doUpdateBean"
@@ -66,11 +112,19 @@
 		producer=#{producer},
 		description=#{description},gspecification_id=#{gspecification_id},
 		price=#{price}
-		
+
 		<if test="photo != null &amp; photo != &quot;&quot;">
 			,photo=#{photo}
 		</if>
 		where gid = #{gid}
+	</update>
+	
+	<update id="doUpdateGoodsSpecification"
+		parameterType="com.lyyzoo.gpss.api.vo.GoodsSpecification">
+		update goods_specification set name =#{name},
+		description=#{description},gspecification_type=#{gspecificationType}
+
+		where gspecification_id = #{gspecificationId}
 	</update>
 
 </mapper>

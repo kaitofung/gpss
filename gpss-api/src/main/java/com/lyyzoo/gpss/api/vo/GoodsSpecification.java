@@ -4,7 +4,7 @@ public class GoodsSpecification {
 	private String gspecificationId;
 	private String name;
 	private String gspecificationType;
-	private String desription;
+	private String description;
 	public String getGspecificationId() {
 		return gspecificationId;
 	}
@@ -23,15 +23,15 @@ public class GoodsSpecification {
 	public void setGspecificationType(String gspecificationType) {
 		this.gspecificationType = gspecificationType;
 	}
-	public String getDesription() {
-		return desription;
+	public String getDescription() {
+		return description;
 	}
-	public void setDesription(String desription) {
-		this.desription = desription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	@Override
 	public String toString() {
 		return "GoodsSpecification [gspecificationId=" + gspecificationId + ", name=" + name + ", gspecificationType="
-				+ gspecificationType + ", desription=" + desription + "]";
+				+ gspecificationType + ", description=" + description + "]";
 	}
 }

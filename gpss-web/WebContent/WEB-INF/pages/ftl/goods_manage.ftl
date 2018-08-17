@@ -5,7 +5,7 @@
 <link href="https://cdn.bootcss.com/toastr.js/latest/toastr.min.css"
 	rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>仓库管理</title>
+<title>商品管理</title>
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
@@ -85,11 +85,11 @@
 				</button>
 			</div>
 		</div>
-		<div row="col-md-7">
+		<div class="col-md-7">
 			<nav url="${context}/goods/goodses"
 				id="url_holder_goods_manage"
 				all_data_count="${Request.goodsesCount!'0'}"
-				style="padding-right: 40px;position: absolute;right: 0px;">
+				style="text-align: right;">
 			<ul class="pagination" id="pagination_goodses"></ul>
 			</nav>
 		</div>
