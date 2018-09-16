@@ -116,7 +116,7 @@ $(document).ready(function(){
 			for(i = 0; i <$("[cb_goods_manage_gid]").length; i++) {
 				var item = $("[cb_goods_manage_gid]").get(i);
 				if($(item).prop("checked") == true){
-					array[count++] = $(item).attr("cb_goods_manage_gid");
+					array[count++] = ($(item).attr("cb_goods_manage_gid")) ;
 				}
 			}
 			var url = $("#btn_delete_goodses").attr("url");

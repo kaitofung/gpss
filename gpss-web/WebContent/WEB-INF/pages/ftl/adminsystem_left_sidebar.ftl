@@ -46,7 +46,7 @@
 				<li><a class="list-sub-item" url="${context}/goods/goods_manage">商品管理</a></li>
 				<li><a class="list-sub-item" url="${context}/storage/storage_manage">仓库管理</a></li>
 				<@shiro.hasRole name="admin">
-					<li><a class="list-sub-item" url="${context}/user/welcome">员工管理</a></li>
+					<li><a class="list-sub-item" url="${context}/user/employee_manage">员工管理</a></li>
 				</@shiro.hasRole>
 				<@shiro.hasAnyRoles name="admin,saler">
 					<li><a class="list-sub-item" url="${context}/goods/goods_param_manage">商品参数管理</a></li>

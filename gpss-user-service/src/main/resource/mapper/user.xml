@@ -11,6 +11,12 @@
 		insert into user( uid ,name,password,locked) values(
 		#{uid},#{name},#{password},#{locked});
 	</insert>
+	
+	<insert id="doCreateEmployee"
+		parameterType="com.lyyzoo.gpss.api.vo.Employee">
+		insert into employee(name,mobile, birthday, etypeid, updatedtime, updater) values(
+		#{name},#{mobile},#{birthday},#{etypeid},#{updatedtime},#{updater});
+	</insert>
 
 
 	<select id="doGetUser" parameterType="java.util.Map"
@@ -20,6 +26,13 @@
 			where uid = #{uid}
 		</if>
 	</select>
+	
+	<delete id="doRemoveEmployees" parameterType="java.util.List" >
+		delete from employee where eid in
+		<foreach collection="list" open="(" close=")" separator="," item="item">
+			#{item}
+		</foreach>
+	</delete>
 	
 	<select id="doGetEmployee" parameterType="java.util.Map"
 		resultType="com.lyyzoo.gpss.api.vo.Employee">
@@ -42,6 +55,34 @@
 		user u on e.eid = u.eid left outer join
 		user_role ur on ur.uid = u.uid left outer join
 		role r on ur.rid = r.rid limit #{offset} , #{pagesize}
+	</select>
+	
+	<select id="doGetEmployees" parameterType="java.util.Map"
+		resultType="com.lyyzoo.gpss.api.vo.Employee">
+		select eid ,e.name, mobile ,birthday, et.name etypeName, updatedtime from employee e left join employee_type et 
+			on e.etypeid = et.etypeid 
+			where true
+			<if test="name != null &amp; name != &quot;&quot;">
+				and e.name = #{name}
+			</if>
+			<if test="etypeid != null &amp; etypeid != &quot;&quot;">
+				and e.etypeid = #{etypeid}
+			</if>
+			limit #{offset} , #{pagesize}
+	</select>
+
+	<select id="doGetEmployeesCount" resultType="long" parameterType="java.util.Map">
+		select count(eid) from employee where true 
+		<if test="name != null &amp; name != &quot;&quot;">
+		and name = #{name}
+		</if>
+		<if test="etypeid != null &amp; etypeid != &quot;&quot;">
+		and etypeid = #{etypeid}
+		</if>
+	</select>
+	
+	<select id="doGetEmployeeTypes" resultType="java.util.Map">
+		select etypeid, name from employee_type
 	</select>
 
 	<select id="doGetUsersDataItemCount" resultType="long">

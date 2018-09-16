@@ -1,22 +1,24 @@
 package com.lyyzoo.gpss.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TreeSet;
-import java.util.concurrent.BlockingQueue;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gpss.common.utils.CaptchaUtil;
 import com.gpss.common.utils.IMappingParameter;
-import com.lyyzoo.gpss.api.service.ISupplierService;
 import com.lyyzoo.gpss.api.service.IUserService;
+import com.lyyzoo.gpss.api.vo.Employee;
 import com.lyyzoo.gpss.api.vo.User;
 
 @Controller
@@ -77,10 +79,52 @@ public class UserController extends AbstractController implements IMappingParame
 		return "adminsystem";
 	}
 	
+	@ResponseBody
+	@RequestMapping("/delete/employee_delete")
+	public Object deleteEmployee(@RequestParam("eids[]") List<String> eids) {
+		boolean result = false;
+		System.err.println(eids);
+		try {
+			result = userService.removeEmployees(eids);
+		} catch (Exception e) {
+			// 可能因为外键不能删除
+		}
+		System.err.println("result--" + result );
+		return paramToMap("isSucceed", result);
+	}
+	
 	@RequestMapping("/user_manage")
 	public Object userManage() {
 		getRequest().setAttribute("userDataCount", userService.getAllUserDataItemCount());
 		return "user_manage";
+	}
+	
+	@RequestMapping("/employee_manage")
+	public Object employeeManage() {
+		return "employee_manage";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/employee_types")
+	public Object employeeTypes() {
+		return userService.getEmployeeTypes();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/employees")
+	public Object employees(int pageSize , Long currentPage, String name, String etypeid) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total", userService.getEmployeesCount(paramToMap("name", name, "etypeid", etypeid)));
+		List<Employee> list = userService.getEmployees(pageSize, currentPage, name, etypeid);
+		map.put("rows", list);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/create/employee_create")
+	public Object createEmployee(Employee employee) {
+		employee.setUpdatedtime(new Date());
+		return paramToMap("isSucceed", userService.addEmployee(employee));
 	}
 	
 	@ResponseBody

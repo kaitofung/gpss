@@ -11,6 +11,8 @@ import com.lyyzoo.gpss.api.vo.UsersDataItem;
 public interface IUserService {
 	boolean addUser(User user);
 	
+	boolean addEmployee(Employee employee);
+	
 	boolean lockUser(User user);
 	
 	boolean unlockUser(User user);
@@ -29,12 +31,20 @@ public interface IUserService {
 	
 	List<UsersDataItem> getUsersDataItem(int pageSize , int currentPage);
 	
+	List<Employee> getEmployees(int pageSize , Long currentPage, String name, String etypeid);
+	
 	long getAllUserDataItemCount();
+	
+	List<Map<String, Object>> getEmployeeTypes();
+	
+	long getEmployeesCount(Map<String,Object> params);
 	
 	long modifyEmployData(Map<String,Object> params);
 	
 	long modifyUserProfile(Map<String,Object> params);
 	
 	Employee getEmployee(String name);
+	
+	boolean removeEmployees(List<String> eids);
 	
 }

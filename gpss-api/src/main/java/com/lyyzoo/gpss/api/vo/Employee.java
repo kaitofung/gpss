@@ -8,7 +8,8 @@ public class Employee {
 	private String eid;
 	private Date birthday;
 	private String etypeid;
-	private Date updatedTime;
+	private String etypeName;
+	private Date updatedtime;
 	private String updater;
 	public String getName() {
 		return name;
@@ -40,11 +41,17 @@ public class Employee {
 	public void setEtypeid(String etypeid) {
 		this.etypeid = etypeid;
 	}
-	public Date getUpdatedTime() {
-		return updatedTime;
+	public String getEtypeName() {
+		return etypeName;
 	}
-	public void setUpdatedTime(Date updatedTime) {
-		this.updatedTime = updatedTime;
+	public void setEtypeName(String etypeName) {
+		this.etypeName = etypeName;
+	}
+	public Date getUpdatedtime() {
+		return updatedtime;
+	}
+	public void setUpdatedtime(Date updatedTime) {
+		this.updatedtime = updatedTime;
 	}
 	public String getUpdater() {
 		return updater;
@@ -55,8 +62,10 @@ public class Employee {
 	@Override
 	public String toString() {
 		return "Employee [name=" + name + ", mobile=" + mobile + ", eid=" + eid + ", birthday=" + birthday
-				+ ", etypeid=" + etypeid + ", updatedTime=" + updatedTime + ", updater=" + updater + "]";
+				+ ", etypeid=" + etypeid + ", etypeName=" + etypeName + ", updatedTime=" + updatedtime + ", updater="
+				+ updater + "]";
 	}
+
 	
 	
 	

@@ -105,8 +105,33 @@ public class UserServiceImpl extends AbstractService implements IUserService,IMa
 
 	@Override
 	public Employee getEmployee(String name) {
-		
 		return userDao.doGetEmployee(paramToMap("name", name));
+	}
+
+	@Override
+	public List<Employee> getEmployees(int pageSize , Long currentPage, String name, String etypeid) {
+		int offset = (int) (pageSize * (currentPage - 1)) ;
+		return userDao.doGetEmployees(paramToMap("offset", offset,"pagesize", pageSize,"name", name, "etypeid", etypeid));
+	}
+
+	@Override
+	public long getEmployeesCount(Map<String, Object> params) {
+		return userDao.doGetEmployeesCount(params);
+	}
+
+	@Override
+	public List<Map<String, Object>> getEmployeeTypes() {
+		return userDao.doGetEmployeeTypes();
+	}
+
+	@Override
+	public boolean addEmployee(Employee employee) {
+		return userDao.doCreateEmployee(employee);
+	}
+
+	@Override
+	public boolean removeEmployees(List<String> eids) {
+		return userDao.doRemoveEmployees(eids) == eids.size();
 	}
 
 }

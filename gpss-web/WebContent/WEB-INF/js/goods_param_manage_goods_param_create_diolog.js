@@ -38,8 +38,6 @@ $(document).ready(function() {
     setUpResetForm("#creategoods_paramesModal", validator);
     
     $("#summit_goods_param_create").click(function(){
-    	log("xxxxxx");
-    	console.log("fwfwf");
     	if(validateForm(validator)){
             // jquery 表单提交   
     		var url = $("#creategoods_paramesModal").attr("url");

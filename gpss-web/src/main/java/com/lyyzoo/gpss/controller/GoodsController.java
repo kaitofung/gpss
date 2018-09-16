@@ -1,7 +1,11 @@
 package com.lyyzoo.gpss.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import javax.annotation.Resource;
 
@@ -21,6 +25,91 @@ import com.lyyzoo.gpss.api.vo.GoodsSpecification;
 public class GoodsController extends AbstractController implements IMappingParameter {
 	@Resource
 	private IGoodsService goodsService;
+	
+	static class Test{
+		private int id;
+		private  String name;
+		private double price;
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public double getPrice() {
+			return price;
+		}
+		public void setPrice(double price) {
+			this.price = price;
+		}
+	}
+	private static List<Test> tests = new ArrayList<>();
+	private static List<Map<String,Object>> testsxx = new ArrayList<>();
+	static {
+		for (int i = 0; i < 50000; i++) {
+			Test test = new Test();
+			test.id = i;
+			test.name = "xx" +i;
+			test.price = i +55;
+			tests.add(test);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("roleId", i);
+			map.put("roleName", "测试" + i);
+			map.put("remark", "管理员" + i);
+			map.put("createTime", System.currentTimeMillis());
+			map.put("modifyTime", System.currentTimeMillis());
+			testsxx.add(map);
+		}
+	}
+	@ResponseBody
+	@RequestMapping("/data1")
+	public Object goodsParamManagex(int limit, int offset) {
+		int end = limit + offset;
+		int count = 1;
+		List<Test> testsx = new ArrayList<>();
+		while(true) {
+			testsx.add(tests.get(offset));
+			offset ++;
+			if(offset > end) {
+				break;
+			}
+		}
+		System.err.println("!!!!!!!!!!!!!!");
+		return testsx;
+	}
+	static class Role{
+		private int roleId;
+		private String roleName;
+		private String remark;
+		private long createTime;
+		private long modifyTime;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/roles")
+	public Object getGoodsesxx(int pageSize, int pageNum, String roleName) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total", testsxx.size());
+		int offset = pageNum *pageSize - pageSize;
+		int end = offset + pageSize -1;
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		while(true) {
+			list.add(testsxx.get(offset));
+			offset ++;
+			if(offset > end ) {
+				break;
+			}
+		}
+		System.err.println("roles-----------");
+		map.put("rows", list);
+		return map;
+	}
 	
 	@ResponseBody
 	@RequestMapping("/goodses")
@@ -92,7 +181,6 @@ public class GoodsController extends AbstractController implements IMappingParam
 	public Object getGoodsSpecifications(int pageSize, Long currentPage, String gspecificationType) {
 		long gspecificationCount = goodsService.getGoodsSpecificationsCount(gspecificationType);
 		setAttribute("gspecificationCount", gspecificationCount);
-		System.err.println("pageSize:" +pageSize + "currentPage:"+currentPage + "xxx:" + gspecificationType);
 		return goodsService.getGoodsSpecifications(pageSize, currentPage, gspecificationType);
 	}
 	

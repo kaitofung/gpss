@@ -1,6 +1,8 @@
 package com.gpss.user.service;
 
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.junit.BeforeClass;
@@ -10,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.lyyzoo.gpss.api.service.IUserService;
+import com.lyyzoo.gpss.api.vo.Employee;
 
 @ContextConfiguration(locations= {"classpath:spring/spring-*.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -63,11 +66,44 @@ public class UserServiceImplTest {
 //	public void testgetUsersDataItemCount() {
 //		System.out.println(userService.getAllUserDataItemCount());
 //	}
+//	@Test
+//	public void testgetUsersDataItemCount() {
+//		System.out.println(userService.getEmployee("xx"));
+//	}
+	
+//	@Test
+//	public void testgetEmployeesCount() {
+//		Map<String,Object> param = new HashMap<>();
+//		param.put("etypeid", "1");
+//		param.put("name", "xx");
+//		System.out.println(userService.getEmployeesCount(param));
+//	}
+	
+//	@Test
+//	public void testgetUsersDataItemCount() {
+//		System.out.println(userService.getEmployeeTypes());
+//	}
 	
 	@Test
 	public void testgetUsersDataItemCount() {
-		System.out.println(userService.getEmployee("xx"));
+		for (int i = 0; i < 100; i++) {
+			Employee employee = new Employee();
+			employee.setBirthday(new Date());
+			employee.setEtypeid("1");
+			employee.setMobile("1354998756");
+			employee.setName("ddd3r3r2f");
+			employee.setUpdatedtime(new Date());
+			employee.setUpdater("admin001");
+			System.out.println(userService.addEmployee(employee));
+		}
 	}
+	
+//	@Test
+//	public void testgetUsersDataItemCount() {
+//		List<String> list = new ArrayList<>();
+//		list.add("9");
+//		System.out.println(userService.removeEmployees(list));
+//	}
 	
 	
 //	@Test
@@ -75,6 +111,10 @@ public class UserServiceImplTest {
 //		User user = new User();
 //		user.setUid("admin001");
 //		System.out.println(userService.getRolesByUser(user));
+//	}
+//	@Test
+//	public void testGetEmployees() {
+//		System.out.println(userService.getEmployees(3, 1L));
 //	}
 	
 //	@Test

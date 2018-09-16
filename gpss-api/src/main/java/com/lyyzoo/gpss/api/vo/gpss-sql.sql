@@ -44,7 +44,7 @@ CREATE TABLE user(
    password             varchar(32)not null,
    locked            	int,
    CONSTRAINT pk_uid PRIMARY KEY (uid),
-   CONSTRAINT fk_eid FOREIGN KEY(eid) REFERENCES employee(eid)
+   CONSTRAINT fk_eid FOREIGN KEY(eid) REFERENCES employee(eid) on delete NO ACTION
 ) engine='innodb'  default charset=utf8;
 insert into user(uid,eid,name,password,locked) values("admin001",1,"测试小酱油1","111111",0);
 insert into user(uid,eid,name,password,locked) values("admin005",5,"测试小酱油5","111111",0);
@@ -163,8 +163,8 @@ CREATE TABLE goods(
    CONSTRAINT fk_gtype_id FOREIGN KEY(gtype_id) REFERENCES goods_type(gtype_id),
    CONSTRAINT fk_gspecification_id FOREIGN KEY(gspecification_id) REFERENCES goods_specification(gspecification_id)
 ) engine='innodb' default charset=utf8;
-INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '红烧牛肉面', 2, '康师傅', '方便面', 5, 2, 'https://gd1.alicdn.com/imgextra/i1/2930413916/TB2Fy3Qb4Rzc1FjSZFPXXcGAFXa_!!2930413916.jpg_400x400.jpg');
-INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '旺旺仙贝', 2, '旺旺食品', '休闲食品', 5, 4, 'https://img.alicdn.com/bao/uploaded/i1/TB2jMoTIMmTBuNjy1XbXXaMrVXa_!!0-rate.jpg_400x400.jpg');
+INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '红烧牛肉面', 2, '康师傅', '方便面', 1, 2, 'https://gd1.alicdn.com/imgextra/i1/2930413916/TB2Fy3Qb4Rzc1FjSZFPXXcGAFXa_!!2930413916.jpg_400x400.jpg');
+INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '旺旺仙贝', 2, '旺旺食品', '休闲食品', 2, 4, 'https://img.alicdn.com/bao/uploaded/i1/TB2jMoTIMmTBuNjy1XbXXaMrVXa_!!0-rate.jpg_400x400.jpg');
 INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '可口可乐', 4, '可口可乐公司', '碳酸饮料', 4, 5, 'https://img.alicdn.com/imgextra/i4/725677994/TB2sLUffeGSBuNjSspbXXciipXa_!!725677994.jpg_430x430q90.jpg');
 INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '鲜橙多', 4, '鲜橙多食品', '果汁', 4, 6, 'https://img.alicdn.com/imgextra/i2/725677994/TB2y5P_m3vD8KJjSsplXXaIEFXa_!!725677994.jpg_430x430q90.jpg');
 
