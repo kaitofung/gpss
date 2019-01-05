@@ -38,6 +38,9 @@ $(document).ready(function(){
 					.val().trim(), */
 			};
 		},
+		onLoadSuccess : function(params) {
+			setOnEditClickLister();
+		},
 		columns : [ {
 			checkbox : true
 		}, 
@@ -59,11 +62,12 @@ $(document).ready(function(){
 			sortable : true,
 			title : '员工生日'
 		} , {
-			field : 'operation',
+			field : 'eid',
 			title : '操作',
 			formatter: actionFormatter
 		} ]
 	});
+	
     function detailFormatter(index, row) {
         var html = [];
         $.each(row, function (key, value) {
@@ -72,13 +76,26 @@ $(document).ready(function(){
         return html.join('');
     }
     
+    function setOnEditClickLister() {
+    	$("[btn_edit_employee_manage_eid]").click(function(){
+    		var eid = $(this).attr("btn_edit_employee_manage_eid");
+    		$("#editEmployeeModal").attr("eid",eid);
+    	});
+    }
+    
+    
+    
   //操作栏的格式化
     function actionFormatter(value, row, index) {
+//    	log(value);
+//    	log(row);
+//    	log(index);
         var id = value;
         var result = "";
-        result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+        result += "<a btn_edit_employee_manage_eid='" + id + "' data-toggle='modal' data-target='#editEmployeeModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
         return result;
     }
+    
 
 	// 搜索方法
 	function search() {

@@ -87,6 +87,16 @@
 			</dependency>
 			<dependency>
 				<groupId>com.lyyzoo</groupId>
+				<artifactId>gpss-marketing-service</artifactId>
+				<version>${gpss.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lyyzoo</groupId>
+				<artifactId>gpss-system-service</artifactId>
+				<version>${gpss.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lyyzoo</groupId>
 				<artifactId>gpss-supplier-service</artifactId>
 				<version>${gpss.version}</version>
 			</dependency>
@@ -388,5 +398,7 @@
 		<module>gpss-order-service</module>
 		<module>gpss-test-service</module>
     <module>gpss-storage-service</module>
+    <module>gpss-system-service</module>
+    <module>gpss-marketing-service</module>
   </modules>
 </project>

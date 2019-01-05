@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Semaphore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gpss.common.utils.BeanUtils;
 import com.gpss.common.utils.CaptchaUtil;
 import com.gpss.common.utils.IMappingParameter;
 import com.lyyzoo.gpss.api.service.IUserService;
@@ -83,13 +85,11 @@ public class UserController extends AbstractController implements IMappingParame
 	@RequestMapping("/delete/employee_delete")
 	public Object deleteEmployee(@RequestParam("eids[]") List<String> eids) {
 		boolean result = false;
-		System.err.println(eids);
 		try {
 			result = userService.removeEmployees(eids);
 		} catch (Exception e) {
 			// 可能因为外键不能删除
 		}
-		System.err.println("result--" + result );
 		return paramToMap("isSucceed", result);
 	}
 	
@@ -128,6 +128,14 @@ public class UserController extends AbstractController implements IMappingParame
 	}
 	
 	@ResponseBody
+	@RequestMapping("/edit/employee_edit")
+	public Object employeeModify(Employee employee) {
+		employee.setUpdatedtime(new Date());
+		Map<String,Object> params = BeanUtils.beanToMap(employee);
+		return paramToMap("isSucceed", userService.modifyEmployData(params));
+	}
+	
+	@ResponseBody
 	@RequestMapping("/user_data_items")
 	public Object userDataItems(int pageSize , Long currentPage) {
 		return userService.getUsersDataItem(pageSize, currentPage);
@@ -148,8 +156,7 @@ public class UserController extends AbstractController implements IMappingParame
 				"birthday", birthday,
 				"updatedtime", new Date(),
 				"mobile", mobile);
-		System.err.println(map+"------------------------");
-		
+		map.put("userManage", true);
 		return paramToMap("isSuccessful" , userService.modifyEmployData(map) > 0);
 	}
 	

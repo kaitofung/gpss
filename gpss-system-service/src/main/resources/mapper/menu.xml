@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpss.system.service.dao.IMenuDao">
+	
+
+<select id="doGetBeans" resultType="com.lyyzoo.gpss.api.vo.Menu" parameterType="java.util.Map">
+	select mid, name, url, parent_mid parentId from menu
+</select>
+
+<delete id="doDeleteBeans" parameterType="list">
+	delete from menu where mid in
+	<foreach collection="list" open="(" close=")" separator="," item="item">
+		#{item}
+	</foreach>
+</delete>
+
+<insert id="doCreateBean" parameterType="com.lyyzoo.gpss.api.vo.Menu">
+	insert into menu( name, url, parent_mid)
+		values(#{name},#{url},#{parentId});
+</insert>
+
+<update id="doUpdateSupplier" parameterType="com.lyyzoo.gpss.api.vo.Supplier">
+	update  supplier set name =#{name}, mobile=#{mobile}, contacts_name=#{contacts_name}, address=#{contacts_name}, description=#{description}, updatetime=#{updatetime}
+		where sid = #{sid}
+</update>
+
+</mapper>

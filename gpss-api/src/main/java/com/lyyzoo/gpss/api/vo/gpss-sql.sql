@@ -168,3 +168,85 @@ INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecificat
 INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '可口可乐', 4, '可口可乐公司', '碳酸饮料', 4, 5, 'https://img.alicdn.com/imgextra/i4/725677994/TB2sLUffeGSBuNjSspbXXciipXa_!!725677994.jpg_430x430q90.jpg');
 INSERT INTO `goods`( `name`, `gtype_id`, `producer`, `description`, `gspecification_id`, `price`, `photo`) VALUES ( '鲜橙多', 4, '鲜橙多食品', '果汁', 4, 6, 'https://img.alicdn.com/imgextra/i2/725677994/TB2y5P_m3vD8KJjSsplXXaIEFXa_!!725677994.jpg_430x430q90.jpg');
 
+
+
+drop table if exists menu;
+CREATE TABLE menu(
+   mid                 int not null auto_increment, 
+   name                 varchar(30)not null,
+   url                 varchar(150),
+   parent_mid              int ,
+   CONSTRAINT pk_gid PRIMARY KEY (mid),
+   CONSTRAINT fk_parent_mid FOREIGN KEY(parent_mid) REFERENCES menu(mid)
+) engine='innodb' default charset=utf8;
+INSERT INTO `menu`( `name`, `url`) VALUES ( '菜单', '/gpss-web');
+INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '基础设置', 1);
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '商品管理', 2, '/goods/goods_manage');
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '仓库管理', 2, '/storage/storage_manage');
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '员工管理', 2, '/user/employee_manage');
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '基础参数', 2, '/goods/goods_param_manage');
+INSERT INTO `menu`( `name`,`parent_mid` ) VALUES ( '采购管理', 1);
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '供应商管理', 7, '/procurement/supplier_manage');
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '采购订单', 7, '/procurement/procurement_order');
+INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '销售管理', 1);
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '客户管理', 10, '/market/customer_manage');
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '销售订单', 10, '/market/marketing_order');
+INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '库存管理', 1);
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '库存查看', 13, '/storage/view_storage');
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '采购审核', 13, '/storage/procurement_check');
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '销售审核', 13, '/storage/marketing_check');
+INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '统计分析', 1);
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '采购统计', 17, '/statistics_analization/procurement_statistics');
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '销售统计', 17, '/statistics_analization/marketing_statistics');
+INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '系统管理', 1);
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '菜单管理', 20, '/system_manage/menu_manage');
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '角色管理', 20, '/system_manage/role_manage');
+INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '用户管理', 20, '/system_manage/user_manage');
+
+
+
+drop table if exists client;
+CREATE TABLE client(
+   cid                 int not null auto_increment, 
+   name                 varchar(30)not null,
+   contacts                 varchar(30)not null,
+   phone_num                 varchar(18)not null,
+   address                 varchar(100)not null,
+   description                 varchar(100)not null,
+   updatedtime              datetime not null ,
+   CONSTRAINT pk_gid PRIMARY KEY (cid)
+) engine='innodb' default charset=utf8;
+
+INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
+INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
+INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
+INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
+INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
+
+drop table if exists purchase_order;
+CREATE TABLE purchase_order(
+   poid                 int not null auto_increment, 
+   purchase_order_gid                  int not null,
+   purchase_order_gspecification_id    int not null,
+   purchase_order_store_id             int not null,
+   purchase_order_supplier_id          int not null,
+   num                  int not null,
+   price 				float not null,
+   name                 varchar(30)not null,
+   audit_status			varchar(10)not null,
+   createdtime          datetime not null,
+   creater_id 			int not null,
+   audited_id			int not null,
+   audited_time          datetime not null,
+   CONSTRAINT pk_poid PRIMARY KEY (poid),
+    CONSTRAINT fk_purchase_order_gid FOREIGN KEY(purchase_order_gid) REFERENCES goods(gid),
+    CONSTRAINT fk_purchase_order_gspecification_id FOREIGN KEY(purchase_order_gspecification_id) REFERENCES goods_specification(gspecification_id)
+) engine='innodb' default charset=utf8;
+
+INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
+INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
+INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
+INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
+INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
+
+

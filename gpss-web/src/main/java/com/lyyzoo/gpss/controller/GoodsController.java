@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 import javax.annotation.Resource;
@@ -109,6 +110,41 @@ public class GoodsController extends AbstractController implements IMappingParam
 		System.err.println("roles-----------");
 		map.put("rows", list);
 		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/departments")
+	public Object departments(String name) {
+		List<Map<String,Object>> list = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			Map<String,Object> map = new HashMap<>();
+			map.put("deptId", i);
+			map.put("parentId",new Random().nextInt(5));
+			map.put("deptName", "开发"+i+"部");
+			map.put("orderNum", new Random().nextInt(5));
+			map.put("createTime", System.currentTimeMillis());
+			list.add(map);
+		}
+		System.err.println("------------");
+		return list;
+	}
+	@ResponseBody
+	@RequestMapping("/TestMVC/GetData")
+	public Object departmentsx(String name) {
+		List<Map<String,Object>> list = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			Map<String,Object> map = new HashMap<>();
+			map.put("Id", i);
+			map.put("Name", "开发"+i+"部");
+			map.put("Desc", new Random().nextInt(50));
+			list.add(map);
+		}
+		for (int i = 5; i < 10; i++) {
+			Map<String,Object> map = list.get(i);
+			map.put("ParentId", new Random().nextInt(3));
+		}
+		System.err.println("------------");
+		return list;
 	}
 	
 	@ResponseBody

@@ -72,7 +72,7 @@
 						class="fa fa-angle-left pull-right"></i>
 				</span> </a>
 				<ul class="treeview-menu">
-					<li><a class="list-sub-item" url="${context}/user/welcome">客户管理</a></li>
+					<li><a class="list-sub-item" url="${context}/marketing_manage/client_manage">客户管理</a></li>
 					<li><a class="list-sub-item" url="${context}/user/welcome">销售订单</a></li>
 				</ul>
 			</li>
@@ -107,7 +107,7 @@
 						class="fa fa-angle-left pull-right"></i>
 				</span> </a>
 				<ul class="treeview-menu">
-					<li><a class="list-sub-item" url="${context}/user/welcome">菜单管理</a></li>
+					<li><a class="list-sub-item" url="${context}/system_manage/menu_manage">菜单管理</a></li>
 					<li><a class="list-sub-item" url="${context}/user/welcome">角色管理</a></li>
 					<li><a class="list-sub-item" url="${context}/user/user_manage">用户管理</a></li>
 					<li><a class="list-sub-item" url="${context}/user/modify_user_profile">修改资料</a></li>

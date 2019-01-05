@@ -39,7 +39,7 @@
 		select eid ,name ,mobile, birthday, etypeid, updatedTime, updater  from employee
 		 where name =#{name}
 	</select>
-
+	
 	<select id="doGetRoles" parameterType="String"
 		resultType="com.lyyzoo.gpss.api.vo.Role">
 		select rid,name from role where rid in(
@@ -59,7 +59,7 @@
 	
 	<select id="doGetEmployees" parameterType="java.util.Map"
 		resultType="com.lyyzoo.gpss.api.vo.Employee">
-		select eid ,e.name, mobile ,birthday, et.name etypeName, updatedtime from employee e left join employee_type et 
+		select eid ,e.name, mobile ,birthday, e.updater, et.name etypeName, updatedtime from employee e left join employee_type et 
 			on e.etypeid = et.etypeid 
 			where true
 			<if test="name != null &amp; name != &quot;&quot;">
@@ -98,9 +98,13 @@
 		update user set locked =
 		#{locked} where uid = #{uid}
 	</update>
+	
 
 	<update id="doUpdateEmployee" parameterType="java.util.Map">
-		update employee e right outer join user u on e.eid = u.eid
+		update employee e 
+		<if test="userManage!=null">
+			right outer join user u on e.eid = u.eid
+		</if>
 		<trim prefix="set" suffixOverrides=",">
 			<if test="name!=null">e.name = #{name},</if>
 			<if test="mobile!=null">e.mobile = #{mobile},</if>
