@@ -26,5 +26,11 @@ public class AbstractService implements IMappingParameter{
 	protected Map<String,Object> fuzzyQuery(String param, String paramName) {
 		return fuzzyQuery(param, paramName, Integer.MAX_VALUE, 1L);
 	}
+	
+	protected Map<String,Object> queryData(Map<String, Object> params, int pageSize, Long currentPage) {
+		params.put("offset", currentPageToOffset(pageSize, currentPage));
+		params.put("pagesize", pageSize);
+		return params;
+	}
 
 }

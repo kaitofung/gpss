@@ -1,7 +1,6 @@
 package com.lyyzoo.gpss.api.vo;
 
 import java.util.Date;
-
 public class Client {
 	private String cid;
 	private String name;

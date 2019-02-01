@@ -239,14 +239,14 @@ CREATE TABLE purchase_order(
    audited_id			int not null,
    audited_time          datetime not null,
    CONSTRAINT pk_poid PRIMARY KEY (poid),
-    CONSTRAINT fk_purchase_order_gid FOREIGN KEY(purchase_order_gid) REFERENCES goods(gid),
-    CONSTRAINT fk_purchase_order_gspecification_id FOREIGN KEY(purchase_order_gspecification_id) REFERENCES goods_specification(gspecification_id)
+   CONSTRAINT fk_purchase_order_gid FOREIGN KEY(purchase_order_gid) REFERENCES goods(gid),
+   CONSTRAINT fk_purchase_order_store_id FOREIGN KEY(purchase_order_store_id) REFERENCES storage(sid),
+   CONSTRAINT purchase_order_supplier_id FOREIGN KEY(purchase_order_supplier_id) REFERENCES supplier(sid),
+   CONSTRAINT fk_purchase_order_gspecification_id FOREIGN KEY(purchase_order_gspecification_id) REFERENCES goods_specification(gspecification_id)
 ) engine='innodb' default charset=utf8;
 
-INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
-INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
-INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
-INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
-INSERT INTO `gpss`.`client`( `name`, `contacts`, `phone_num`, `address`, `description`, `updatedtime`) VALUES ( 'f4fr', '3r34r4', '3654144', '33', '323', '2018-09-04 16:18:46');
-
-
+INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`, `audited_time`) VALUES ( 2, 2, 1, 2, 1, 111, '113ee', '1', '2019-01-09 07:36:42', 11, 111, '2019-01-14 07:37:09');
+INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`, `audited_time`) VALUES ( 3, 3, 2, 3, 333, 44, 't', '1', '2019-01-08 15:47:57', 11, 111, '2019-01-16 15:48:16');
+INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`, `audited_time`) VALUES ( 4, 1, 2, 1, 21, 3, '1w1', '1', '2018-11-20 16:05:50', 11, 111, '2019-01-27 16:05:39');
+INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`, `audited_time`) VALUES ( 3, 1, 3, 4, 11, 2, '1', '1', '2019-01-21 16:08:55', 11, 111, '2019-03-21 16:09:26');
+INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`, `audited_time`) VALUES ( 3, 4, 3, 3, 7, 7, '77', '1', '2019-01-07 16:10:50', 11, 111, '2019-01-21 16:11:00');

@@ -60,7 +60,7 @@
 				</span> </a>
 				<ul class="treeview-menu">
 					<li><a class="list-sub-item" url="${context}/supplier/supplier_manage">供应商管理</a></li>
-					<li><a class="list-sub-item" url="${context}/user/welcome">采购订单</a></li>
+					<li><a class="list-sub-item" url="${context}/purchase/purchase_orders_manage">采购订单</a></li>
 				</ul>
 			</li>
 		</@shiro.hasAnyRoles>

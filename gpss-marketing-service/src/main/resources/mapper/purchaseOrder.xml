@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.gpss.marketing.service.dao.IPurchaseOrderDao">
+
+	<select id="doGetBeans"
+		resultType="com.lyyzoo.gpss.api.vo.PurchaseOrder"
+		parameterType="java.util.Map">
+		select poid, g.name gname, gs.name gsname,s1.name supplierName,s2.name
+		storageName, purchase_order_gspecification_id,
+		purchase_order_store_id,purchase_order_supplier_id,
+		num, g.price, (num
+		* g.price) sum, po.name name, audit_status auditStatus,
+		createdtime,
+		creater_id createrId, audited_id auditedId, audited_time
+		auditedTime
+		from purchase_order po left outer join goods g on
+		po.purchase_order_gid = g.gid left outer join goods_specification gs
+		on
+		po.purchase_order_gspecification_id = gs.gspecification_id left
+		outer
+		join supplier s1 on
+		po.purchase_order_supplier_id = s1.sid left
+		outer join storage s2 on
+		po.purchase_order_store_id = s2.sid left outer
+		join employee e on
+		po.creater_id = e.eid
+		<where>
+			true
+			<if test="poid != null &amp; poid != &quot;&quot;">
+				and poid = #{poid}
+			</if>
+			<if test="gid != null &amp; gid != &quot;&quot;">
+				and gid = #{gid}
+			</if>
+			<if test="gname != null &amp; gname != &quot;&quot;">
+				and g.name like #{gname}
+			</if>
+			<if test="supplierId != null &amp; supplierId != &quot;&quot;">
+				and s1.sid = #{supplierId}
+			</if>
+			<if test="createrName != null &amp; createrName != &quot;&quot;">
+				and e.name like #{createrName}
+			</if>
+			<if test="storageId != null &amp; storageId != &quot;&quot;">
+				and s2.sid = #{storageId}
+			</if>
+			<if test="auditStatus != null &amp; auditStatus != &quot;&quot;">
+				and auditStatus = #{auditStatus}
+			</if>
+			<if test="createdtime != null ">
+				and po.createdtime like CONCAT(CONCAT('%',date_format(#{createdtime}, '%Y-%m-%d')),'%')
+			</if>
+		</where>
+		<if test="pagesize != null &amp; offset != null">
+			limit #{offset}, #{pagesize}
+		</if>
+	</select>
+
+
+	<select id="doGetBeansCount" parameterType="java.util.Map"
+		resultType="long">
+		select count(*) from purchase_order po left outer join goods g on
+		po.purchase_order_gid = g.gid left outer join goods_specification gs
+		on
+		po.purchase_order_gspecification_id = gs.gspecification_id left
+		outer
+		join supplier s1 on
+		po.purchase_order_supplier_id = s1.sid left
+		outer join storage s2 on
+		po.purchase_order_store_id = s2.sid left outer
+		join employee e on
+		po.creater_id = e.eid
+		<where>
+			true
+			<if test="poid != null &amp; poid != &quot;&quot;">
+				and po.poid = #{poid}
+			</if>
+			<if test="gid != null &amp; gid != &quot;&quot;">
+				and g.gid = #{gid}
+			</if>
+			<if test="gname != null &amp; gname != &quot;&quot;">
+				and g.name like #{gname}
+			</if>
+			<if test="supplierId != null &amp; supplierId != &quot;&quot;">
+				and s1.sid = #{supplierId}
+			</if>
+			<if test="storageId != null &amp; storageId != &quot;&quot;">
+				and s2.sid = #{storageId}
+			</if>
+			<if test="createrId != null &amp; createrId != &quot;&quot;">
+				and po.createrId = #{createrId}
+			</if>
+			<if test="auditStatus != null &amp; auditStatus != &quot;&quot;">
+				and po.auditStatus = #{auditStatus}
+			</if>
+			 <if test="createdtime != null ">
+				 and po.createdtime like CONCAT(CONCAT('%',date_format(#{createdtime}, '%Y-%m-%d')),'%')
+			</if> 
+			<if test="createrName != null &amp; createrName != &quot;&quot;">
+				and e.name like #{createrName}
+			</if>
+		</where>
+	</select>
+
+
+
+</mapper>

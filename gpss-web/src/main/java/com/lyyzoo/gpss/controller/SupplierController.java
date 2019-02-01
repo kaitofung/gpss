@@ -1,14 +1,10 @@
 package com.lyyzoo.gpss.controller;
 
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gpss.common.utils.IMappingParameter;
 import com.lyyzoo.gpss.api.service.ISupplierService;
 import com.lyyzoo.gpss.api.vo.Supplier;
-import com.lyyzoo.gpss.api.vo.User;
 
 @Controller
 @RequestMapping("/supplier")

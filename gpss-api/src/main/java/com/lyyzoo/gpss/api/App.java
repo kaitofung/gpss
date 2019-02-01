@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.lyyzoo.gpss.api.vo.PurchaseOrder;
+
 /**
  * Hello world!
  *
@@ -18,7 +20,7 @@ public class App
     	set.add("z");
     	set.add("b");
     	set.add("c");
-    	System.out.println(0x7fffffff == Integer.MAX_VALUE);
+    	System.out.println(new PurchaseOrder());
     }
 
 }
