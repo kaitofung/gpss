@@ -18,22 +18,18 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gpss.common.exception.ReportInternalException;
 import com.gpss.common.utils.BeanUtils;
 import com.gpss.common.utils.Excel2003Utils;
+import com.lyyzoo.gpss.api.service.IGoodsService;
 import com.lyyzoo.gpss.api.service.IPurchcaseOrderService;
 import com.lyyzoo.gpss.api.service.IStorageService;
 import com.lyyzoo.gpss.api.service.ISupplierService;
+import com.lyyzoo.gpss.api.vo.Client;
 import com.lyyzoo.gpss.api.vo.PurchaseOrder;
 import com.lyyzoo.gpss.api.vo.Supplier;
 
@@ -47,6 +43,8 @@ public class PurchaseController extends AbstractController{
 	private ISupplierService supplierService;
 	@Resource
 	private IStorageService storageService;
+	@Resource
+	private IGoodsService goodsService;
 	
 	@ResponseBody
 	@RequestMapping(value ="/purchase_orders", method = RequestMethod.GET)
@@ -62,7 +60,6 @@ public class PurchaseController extends AbstractController{
 	
 	   @RequestMapping(value = "/purchase_orders/output_data", method = RequestMethod.GET)
 	    public void downLoadExcel(int pageSize , Long currentPage, PurchaseOrder purchaseOrder,HttpServletRequest request, HttpServletResponse response) throws IOException{
-		   System.err.println(purchaseOrder);
 		   String sheetName = "采购订单数据";
 	        String sheetTitle = "采购订单数据";
 	        String fileName = "采购订单报表.xls";
@@ -123,8 +120,35 @@ public class PurchaseController extends AbstractController{
 	}
 	
 	@ResponseBody
+	@RequestMapping("/goodses")
+	public Object goodses() {
+		return goodsService.getGoodses(Integer.MAX_VALUE, 1L);
+	}
+	
+	@ResponseBody
 	@RequestMapping("/storages")
 	public Object storages() {
 		return storageService.getStoragesByName("", Integer.MAX_VALUE, 1L);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/goods_specications")
+	public Object goodsSpecications() {
+		return goodsService.getGoodsSpecifications();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/purchase_order_create")
+	public Object createPurchaseOrder(PurchaseOrder purchaseOrder) {
+		purchaseOrder.setName("");
+		purchaseOrder.setCreatedtime(new Date());
+		purchaseOrder.setAuditStatus("1");
+		return paramToMap("isSucceed",purchaseOrderService.createPurchaseOrders(purchaseOrder) );
+	}
+	
+	@ResponseBody
+	@RequestMapping("/purchase_order_modify")
+	public Object modifyPurchaseOrder(PurchaseOrder purchaseOrder) {
+		return paramToMap("isSucceed",purchaseOrderService.modifyPurchaseOrder(purchaseOrder));
 	}
 }

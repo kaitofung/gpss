@@ -16,9 +16,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gpss.common.utils.IMappingParameter;
 import com.lyyzoo.gpss.api.IPhotoSetter;
 
-public abstract class AbstractController {
+public abstract class AbstractController implements IMappingParameter {
 	
 	public HttpServletResponse getResponse() {
 		return  ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();

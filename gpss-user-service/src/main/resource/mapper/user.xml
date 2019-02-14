@@ -21,7 +21,7 @@
 
 	<select id="doGetUser" parameterType="java.util.Map"
 		resultType="com.lyyzoo.gpss.api.vo.User">
-		select uid ,name ,password, locked from user
+		select uid ,name ,password,eid, locked from user
 		<if test="uid != null &amp; uid != &quot;&quot;">
 			where uid = #{uid}
 		</if>

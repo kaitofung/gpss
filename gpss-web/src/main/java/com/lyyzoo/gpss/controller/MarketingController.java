@@ -23,7 +23,7 @@ import com.lyyzoo.gpss.api.vo.Employee;
 
 @Controller
 @RequestMapping("/marketing_manage")
-public class MarketingController extends AbstractController implements IMappingParameter {
+public class MarketingController extends AbstractController {
 	@Resource
 	private IClientService clientService;
 	

@@ -21,6 +21,7 @@
 }
 </style>
 <body class="main-container ">
+
 	<div class="panel-body" style="padding-bottom: 0px;">
 
 		<div id="toolbar" class="btn-group">
@@ -58,7 +59,7 @@
 					</span> <span style="margin-right: 5px;"> <label>审核状态：</label> <select
 						name="input_audit_status_search_purchase_order_manage"
 						id="input_audit_status_search_purchase_order_manage" type="text"
-						class="form-control">
+						class="form-control" disabled="disabled">
 							<option value="null">请选择要查询的审核状态</option>
 					</select>
 					</span> <span style="margin-right: 5px;"> <label>创建时间：</label>
@@ -79,10 +80,15 @@
 						class="btn btn-default btn-primary">
 						<span class="glyphicon glyphicon-search"></span> 查询
 					</button>
-					<button id="btn_search_client" type="button"
+					<button data-toggle="modal" data-target="#createPurchaseModal" id="btn_purchase_purchase_order_manage" type="button"
 						class="btn btn-default btn-primary">
 						<span class="glyphicon glyphicon-plus"></span> 采购
 					</button>
+					<button id="btn_search_client"  
+						class="btn  disabled" >
+						<span class="glyphicon glyphicon-minus" ></span> 退货
+					</button>
+					
 					<a href="${context}/purchase/purchase_orders/output_data" url="${context}/purchase/purchase_orders/output_data" id="btn_output_data_purchase_order_manage" type="button"
 						class="btn btn-default btn-primary" target="_blank">
 						<span class="glyphicon glyphicon-save"></span> 导出
@@ -95,8 +101,8 @@
 			url="${context}/purchase/purchase_orders"
 			data-mobile-responsive="true" class="mb-bootstrap-table text-nowrap"></table>
 	</div>
-	<!-- 	<#include  "/client_manage_client_create_diolog.ftl"> 
-	<#include  "/client_manage_client_edit_diolog.ftl"> -->
+	 	<#include  "/purchase_manage_purchase_order_create_diolog.ftl"> 
+	<#include  "/purchase_manage_purchase_order_edit_diolog.ftl"> 
 </body>
 
 <script src="../js/bootstrap-datetimepicker.min.js"></script>

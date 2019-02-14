@@ -42,6 +42,9 @@ public class PurchaseOrder {
 	private String supplierName;
 	@Setter
 	@Getter
+	private String appendix;
+	@Setter
+	@Getter
 	private int num;
 	@Setter
 	@Getter

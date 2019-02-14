@@ -8,7 +8,7 @@
 		resultType="com.lyyzoo.gpss.api.vo.PurchaseOrder"
 		parameterType="java.util.Map">
 		select poid, g.name gname, gs.name gsname,s1.name supplierName,s2.name
-		storageName, purchase_order_gspecification_id,
+		storageName, purchase_order_gspecification_id,po.appendix appendix,
 		purchase_order_store_id,purchase_order_supplier_id,
 		num, g.price, (num
 		* g.price) sum, po.name name, audit_status auditStatus,
@@ -50,7 +50,8 @@
 				and auditStatus = #{auditStatus}
 			</if>
 			<if test="createdtime != null ">
-				and po.createdtime like CONCAT(CONCAT('%',date_format(#{createdtime}, '%Y-%m-%d')),'%')
+				and po.createdtime like CONCAT(CONCAT('%',date_format(#{createdtime},
+				'%Y-%m-%d')),'%')
 			</if>
 		</where>
 		<if test="pagesize != null &amp; offset != null">
@@ -95,15 +96,97 @@
 			<if test="auditStatus != null &amp; auditStatus != &quot;&quot;">
 				and po.auditStatus = #{auditStatus}
 			</if>
-			 <if test="createdtime != null ">
-				 and po.createdtime like CONCAT(CONCAT('%',date_format(#{createdtime}, '%Y-%m-%d')),'%')
-			</if> 
+			<if test="createdtime != null ">
+				and po.createdtime like CONCAT(CONCAT('%',date_format(#{createdtime},
+				'%Y-%m-%d')),'%')
+			</if>
 			<if test="createrName != null &amp; createrName != &quot;&quot;">
 				and e.name like #{createrName}
 			</if>
 		</where>
 	</select>
 
+	<insert id="doCreateBean"
+		parameterType="com.lyyzoo.gpss.api.vo.PurchaseOrder">
+		INSERT INTO
+		purchase_order(
+		purchase_order_gid,
+		purchase_order_gspecification_id,
+		purchase_order_store_id,
+		purchase_order_supplier_id,
+		num,
+		price,
+		name,
+		audit_status,
+		createdtime,
+		creater_id,
+		appendix)
+		VALUES
+		( #{purchaseOrderGid},
+		#{purchaseOrderGspecificationId},
+		#{purchaseOrderStoreId},
+		#{supplierId},
+		#{num},
+		#{price},
+		#{name},
+		#{auditStatus},
+		#{createdtime},
+		#{createrId},
+		#{appendix}
+		);
+	</insert>
+
+	<update id="doUpdateBean"
+		parameterType="com.lyyzoo.gpss.api.vo.PurchaseOrder">
+		UPDATE purchase_order
+		<set>
+			<if test="purchaseOrderGid != null &amp; purchaseOrderGid != &quot;&quot;">
+				purchase_order_gid = #{purchaseOrderGid},
+			</if>
+			<if test="purchaseOrderGspecificationId != null &amp; purchaseOrderGspecificationId != &quot;&quot;">
+				purchase_order_gspecification_id = #{purchaseOrderGspecificationId},
+			</if>
+			<if test="purchaseOrderStoreId != null &amp; purchaseOrderStoreId != &quot;&quot;">
+				purchase_order_store_id = #{purchaseOrderStoreId},
+			</if>
+			<if test="supplierId != null &amp; supplierId != &quot;&quot;">
+				purchase_order_supplier_id = #{supplierId},
+			</if>
+			<if test="num != null &amp; num != &quot;&quot;">
+				num = #{num},
+			</if>
+			<if test="price != null &amp; price != &quot;&quot;">
+				price = #{price},
+			</if>
+			<if test="name != null &amp; name != &quot;&quot;">
+				name = #{name},
+			</if>
+			<if test="auditStatus != null &amp; auditStatus != &quot;&quot;">
+				audit_status = #{auditStatus},
+			</if>
+			<if test="createdtime != null ">
+				createdtime = #{createdtime},
+			</if>
+			<if test="createrId != null &amp; createrId != &quot;&quot;">
+				creater_id = #{createrId},
+			</if>
+			<if test="appendix != null &amp; appendix != &quot;&quot;">
+				appendix = #{appendix},
+			</if>
+			<if test="auditedId != null &amp; auditedId != &quot;&quot;">
+				audited_id = #{auditedId},
+			</if>
+			<if test="auditedTime != null">
+				audited_time = #{auditedTime}
+			</if>
+		</set>
+		<where>
+			true 
+			<if test="poid != null &amp; poid != &quot;&quot;">
+				and poid = #{poid}
+			</if>
+		</where>
+	</update>
 
 
 </mapper>

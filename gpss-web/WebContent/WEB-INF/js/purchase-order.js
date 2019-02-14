@@ -126,19 +126,17 @@ $(document).ready(function(){
     }
     
     function setOnEditClickLister() {
-    	$("[btn_edit_client_manage_cid]").click(function(){
-    		var cid = $(this).attr("btn_edit_client_manage_cid");
-    		$("#editClientModal").attr("cid",cid);
+    	$("[btn_purchase_order_manage_poid]").click(function(){
+    		var poid = $(this).attr("btn_purchase_order_manage_poid");
+    		$("#editPurchaseOrderModal").attr("poid",poid);
     	});
     }
-    
-    
     
   //操作栏的格式化
     function actionFormatter(value, row, index) {
         var id = value;
         var result = "";
-        result += "<a btn_edit_client_manage_cid='" + id + "' data-toggle='modal' data-target='#editClientModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+        result += "<a btn_purchase_order_manage_poid='" + id + "' data-toggle='modal' data-target='#editPurchaseOrderModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
         return result;
     }
     
@@ -229,7 +227,7 @@ $(document).ready(function(){
 					   var html = "<option value=''>请选择要查询的仓库</option>";
 					   select.empty();
 					   if(result != null) {
-						   for(i = 1; i <result.length; i++){
+						   for(i = 0; i <result.length; i++){
 							   var option = result[i];
 							   html = html +"<option value=" +  option.sid +  " sid= " + option.sid + ">" + option.name + "</option>"
 						   }
@@ -249,7 +247,26 @@ $(document).ready(function(){
 					var html = "<option value=''>请选择要查询的供应商</option>";
 					select.empty();
 					if(result != null) {
-						for(i = 1; i <result.length; i++){
+						for(i = 0; i <result.length; i++){
+							var option = result[i];
+							html = html +"<option value=" +  option.sid +  " sid= " + option.sid + ">" + option.name + "</option>"
+						}
+					}
+					select.html(html);
+				}
+		);
+	}
+	//获取供应商列表数据
+	function getSuppliers(){
+		var select = $("#input_supplier_name_search_purchase_order_manage");
+		var url = select.attr("url");
+		$.post(url,
+				{},
+				function(result,status){
+					var html = "<option value=''>请选择要查询的供应商</option>";
+					select.empty();
+					if(result != null) {
+						for(i = 0; i <result.length; i++){
 							var option = result[i];
 							html = html +"<option value=" +  option.sid +  " sid= " + option.sid + ">" + option.name + "</option>"
 						}

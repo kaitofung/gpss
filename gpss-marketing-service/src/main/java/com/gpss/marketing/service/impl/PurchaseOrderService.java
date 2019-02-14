@@ -32,4 +32,14 @@ public class PurchaseOrderService extends AbstractService implements IPurchcaseO
 	public Long getPurchaseOrdersCount(Map<String, Object> params) {
 		return purchaseOrderDao.doGetBeansCount(params);
 	}
+
+	@Override
+	public boolean createPurchaseOrders(PurchaseOrder purchaseOrder) {
+		return purchaseOrderDao.doCreateBean(purchaseOrder) > 0;
+	}
+
+	@Override
+	public boolean modifyPurchaseOrder(PurchaseOrder purchaseOrder) {
+		return purchaseOrderDao.doUpdateBean(purchaseOrder) > 0;
+	}
 }

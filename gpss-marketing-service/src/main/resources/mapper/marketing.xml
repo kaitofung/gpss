@@ -32,7 +32,6 @@
 		values(#{name}, #{address}, #{phoneNum}, #{updatedTime}, #{contacts}
 		,#{description});
 </insert>
-
 <update id="doUpdateBean" parameterType="com.lyyzoo.gpss.api.vo.Client">
 	update  client set name =#{name}, address=#{address},description=#{description},
 		phone_num=#{phoneNum}, updatedtime= #{updatedTime}, contacts=#{contacts}

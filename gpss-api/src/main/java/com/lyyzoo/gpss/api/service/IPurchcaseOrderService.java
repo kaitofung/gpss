@@ -12,4 +12,8 @@ public interface IPurchcaseOrderService {
 	Long getPurchaseOrdersCount(Map<String, Object> params);
 
 	List<PurchaseOrder> getPurchaseOrders(Map<String, Object> params, int pageSize, Long currentPage);
+	
+	boolean createPurchaseOrders(PurchaseOrder purchaseOrder);
+	
+	boolean modifyPurchaseOrder(PurchaseOrder purchaseOrder);
 }
