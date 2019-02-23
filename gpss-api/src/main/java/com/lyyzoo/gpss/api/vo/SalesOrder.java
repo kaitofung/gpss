@@ -9,25 +9,25 @@ import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-public class PurchaseOrder {
+public class SalesOrder {
 	@Setter
 	@Getter
-	private String poid;
+	private String soid;
 	@Setter
 	@Getter
-	private String purchaseOrderGid;
+	private String salesOrderGid;
 	@Setter
 	@Getter
 	private String gname;
 	@Setter
 	@Getter
-	private String purchaseOrderGspecificationId;
+	private String salesOrderGspecificationId;
 	@Setter
 	@Getter
 	private String gsname;
 	@Setter
 	@Getter
-	private String purchaseOrderStoreId;
+	private String salesOrderStoreId;
 	@Setter
 	@Getter
 	private String storageName;
@@ -43,6 +43,12 @@ public class PurchaseOrder {
 	@Setter
 	@Getter
 	private String appendix;
+	@Setter
+	@Getter
+	private String clientName;
+	@Setter
+	@Getter
+	private String cid;
 	@Setter
 	@Getter
 	private int num;
@@ -71,6 +77,9 @@ public class PurchaseOrder {
 	@Setter
 	@Getter
 	private String auditedId;
+	@Setter
+	@Getter
+	private Date outOfStoreTime;
 	@Setter
 	@Getter
 	private Date auditedTime;

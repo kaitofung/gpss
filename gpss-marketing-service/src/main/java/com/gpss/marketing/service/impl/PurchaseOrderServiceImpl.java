@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.gpss.marketing.service.dao.IPurchaseOrderDao;
 import com.lyyzoo.gpss.api.service.AbstractService;
-import com.lyyzoo.gpss.api.service.IPurchcaseOrderService;
+import com.lyyzoo.gpss.api.service.IPurchaseOrderService;
 import com.lyyzoo.gpss.api.vo.PurchaseOrder;
 
 @Service
-public class PurchaseOrderService extends AbstractService implements IPurchcaseOrderService{
+public class PurchaseOrderServiceImpl extends AbstractService implements IPurchaseOrderService{
 
 	@Resource
 	private IPurchaseOrderDao purchaseOrderDao;

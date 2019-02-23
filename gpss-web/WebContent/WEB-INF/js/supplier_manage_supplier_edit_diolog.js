@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	
 	   //自定义手机号验证
     jQuery.validator.addMethod("isphoneNum", function(value, element) {
         var length = value.length;

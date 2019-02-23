@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.lyyzoo.gpss.api.service.IPurchcaseOrderService;
+import com.lyyzoo.gpss.api.service.IPurchaseOrderService;
 import com.lyyzoo.gpss.api.vo.PurchaseOrder;
 
 
@@ -20,7 +20,7 @@ import com.lyyzoo.gpss.api.vo.PurchaseOrder;
 public class PurchaseOrderServiceImplTest  {
 
 	@Resource 
-	private IPurchcaseOrderService purchcaseOrderService;
+	private IPurchaseOrderService purchcaseOrderService;
 
 //	@Test
 //	public void testGetPurchaseOrders() {

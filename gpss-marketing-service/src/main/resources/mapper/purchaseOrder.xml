@@ -11,7 +11,7 @@
 		storageName, purchase_order_gspecification_id,po.appendix appendix,
 		purchase_order_store_id,purchase_order_supplier_id,
 		num, g.price, (num
-		* g.price) sum, po.name name, audit_status auditStatus,
+		* g.price) sum, po.name name, audit_status auditStatus,os.name auditStatusName,
 		createdtime,
 		creater_id createrId, audited_id auditedId, audited_time
 		auditedTime
@@ -25,7 +25,7 @@
 		outer join storage s2 on
 		po.purchase_order_store_id = s2.sid left outer
 		join employee e on
-		po.creater_id = e.eid
+		po.creater_id = e.eid left outer join order_status os on po.audit_status = os.osid
 		<where>
 			true
 			<if test="poid != null &amp; poid != &quot;&quot;">
@@ -47,7 +47,7 @@
 				and s2.sid = #{storageId}
 			</if>
 			<if test="auditStatus != null &amp; auditStatus != &quot;&quot;">
-				and auditStatus = #{auditStatus}
+				and po.audit_status = #{auditStatus}
 			</if>
 			<if test="createdtime != null ">
 				and po.createdtime like CONCAT(CONCAT('%',date_format(#{createdtime},
@@ -72,7 +72,7 @@
 		outer join storage s2 on
 		po.purchase_order_store_id = s2.sid left outer
 		join employee e on
-		po.creater_id = e.eid
+		po.creater_id = e.eid  left outer join order_status os on po.audit_status = os.osid
 		<where>
 			true
 			<if test="poid != null &amp; poid != &quot;&quot;">
@@ -94,7 +94,7 @@
 				and po.createrId = #{createrId}
 			</if>
 			<if test="auditStatus != null &amp; auditStatus != &quot;&quot;">
-				and po.auditStatus = #{auditStatus}
+				and po.audit_status = #{auditStatus}
 			</if>
 			<if test="createdtime != null ">
 				and po.createdtime like CONCAT(CONCAT('%',date_format(#{createdtime},

@@ -235,6 +235,28 @@ CREATE TABLE client(
    CONSTRAINT pk_gid PRIMARY KEY (cid)
 ) engine='innodb' default charset=utf8;
 
+drop table if exists order_status;
+CREATE TABLE order_status(
+   osid                 int not null auto_increment, 
+   name                 varchar(20)not null,
+   CONSTRAINT pk_osid PRIMARY KEY (osid)
+) engine='innodb' default charset=utf8;
+drop table if exists order_status;
+CREATE TABLE order_status(
+   osid                 int not null auto_increment, 
+   name                 varchar(20)not null,
+   CONSTRAINT pk_osid PRIMARY KEY (osid)
+) engine='innodb' default charset=utf8;
+INSERT INTO `order_status`(`osid`, `name`) VALUES (1, '未审核');
+INSERT INTO `order_status`(`osid`, `name`) VALUES (2, '审核中');
+INSERT INTO `order_status`(`osid`, `name`) VALUES (3, '审核通过');
+INSERT INTO `order_status`(`osid`, `name`) VALUES (4, '审核未通过');
+INSERT INTO `order_status`(`osid`, `name`) VALUES (5, '退货中');
+INSERT INTO `order_status`(`osid`, `name`) VALUES (6, '已退货');
+INSERT INTO `order_status`(`osid`, `name`) VALUES (7, '退货失败');
+INSERT INTO `order_status`(`osid`, `name`) VALUES (8, '申请退货');
+
+
 drop table if exists purchase_order;
 CREATE TABLE purchase_order(
    poid                 int not null auto_increment, 
@@ -246,7 +268,7 @@ CREATE TABLE purchase_order(
    price 				float not null,
    name                 varchar(30)not null,
    appendix             varchar(500)not null,
-   audit_status			varchar(10)not null,
+   audit_status			int not null,
    createdtime          datetime not null,
    creater_id 			int not null,
    audited_id			int ,
@@ -254,12 +276,43 @@ CREATE TABLE purchase_order(
    CONSTRAINT pk_poid PRIMARY KEY (poid),
    CONSTRAINT fk_purchase_order_gid FOREIGN KEY(purchase_order_gid) REFERENCES goods(gid),
    CONSTRAINT fk_purchase_order_store_id FOREIGN KEY(purchase_order_store_id) REFERENCES storage(sid),
-   CONSTRAINT purchase_order_supplier_id FOREIGN KEY(purchase_order_supplier_id) REFERENCES supplier(sid),
-   CONSTRAINT fk_purchase_order_gspecification_id FOREIGN KEY(purchase_order_gspecification_id) REFERENCES goods_specification(gspecification_id)
+   CONSTRAINT fk_purchase_order_supplier_id FOREIGN KEY(purchase_order_supplier_id) REFERENCES supplier(sid),
+   CONSTRAINT fk_purchase_order_gspecification_id FOREIGN KEY(purchase_order_gspecification_id) REFERENCES goods_specification(gspecification_id),
+   CONSTRAINT fk_purchase_order_audit_status FOREIGN KEY(audit_status) REFERENCES order_status(osid)
 ) engine='innodb' default charset=utf8;
 
-INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`,`appendix`, `audited_time`) VALUES ( 2, 2, 1, 2, 1, 111, '113ee', '1', '2019-01-09 07:36:42', 11, 111,"xxxx", '2019-01-14 07:37:09');
-INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`,`appendix`, `audited_time`) VALUES ( 3, 3, 2, 3, 333, 44, 't', '1', '2019-01-08 15:47:57', 11, 111,"xxxx", '2019-01-16 15:48:16');
-INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`,`appendix`, `audited_time`) VALUES ( 4, 1, 2, 1, 21, 3, '1w1', '1', '2018-11-20 16:05:50', 11, 111,"xxxx", '2019-01-27 16:05:39');
-INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`,`appendix`, `audited_time`) VALUES ( 3, 1, 3, 4, 11, 2, '1', '1', '2019-01-21 16:08:55', 11, 111,"xxxx", '2019-03-21 16:09:26');
-INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`,`appendix`, `audited_time`) VALUES ( 3, 4, 3, 3, 7, 7, '77', '1', '2019-01-07 16:10:50', 11, 111,"xxxx", '2019-01-21 16:11:00');
+INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`,`appendix`, `audited_time`) VALUES ( 2, 2, 1, 2, 1, 111, '113ee', 1, '2019-01-09 07:36:42', 11, 111,"xxxx", '2019-01-14 07:37:09');
+INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`,`appendix`, `audited_time`) VALUES ( 3, 3, 2, 3, 333, 44, 't', 1, '2019-01-08 15:47:57', 11, 111,"xxxx", '2019-01-16 15:48:16');
+INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`,`appendix`, `audited_time`) VALUES ( 4, 1, 2, 1, 21, 3, '1w1', 1, '2018-11-20 16:05:50', 11, 111,"xxxx", '2019-01-27 16:05:39');
+INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`,`appendix`, `audited_time`) VALUES ( 3, 1, 3, 4, 11, 2, '1', 1, '2019-01-21 16:08:55', 11, 111,"xxxx", '2019-03-21 16:09:26');
+INSERT INTO `gpss`.`purchase_order`( `purchase_order_gid`, `purchase_order_gspecification_id`, `purchase_order_store_id`, `purchase_order_supplier_id`, `num`, `price`, `name`, `audit_status`, `createdtime`, `creater_id`, `audited_id`,`appendix`, `audited_time`) VALUES ( 3, 4, 3, 3, 7, 7, '77', 1, '2019-01-07 16:10:50', 11, 111,"xxxx", '2019-01-21 16:11:00');
+
+
+drop table if exists sales_order;
+CREATE TABLE sales_order(
+   soid                 int not null auto_increment, 
+   sales_order_gid                  int not null,
+   sales_order_gspecification_id    int not null,
+   sales_order_store_id             int not null,
+   sales_order_supplier_id          int not null,
+   sales_order_client_id          int not null,
+   num                  int not null,
+   price 				float not null,
+   name                 varchar(30)not null,
+   appendix             varchar(500)not null,
+   audit_status			int not null,
+   createdtime          datetime not null,
+   creater_id 			int not null,
+   audited_id			int ,
+   audited_time         datetime ,
+   out_of_store_time         datetime ,
+   CONSTRAINT pk_soid PRIMARY KEY (soid),
+   CONSTRAINT fk_sales_order_gid FOREIGN KEY(sales_order_gid) REFERENCES goods(gid),
+   CONSTRAINT fk_sales_order_store_id FOREIGN KEY(sales_order_store_id) REFERENCES storage(sid),
+   CONSTRAINT fk_sales_order_supplier_id FOREIGN KEY(sales_order_supplier_id) REFERENCES supplier(sid),
+   CONSTRAINT fk_sales_order_gspecification_id FOREIGN KEY(sales_order_gspecification_id) REFERENCES goods_specification(gspecification_id),
+   CONSTRAINT fk_sales_order_client_id FOREIGN KEY(sales_order_client_id) REFERENCES client(cid),
+   CONSTRAINT fk_sales_order_audit_status FOREIGN KEY(audit_status) REFERENCES order_status(osid)
+) engine='innodb' default charset=utf8;
+
+INSERT INTO `gpss`.`sales_order`(`sales_order_gid`, `sales_order_gspecification_id`, `sales_order_store_id`, `sales_order_supplier_id`, `sales_order_client_id`, `num`, `price`, `name`, `appendix`, `audit_status`, `createdtime`, `creater_id`, `out_of_store_time`) VALUES (2, 1, 2, 1, 9, 11, 22, '11111', '111111', 1, '2019-02-16 22:14:13', 1, '2019-02-05 22:15:16');

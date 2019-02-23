@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpss.marketing.service.dao.ISalesOrderDao">
+
+	<select id="doGetBeans"
+		resultType="com.lyyzoo.gpss.api.vo.SalesOrder"
+		parameterType="java.util.Map">
+		select soid, g.name gname, gs.name gsname,s1.name supplierName,s2.name
+		storageName, sales_order_gspecification_id,so.appendix
+		appendix,out_of_store_time outOfStoreTime,
+		sales_order_store_id,sales_order_supplier_id,
+		num, g.price, (num
+		*
+		g.price) sum, so.name name, os.name auditStatusName,so.audit_status auditStatus,
+		createdtime,c.cid cid, c.name clientName,
+		creater_id createrId,
+		audited_id auditedId, audited_time
+		auditedTime
+		from sales_order so left
+		outer join goods g on
+		so.sales_order_gid = g.gid left outer join
+		goods_specification gs
+		on
+		so.sales_order_gspecification_id =
+		gs.gspecification_id left
+		outer
+		join supplier s1 on
+		so.sales_order_supplier_id = s1.sid left
+		outer join storage s2 on
+		so.sales_order_store_id = s2.sid left outer
+		join employee e on
+		so.creater_id = e.eid left outer join client c on
+		so.sales_order_client_id = c.cid left outer join order_status os on so.audit_status = os.osid
+		<where>
+			true
+			<if test="soid != null &amp; soid != &quot;&quot;">
+				and soid = #{soid}
+			</if>
+			<if test="gid != null &amp; gid != &quot;&quot;">
+				and gid = #{gid}
+			</if>
+			<if test="gname != null &amp; gname != &quot;&quot;">
+				and g.name like CONCAT(CONCAT('%',#{gname}),'%')
+			</if>
+			<if test="supplierId != null &amp; supplierId != &quot;&quot;">
+				and s1.sid = #{supplierId}
+			</if>
+			<if test="createrName != null &amp; createrName != &quot;&quot;">
+				and e.name like CONCAT(CONCAT('%',#{createrName}),'%')
+			</if>
+			<if test="storageId != null &amp; storageId != &quot;&quot;">
+				and s2.sid = #{storageId}
+			</if>
+			<if test="auditStatus != null &amp; auditStatus != &quot;&quot;">
+				and so.audit_status = #{auditStatus}
+			</if>
+			<if test="clientName != null &amp; clientName != &quot;&quot;">
+				and c.name like CONCAT(CONCAT('%',#{clientName}),'%')
+			</if>
+			<if test="createdtime != null ">
+				and so.createdtime like
+				CONCAT(CONCAT('%',date_format(#{createdtime},'%Y-%m-%d')),'%')
+			</if>
+			<if test="outOfStoreTime != null ">
+				and so.out_of_store_time like
+				CONCAT(CONCAT('%',date_format(#{outOfStoreTime},'%Y-%m-%d')),'%')
+			</if>
+		</where>
+		<if test="pagesize != null &amp; offset != null">
+			limit #{offset}, #{pagesize}
+		</if>
+	</select>
+
+
+	<select id="doGetBeansCount" parameterType="java.util.Map"
+		resultType="long">
+		select count(*) from sales_order so left outer join goods g on
+		so.sales_order_gid = g.gid left outer join goods_specification gs
+		on
+		so.sales_order_gspecification_id = gs.gspecification_id left
+		outer
+		join
+		supplier s1 on
+		so.sales_order_supplier_id = s1.sid left
+		outer join
+		storage s2 on
+		so.sales_order_store_id = s2.sid left outer
+		join employee
+		e on
+		so.creater_id = e.eid left outer join client c on
+		so.sales_order_client_id = c.cid left outer join order_status os on so.audit_status = os.osid
+		<where>
+			true
+			<if test="soid != null &amp; soid != &quot;&quot;">
+				and soid = #{soid}
+			</if>
+			<if test="gid != null &amp; gid != &quot;&quot;">
+				and g.gid = #{gid}
+			</if>
+			<if test="gname != null &amp; gname != &quot;&quot;">
+				and g.name like #{gname}
+			</if>
+			<if test="supplierId != null &amp; supplierId != &quot;&quot;">
+				and s1.sid = #{supplierId}
+			</if>
+			<if test="storageId != null &amp; storageId != &quot;&quot;">
+				and s2.sid = #{storageId}
+			</if>
+			<if test="createrId != null &amp; createrId != &quot;&quot;">
+				and so.createrId = #{createrId}
+			</if>
+			<if test="auditStatus != null &amp; auditStatus != &quot;&quot;">
+				and so.audit_status = #{auditStatus}
+			</if>
+			<if test="createdtime != null ">
+				and so.createdtime like
+				CONCAT(CONCAT('%',date_format(#{createdtime},'%Y-%m-%d')),'%')
+			</if>
+			<if test="clientName != null &amp; clientName != &quot;&quot;">
+				and c.name like CONCAT(CONCAT('%',#{clientName}),'%')
+			</if>
+			<if test="createrName != null &amp; createrName != &quot;&quot;">
+				and e.name like #{createrName}
+			</if>
+			<if test="outOfStoreTime != null ">
+				and so.out_of_store_time like
+				CONCAT(CONCAT('%',date_format(#{outOfStoreTime},'%Y-%m-%d')),'%')
+			</if>
+		</where>
+	</select>
+
+	<update id="doUpdateBean"
+		parameterType="com.lyyzoo.gpss.api.vo.SalesOrder">
+		UPDATE sales_order
+		<set>
+			<if test="salesOrderGid != null &amp; salesOrderGid != &quot;&quot;">
+				sales_order_gid = #{salesOrderGid},
+			</if>
+			<if test="salesOrderGspecificationId != null &amp; salesOrderGspecificationId != &quot;&quot;">
+				sales_order_gspecification_id = #{salesOrderGspecificationId},
+			</if>
+			<if test="salesOrderStoreId != null &amp; salesOrderStoreId != &quot;&quot;">
+				sales_order_store_id = #{salesOrderStoreId},
+			</if>
+			<if test="supplierId != null &amp; supplierId != &quot;&quot;">
+				sales_order_supplier_id = #{supplierId},
+			</if>
+			<if test="num != null &amp; num != &quot;&quot;">
+				num = #{num},
+			</if>
+			<if test="price != null &amp; price != &quot;&quot;">
+				price = #{price},
+			</if>
+			<if test="name != null &amp; name != &quot;&quot;">
+				name = #{name},
+			</if>
+			<if test="auditStatus != null &amp; auditStatus != &quot;&quot;">
+				audit_status = #{auditStatus},
+			</if>
+			<if test="createdtime != null ">
+				createdtime = #{createdtime},
+			</if>
+			<if test="createrId != null &amp; createrId != &quot;&quot;">
+				creater_id = #{createrId},
+			</if>
+			<if test="appendix != null &amp; appendix != &quot;&quot;">
+				appendix = #{appendix},
+			</if>
+			<if test="cid != null &amp; cid != &quot;&quot;">
+				sales_order_client_id = #{cid},
+			</if>
+			<if test="auditedId != null &amp; auditedId != &quot;&quot;">
+				audited_id = #{auditedId},
+			</if>
+			<if test="auditedTime != null">
+				audited_time = #{auditedTime}
+			</if>
+		</set>
+		<where>
+			true 
+			<if test="soid != null &amp; soid != &quot;&quot;">
+				and soid = #{soid}
+			</if>
+		</where>
+	</update>
+	
+	<insert id="doCreateBean"
+		parameterType="com.lyyzoo.gpss.api.vo.SalesOrder">
+		INSERT INTO
+		sales_order(
+		sales_order_gid,
+		sales_order_gspecification_id,
+		sales_order_store_id,
+		sales_order_supplier_id,
+		sales_order_client_id,
+		num,
+		price,
+		name,
+		audit_status,
+		createdtime,
+		creater_id,
+		appendix)
+		VALUES
+		( #{salesOrderGid},
+		#{salesOrderGspecificationId},
+		#{salesOrderStoreId},
+		#{supplierId},
+		#{cid},
+		#{num},
+		#{price},
+		#{name},
+		#{auditStatus},
+		#{createdtime},
+		#{createrId},
+		#{appendix}
+		);
+	</insert>
+
+</mapper>

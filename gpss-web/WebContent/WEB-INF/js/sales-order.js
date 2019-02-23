@@ -1,22 +1,23 @@
 $(document).ready(function(){
 	getStorages();
 	getSuppliers();
-	getOrderStatuses();
+	 getOrderStatuses();
 	setOnClickOutputData();
 	var currentPage = 1;
 	var pageSize = 5;
-	var poid = null;
+	var soid = null;
 	var gname = null;
 	var supplierId = null;
 	var storageId = null;
 	var createrName = null;
 	var createdTime = null;
-	var url = $('#purchase_order_table').attr("url");
-	$('#purchase_order_table').bootstrapTable({
+	var outOfStoreTime = null;
+	var url = $('#sales_order_table').attr("url");
+	$('#sales_order_table').bootstrapTable({
 		method : 'get', // 服务器数据的请求方式 get or post
 		url : url, // 服务器数据的加载地址
 		striped : true, //是否显示行间隔色
-		toolbar : "#toolbar", //toolbar
+		toolbar : "#toolbar_sales_order", //toolbar
 		cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pagination : true, //是否显示分页（*）
 		sortable : true, //是否启用排序
@@ -40,25 +41,31 @@ $(document).ready(function(){
 		strictSearch : false,//设置为 true启用全匹配搜索，否则为模糊搜索。
 		sortOrder : "asc",
 		queryParams : function(params) {
-			var poid = $("#input_id_search_purchase_order_manage").val();
-			var gname = $("#input_gname_search_purchase_order_manage").val();
-			var supplierId = $("#input_supplier_name_search_purchase_order_manage").val();
-			var storageId = $("#input_storage_name_search_purchase_order_manage").val();
-			var createrName = $("#input_creater_name_search_purchase_order_manage").val();
-			var createdTime = $("#input_created_time_search_purchase_order_manage").val().toString("yyyy-MM-dd");
-			var auditStatus = $("#input_audit_status_search_purchase_order_manage").val();
+			var soid = $("#input_id_search_sales_order_manage").val();
+			var gname = $("#input_gname_search_sales_order_manage").val();
+			var supplierId = $("#input_supplier_name_search_sales_order_manage").val();
+			var storageId = $("#input_storage_name_search_sales_order_manage").val();
+			var createrName = $("#input_creater_name_search_sales_order_manage").val();
+			var createdTime = $("#input_created_time_search_sales_order_manage").val().toString("yyyy-MM-dd");
+			var outOfStoreTime = $("#input_out_of_store_time_search_sales_order_manage").val().toString("yyyy-MM-dd");
+			var clientName = $("#input_clientName_search_sales_order_manage").val();
+			var auditStatus = $("#input_audit_status_search_sales_order_manage").val();
+			
+			log(auditStatus);
 			currentPage = params.offset / params.limit + 1;
 			pageSize = params.limit;
 			return {
 				pageSize : params.limit,
 				currentPage : currentPage,
 				createdtime : createdTime,
-				poid : poid,
+				soid : soid,
 				gname : gname,
 				supplierId : supplierId,
 				storageId : storageId,
+				createrName : createrName,
+				clientName : clientName,
 				auditStatus : auditStatus,
-				createrName : createrName
+				outOfStoreTime : outOfStoreTime
 			};
 		},
 		onLoadSuccess : function(params) {
@@ -69,7 +76,7 @@ $(document).ready(function(){
 			checkbox : true
 		}, 
 		{
-			field : 'poid',
+			field : 'soid',
 			title : '订单ID'
 		}, {
 			field : 'gname',
@@ -80,6 +87,11 @@ $(document).ready(function(){
 		}, {
 			field : 'supplierName',
 			title : '供应商名称',
+			sortable : true
+		}
+		, {
+			field : 'clientName',
+			title : '客户名称',
 			sortable : true
 		}
 		, {
@@ -106,16 +118,22 @@ $(document).ready(function(){
 			field : 'auditStatusName',
 			sortable : true,
 			title : '审核状态',
-			formatter:auditStatusNameFormatter
+			formatter: auditStatusNameFormatter
 		} 
 		, {
 			field : 'createdtime',
 			sortable : true,
 			title : '创建时间',
-			formatter: updatedTimeFormatter
+			formatter: timeFormatter
 		} 
 		, {
-			field : 'poid',
+			field : 'outOfStoreTime',
+			sortable : true,
+			title : '出库时间',
+			formatter:timeFormatter
+		} 
+		, {
+			field : 'soid',
 			title : '操作',
 			formatter: actionFormatter
 		} ]
@@ -130,9 +148,9 @@ $(document).ready(function(){
     }
     
     function setOnEditClickLister() {
-    	$("[btn_purchase_order_manage_poid]").click(function(){
-    		var poid = $(this).attr("btn_purchase_order_manage_poid");
-    		$("#editPurchaseOrderModal").attr("poid",poid);
+    	$("[btn_sales_order_manage_soid]").click(function(){
+    		var soid = $(this).attr("btn_sales_order_manage_soid");
+    		$("#editSalesOrderModal").attr("soid",soid);
     	});
     }
     
@@ -140,7 +158,7 @@ $(document).ready(function(){
     function actionFormatter(value, row, index) {
         var id = value;
         var result = "";
-        result += "<a btn_purchase_order_manage_poid='" + id + "' data-toggle='modal' data-target='#editPurchaseOrderModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+        result += "<a btn_sales_order_manage_soid='" + id + "' data-toggle='modal' data-target='#editSalesOrderModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
         return result;
     }
     
@@ -161,25 +179,34 @@ $(document).ready(function(){
     	return result;
     }
     
+    //最后更新时间栏格式化
+    function timeFormatter(value, row, index) {
+    	var time = value;
+    	var result = dateFormat(time);
+    	return result;
+    }
+    
     function setOnClickOutputData(){
-    	$("#btn_output_data_purchase_order_manage").on("click",function(){
-    		var poid = $("#input_id_search_purchase_order_manage").val();
-    		var gname = $("#input_gname_search_purchase_order_manage").val();
-    		var supplierId = $("#input_supplier_name_search_purchase_order_manage").val();
-    		var storageId = $("#input_storage_name_search_purchase_order_manage").val();
-    		var createrName = $("#input_creater_name_search_purchase_order_manage").val();
-    		var createdTime = $("#input_created_time_search_purchase_order_manage").val().toString("yyyy-MM-dd");
-    		var url = $("#btn_output_data_purchase_order_manage").attr("url");
+    	$("#btn_output_data_sales_order_manage").on("click",function(){
+    		var soid = $("#input_id_search_sales_order_manage").val();
+    		var gname = $("#input_gname_search_sales_order_manage").val();
+    		var supplierId = $("#input_supplier_name_search_sales_order_manage").val();
+    		var storageId = $("#input_storage_name_search_sales_order_manage").val();
+    		var createrName = $("#input_creater_name_search_sales_order_manage").val();
+    		var createdTime = $("#input_created_time_search_sales_order_manage").val().toString("yyyy-MM-dd");
+    		var outOfStoreTime = $("#input_out_of_store_time_search_sales_order_manage").val().toString("yyyy-MM-dd");
+    		var url = $("#btn_output_data_sales_order_manage").attr("url");
     		$.get(url,
     				{
 						pageSize : pageSize,
 						currentPage : currentPage,
 						createdtime : createdTime,
-						poid : poid,
+						soid : soid,
 						gname : gname,
 						supplierId : supplierId,
 						storageId : storageId,
-						createrName : createrName
+						createrName : createrName,
+						outOfStoreTime : outOfStoreTime
     				},
     				    function(result,status){
     					  log("download...");
@@ -189,14 +216,14 @@ $(document).ready(function(){
     }
     
     function setOutputUrl(){
-    	var poid = $("#input_id_search_purchase_order_manage").val();
-		var gname = $("#input_gname_search_purchase_order_manage").val();
-		var supplierId = $("#input_supplier_name_search_purchase_order_manage").val();
-		var storageId = $("#input_storage_name_search_purchase_order_manage").val();
-		var createrName = $("#input_creater_name_search_purchase_order_manage").val();
-		var createdTime = $("#input_created_time_search_purchase_order_manage").val().toString("yyyy-MM-dd");
-		var url = $("#btn_output_data_purchase_order_manage").attr("url")+"?";
-		url = url + "poid=" + poid + "&";
+    	var soid = $("#input_id_search_sales_order_manage").val();
+		var gname = $("#input_gname_search_sales_order_manage").val();
+		var supplierId = $("#input_supplier_name_search_sales_order_manage").val();
+		var storageId = $("#input_storage_name_search_sales_order_manage").val();
+		var createrName = $("#input_creater_name_search_sales_order_manage").val();
+		var createdTime = $("#input_created_time_search_sales_order_manage").val().toString("yyyy-MM-dd");
+		var url = $("#btn_output_data_sales_order_manage").attr("url")+"?";
+		url = url + "soid=" + soid + "&";
 		url = url + "gname=" + gname + "&";
 		url = url + "supplierId=" + supplierId + "&";
 		url = url + "storageId=" + storageId + "&";
@@ -204,11 +231,11 @@ $(document).ready(function(){
 		url = url + "createdTime=" + createdTime + "&";
 		url = url + "pageSize=" + pageSize + "&";
 		url = url + "currentPage=" + currentPage + "&";
-		$("#btn_output_data_purchase_order_manage").attr("href", url);
+		$("#btn_output_data_sales_order_manage").attr("href", url);
     }
     
     //订单创建时间栏格式化
-    function updatedTimeFormatter(value, row, index) {
+    function timeFormatter(value, row, index) {
     	var time = value;
     	var result = dateFormat(time);
     	return result;
@@ -217,7 +244,7 @@ $(document).ready(function(){
 
 	// 搜索方法
 	function search() {
-		$('#purchase_order_table').bootstrapTable('refresh');
+		$('#sales_order_table').bootstrapTable('refresh');
 		setOutputUrl();
 	}
 	
@@ -228,12 +255,32 @@ $(document).ready(function(){
 	}
 	
 	$("#btn_search_client").click(function(){
-		$('#purchase_order_table').bootstrapTable('refresh');
+		$('#sales_order_table').bootstrapTable('refresh');
 	});
+	
+	//获取订单状态列表的数据
+	function getOrderStatuses(){
+		var select = $("#input_audit_status_search_sales_order_manage");
+		var url = select.attr("url");
+		$.post(url,
+				{},
+				function(result,status){
+					var html = "<option value>请选择要查询的审核状态</option>";
+					select.empty();
+					if(result != null) {
+						for(i = 0; i <result.length; i++){
+							var option = result[i];
+							html = html +"<option value=" +  option.osid +  " osid= " + option.osid + ">" + option.name + "</option>"
+						}
+					}
+					select.html(html);
+				}
+		);
+	}
 	
 	//获取仓库列表数据
 	function getStorages(){
-		var select = $("#input_storage_name_search_purchase_order_manage");
+		var select = $("#input_storage_name_search_sales_order_manage");
 		var url = select.attr("url");
 		$.post(url,
 				{},
@@ -253,12 +300,12 @@ $(document).ready(function(){
 	
 	//获取供应商列表数据
 	function getSuppliers(){
-		var select = $("#input_supplier_name_search_purchase_order_manage");
+		var select = $("#input_supplier_name_search_sales_order_manage");
 		var url = select.attr("url");
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value>请选择要查询的供应商</option>";
+					var html = "<option value=''>请选择要查询的供应商</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -270,34 +317,14 @@ $(document).ready(function(){
 				}
 		);
 	}
-	
-	//获取订单状态列表的数据
-	function getOrderStatuses(){
-		var select = $("#input_audit_status_search_purchase_order_manage");
-		var url = select.attr("url");
-		$.post(url,
-				{},
-				function(result,status){
-					var html = "<option value>请选择要查询的订单的审核状态</option>";
-					select.empty();
-					if(result != null) {
-						for(i = 0; i <result.length; i++){
-							var option = result[i];
-							html = html +"<option value=" +  option.osid +  " osid= " + option.osid + ">" + option.name + "</option>"
-						}
-					}
-					select.html(html);
-				}
-		);
-	}
 	//获取供应商列表数据
 	function getSuppliers(){
-		var select = $("#input_supplier_name_search_purchase_order_manage");
+		var select = $("#input_supplier_name_search_sales_order_manage");
 		var url = select.attr("url");
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value>请选择要查询的供应商</option>";
+					var html = "<option value=''>请选择要查询的供应商</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -311,7 +338,7 @@ $(document).ready(function(){
 	}
 	
 	$("#btn_delete_client_manage").click(function(){
-		var items = $('#purchase_order_table').bootstrapTable("getSelections");
+		var items = $('#sales_order_table').bootstrapTable("getSelections");
 		var cids = new Array();
 		for(i = 0; i < items.length; i ++){
 			cids[i] = (items[i].cid) ;
@@ -324,7 +351,7 @@ $(document).ready(function(){
 		   },
 		    function(status,result){
 			   if(status.isSucceed == true) {
-					$('#purchase_order_table').bootstrapTable('refresh');
+					$('#sales_order_table').bootstrapTable('refresh');
 					toastr.success('删除成功');
 			   }else {
 				   toastr.error('删除失败');

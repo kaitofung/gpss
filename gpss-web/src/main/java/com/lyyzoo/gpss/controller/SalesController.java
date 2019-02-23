@@ -19,21 +19,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gpss.common.utils.BeanUtils;
 import com.gpss.common.utils.Excel2003Utils;
+import com.lyyzoo.gpss.api.service.IClientService;
 import com.lyyzoo.gpss.api.service.IGoodsService;
-import com.lyyzoo.gpss.api.service.IOrderStatusService;
-import com.lyyzoo.gpss.api.service.IPurchaseOrderService;
+import com.lyyzoo.gpss.api.service.ISalesOrderService;
 import com.lyyzoo.gpss.api.service.IStorageService;
 import com.lyyzoo.gpss.api.service.ISupplierService;
-import com.lyyzoo.gpss.api.vo.OrderStatus;
-import com.lyyzoo.gpss.api.vo.PurchaseOrder;
+import com.lyyzoo.gpss.api.vo.Client;
+import com.lyyzoo.gpss.api.vo.SalesOrder;
 import com.lyyzoo.gpss.api.vo.Supplier;
 
-@RequestMapping("/purchase")
+@RequestMapping("/sales")
 @Controller
-public class PurchaseController extends AbstractController{
+public class SalesController extends AbstractController{
 
 	@Resource
-	private IPurchaseOrderService purchaseOrderService;
+	private ISalesOrderService salesOrderService;
 	@Resource
 	private ISupplierService supplierService;
 	@Resource
@@ -41,22 +41,22 @@ public class PurchaseController extends AbstractController{
 	@Resource
 	private IGoodsService goodsService;
 	@Resource
-	private IOrderStatusService orderStatusService;
+	private IClientService clientService;
 	
 	@ResponseBody
-	@RequestMapping(value ="/purchase_orders", method = RequestMethod.GET)
-	public Object getPurchaseOrders(int pageSize , Long currentPage, PurchaseOrder purchaseOrder) {
-		System.err.println(purchaseOrder.getAuditStatus() == null);
+	@RequestMapping(value ="/sales_orders", method = RequestMethod.GET)
+	public Object getSalesOrders(Integer pageSize , Long currentPage, SalesOrder salesOrder) {
+		System.err.println(salesOrder);
 		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String,Object> params = BeanUtils.beanToMap(purchaseOrder);
-		map.put("total", purchaseOrderService.getPurchaseOrdersCount(params));
-		List<PurchaseOrder> list = purchaseOrderService.getPurchaseOrders(params, pageSize, currentPage);
+		Map<String,Object> params = BeanUtils.beanToMap(salesOrder);
+		map.put("total", salesOrderService.getSalesOrdersCount(params));
+		List<SalesOrder> list = salesOrderService.getSalesOrders(params, pageSize, currentPage);
 		map.put("rows", list);
 		return map;
 	}
 	
-	   @RequestMapping(value = "/purchase_orders/output_data", method = RequestMethod.GET)
-	    public void downLoadExcel(int pageSize , Long currentPage, PurchaseOrder purchaseOrder,HttpServletRequest request, HttpServletResponse response) throws IOException{
+	   @RequestMapping(value = "/sales_orders/output_data", method = RequestMethod.GET)
+	    public void downLoadExcel(int pageSize , Long currentPage, SalesOrder salesOrder,HttpServletRequest request, HttpServletResponse response) throws IOException{
 		   String sheetName = "采购订单数据";
 	        String sheetTitle = "采购订单数据";
 	        String fileName = "采购订单报表.xls";
@@ -77,14 +77,14 @@ public class PurchaseController extends AbstractController{
 	        columnNames.add("审核状态");
 	        columnNames.add("创建时间");
 			Map<String,Object> map = new HashMap<String,Object>();
-			Map<String,Object> params = BeanUtils.beanToMap(purchaseOrder);
-			List<PurchaseOrder> list = purchaseOrderService.getPurchaseOrders(params, pageSize, currentPage);
+			Map<String,Object> params = BeanUtils.beanToMap(salesOrder);
+			List<SalesOrder> list = salesOrderService.getSalesOrders(params, pageSize, currentPage);
 			map.put("rows", list);
 		        List<List<Object>> objects = new LinkedList<>();
 		        for (int i = 0; i < list.size(); i++) {
 		            List<Object> dataA = new LinkedList<>();
-		            PurchaseOrder po = list.get(i);
-		            dataA.add(po.getPoid());
+		            SalesOrder po = list.get(i);
+		            dataA.add(po.getSoid());
 		            dataA.add(po.getGname());
 		            dataA.add(po.getGsname());
 		            dataA.add(po.getSupplierName());
@@ -104,16 +104,9 @@ public class PurchaseController extends AbstractController{
 		        }
 	    }
 	
-	@RequestMapping("/purchase_orders_manage")
-	public Object purchaseOrders() {
-		return "purchase_order";
-	}
-	
-	@ResponseBody
-	@RequestMapping("/order_status")
-	public Object orderStatus() {
-		List<OrderStatus> orderStatuses = orderStatusService.getOrderStatus();
-		return orderStatuses;
+	@RequestMapping("/sales_orders_manage")
+	public Object salesOrders() {
+		return "sales_order";
 	}
 	
 	@ResponseBody
@@ -136,23 +129,30 @@ public class PurchaseController extends AbstractController{
 	}
 	
 	@ResponseBody
+	@RequestMapping("/clients")
+	public Object clients() {
+		return clientService.getClients(Integer.MAX_VALUE, 1L, "");
+	}
+	
+	@ResponseBody
 	@RequestMapping("/goods_specications")
 	public Object goodsSpecications() {
 		return goodsService.getGoodsSpecifications();
 	}
 	
 	@ResponseBody
-	@RequestMapping("/purchase_order_create")
-	public Object createPurchaseOrder(PurchaseOrder purchaseOrder) {
-		purchaseOrder.setName("");
-		purchaseOrder.setCreatedtime(new Date());
-		purchaseOrder.setAuditStatus("1");
-		return paramToMap("isSucceed",purchaseOrderService.createPurchaseOrders(purchaseOrder) );
+	@RequestMapping("/sales_order_create")
+	public Object createSalesOrder(SalesOrder salesOrder) {
+		salesOrder.setName("");
+		salesOrder.setCreatedtime(new Date());
+		salesOrder.setAuditStatus("1");
+		return paramToMap("isSucceed",salesOrderService.createSalesOrders(salesOrder) );
 	}
 	
 	@ResponseBody
-	@RequestMapping("/purchase_order_modify")
-	public Object modifyPurchaseOrder(PurchaseOrder purchaseOrder) {
-		return paramToMap("isSucceed",purchaseOrderService.modifyPurchaseOrder(purchaseOrder));
+	@RequestMapping("/sales_order_modify")
+	public Object modifySalesOrder(SalesOrder salesOrder) {
+		System.err.println(salesOrder);
+		return paramToMap("isSucceed",salesOrderService.modifySalesOrder(salesOrder));
 	}
 }

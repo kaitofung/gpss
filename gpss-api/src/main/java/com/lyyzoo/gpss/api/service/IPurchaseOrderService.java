@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.lyyzoo.gpss.api.vo.PurchaseOrder;
 
-public interface IPurchcaseOrderService {
+public interface IPurchaseOrderService {
 	
 	List<PurchaseOrder> getPurchaseOrders(Map<String, Object> params);
 	

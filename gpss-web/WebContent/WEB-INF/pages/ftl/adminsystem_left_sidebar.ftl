@@ -73,7 +73,7 @@
 				</span> </a>
 				<ul class="treeview-menu">
 					<li><a class="list-sub-item" url="${context}/marketing_manage/client_manage">客户管理</a></li>
-					<li><a class="list-sub-item" url="${context}/user/welcome">销售订单</a></li>
+					<li><a class="list-sub-item" url="${context}/sales/sales_orders_manage">销售订单</a></li>
 				</ul>
 			</li>
 		</@shiro.hasAnyRoles>
