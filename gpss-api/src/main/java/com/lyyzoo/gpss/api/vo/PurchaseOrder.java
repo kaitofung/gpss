@@ -74,6 +74,9 @@ public class PurchaseOrder {
 	@Setter
 	@Getter
 	private Date auditedTime;
+	@Setter
+	@Getter
+	private String auditedContent;
 	public void setCreatedtime(Date createdtime) {
 		this.createdtime = createdtime;
 	}

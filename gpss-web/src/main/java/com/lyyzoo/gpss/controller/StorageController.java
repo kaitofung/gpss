@@ -1,6 +1,8 @@
 package com.lyyzoo.gpss.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -9,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gpss.common.utils.BeanUtils;
 import com.gpss.common.utils.IMappingParameter;
 import com.lyyzoo.gpss.api.service.IStorageService;
 import com.lyyzoo.gpss.api.vo.Storage;
+import com.lyyzoo.gpss.api.vo.StorageRecord;
 
 @Controller
 @RequestMapping("/storage")
@@ -19,6 +23,10 @@ public class StorageController extends AbstractController implements IMappingPar
 	@Resource
 	private IStorageService storageService;
 	
+	@RequestMapping("/summary")
+	public Object summary() {
+		return "storage_summary";
+	}
 	@ResponseBody
 	@RequestMapping("/storages")
 	public Object getStorages(int pageSize, Long currentPage, String name) {
@@ -56,6 +64,23 @@ public class StorageController extends AbstractController implements IMappingPar
 	@RequestMapping("/edit")
 	public Object editStorage(Storage storage) {
 		return paramToMap("isSucceed" , storageService.editStorage(storage) >0);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/storage_records")
+	public Object editStorage(StorageRecord storageRecord, int pageSize, Long currentPage) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> params = BeanUtils.beanToMap(storageRecord);
+		map.put("total", storageService.getStorageRecordsCount(params));
+		List<StorageRecord> list = storageService.getStorageRecords(params, currentPage, pageSize);
+		map.put("rows", list);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/storage_record_count")
+	public Object storageRecordCount(StorageRecord storageRecord) {
+		return BeanUtils.beanToMap(storageRecord);
 	}
 
 	

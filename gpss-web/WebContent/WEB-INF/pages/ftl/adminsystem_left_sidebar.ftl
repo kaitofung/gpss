@@ -83,8 +83,8 @@
 						class="fa fa-angle-left pull-right"></i>
 				</span> </a>
 				<ul class="treeview-menu">
-					<li><a class="list-sub-item" url="${context}/user/welcome">库存概况</a></li>
-					<li><a class="list-sub-item" url="${context}/user/welcome">采购审核</a></li>
+					<li><a class="list-sub-item" url="${context}/storage/summary">库存概况</a></li>
+					<li><a class="list-sub-item" url="${context}/purchase/purchase_orders_audit">采购审核</a></li>
 					<li><a class="list-sub-item" url="${context}/user/welcome">销售审核</a></li>
 				</ul>
 			</li>

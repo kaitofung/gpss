@@ -109,6 +109,11 @@ public class PurchaseController extends AbstractController{
 		return "purchase_order";
 	}
 	
+	@RequestMapping("/purchase_orders_audit")
+	public Object purchaseOrdersAudit() {
+		return "purchase_order_audit";
+	}
+	
 	@ResponseBody
 	@RequestMapping("/order_status")
 	public Object orderStatus() {

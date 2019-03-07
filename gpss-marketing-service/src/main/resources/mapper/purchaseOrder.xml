@@ -177,7 +177,10 @@
 				audited_id = #{auditedId},
 			</if>
 			<if test="auditedTime != null">
-				audited_time = #{auditedTime}
+				audited_time = #{auditedTime},
+			</if>
+			<if test="auditedContent != null">
+				auditedContent = #{auditedContent}
 			</if>
 		</set>
 		<where>

@@ -1,7 +1,6 @@
 DROP DATABASE IF EXISTS gpss;
 create database gpss;
 USE gpss;
-
 drop table if exists employee_type;
 CREATE TABLE employee_type(
    etypeid              int not null auto_increment, 
@@ -270,6 +269,7 @@ CREATE TABLE purchase_order(
    appendix             varchar(500)not null,
    audit_status			int not null,
    createdtime          datetime not null,
+     auditedContent		varchar(500) ,
    creater_id 			int not null,
    audited_id			int ,
    audited_time         datetime ,
@@ -304,6 +304,7 @@ CREATE TABLE sales_order(
    createdtime          datetime not null,
    creater_id 			int not null,
    audited_id			int ,
+  auditedContent		varchar(500) ,
    audited_time         datetime ,
    out_of_store_time         datetime ,
    CONSTRAINT pk_soid PRIMARY KEY (soid),
@@ -316,3 +317,18 @@ CREATE TABLE sales_order(
 ) engine='innodb' default charset=utf8;
 
 INSERT INTO `gpss`.`sales_order`(`sales_order_gid`, `sales_order_gspecification_id`, `sales_order_store_id`, `sales_order_supplier_id`, `sales_order_client_id`, `num`, `price`, `name`, `appendix`, `audit_status`, `createdtime`, `creater_id`, `out_of_store_time`) VALUES (2, 1, 2, 1, 9, 11, 22, '11111', '111111', 1, '2019-02-16 22:14:13', 1, '2019-02-05 22:15:16');
+
+drop table if exists storage_record;
+CREATE TABLE storage_record(
+   srid                 int not null auto_increment, 
+   storage_record_gid                  int not null,
+   storage_record_gspecification_id    int not null,
+   storage_record_store_id             int not null,
+   num                  int not null,
+   price 				float not null,
+   CONSTRAINT pk_srid PRIMARY KEY (srid),
+   CONSTRAINT fk_storage_record_gid FOREIGN KEY(storage_record_gid) REFERENCES goods(gid),
+   CONSTRAINT fk_storage_record_store_id FOREIGN KEY(storage_record_store_id) REFERENCES storage(sid),
+   CONSTRAINT fk_storage_record_gspecification_id FOREIGN KEY(storage_record_gspecification_id) REFERENCES goods_specification(gspecification_id)
+) engine='innodb' default charset=utf8;
+

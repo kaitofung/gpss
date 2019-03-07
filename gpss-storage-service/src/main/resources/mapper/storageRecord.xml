@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpss.storage.service.dao.IStorageRecordDao">
+	
+<select id="doGetBeans" resultType="com.lyyzoo.gpss.api.vo.StorageRecord" parameterType="java.util.Map">
+	SELECT sr.srid, g.name AS gname, g.gid, gs.name AS gspecificationName, gs.gspecification_id AS gspecificationId
+	, s.sid storageId, s.name AS storageName, so.num salesCount, sr.num storageCount, sr.price preditedPrice, temp.avgPurchasePrice
+	, sr.num * sr.price AS salesSumValue, sr.num * temp.avgPurchasePrice AS storageSumValue
+FROM ((
+	SELECT po.purchase_order_gid AS gid, po.purchase_order_gspecification_id AS gspecificationId, po.purchase_order_store_id AS store_id, AVG(po.price) AS avgPurchasePrice
+	FROM purchase_order po, storage_record sr
+	WHERE po.purchase_order_gid = sr.storage_record_gid
+		AND po.purchase_order_gspecification_id = sr.storage_record_gspecification_id
+		AND po.purchase_order_store_id = sr.storage_record_store_id
+	GROUP BY gid, gspecificationId, store_id
+) temp, storage_record sr)
+	LEFT JOIN goods g ON sr.storage_record_gid = g.gid
+	LEFT JOIN goods_specification gs ON sr.storage_record_gspecification_id = gs.gspecification_id
+	LEFT JOIN storage s ON s.sid = sr.storage_record_store_id
+	LEFT JOIN sales_order so
+	ON so.sales_order_gid = sr.storage_record_gid
+		AND so.sales_order_gspecification_id = sr.storage_record_gspecification_id
+		AND so.sales_order_store_id = sr.storage_record_store_id
+WHERE temp.gid = sr.storage_record_gid
+	AND temp.gspecificationId = sr.storage_record_gspecification_id
+	AND temp.store_id = sr.storage_record_store_id  
+		<if test="gname != null &amp; name != &quot;&quot;">
+			and g.name like CONCAT(CONCAT('%',#{gname}),'%')
+		</if>
+		<if test="storageId != null &amp; storageId != &quot;&quot;">
+			and s.sid = #{storageId}
+		</if>
+		<if test="gspecificationId != null &amp; gspecificationId != &quot;&quot;">
+			and gs.gspecification_id = #{gspecificationId}
+		</if>
+	 limit #{offset}, #{pagesize}
+</select>
+
+ <select id="doGetBeansCount" resultType="long" parameterType="java.util.Map">
+	SELECT COUNT(*)
+FROM ((
+	SELECT po.purchase_order_gid AS gid, po.purchase_order_gspecification_id AS gspecificationId, po.purchase_order_store_id AS store_id, AVG(po.price) AS avgPurchasePrice
+	FROM purchase_order po, storage_record sr
+	WHERE po.purchase_order_gid = sr.storage_record_gid
+		AND po.purchase_order_gspecification_id = sr.storage_record_gspecification_id
+		AND po.purchase_order_store_id = sr.storage_record_store_id
+	GROUP BY gid, gspecificationId, store_id
+) temp, storage_record sr)
+	LEFT JOIN goods g ON sr.storage_record_gid = g.gid
+	LEFT JOIN goods_specification gs ON sr.storage_record_gspecification_id = gs.gspecification_id
+	LEFT JOIN storage s ON s.sid = sr.storage_record_store_id
+	LEFT JOIN sales_order so
+	ON so.sales_order_gid = sr.storage_record_gid
+		AND so.sales_order_gspecification_id = sr.storage_record_gspecification_id
+		AND so.sales_order_store_id = sr.storage_record_store_id
+WHERE temp.gid = sr.storage_record_gid
+	AND temp.gspecificationId = sr.storage_record_gspecification_id
+	AND temp.store_id = sr.storage_record_store_id
+			<if test="gname != null &amp; name != &quot;&quot;">
+			and g.name like CONCAT(CONCAT('%',#{gname}),'%')
+		</if>
+		<if test="storageId != null &amp; storageId != &quot;&quot;">
+			and s.sid = #{storageId}
+		</if>
+		<if test="gspecificationId != null &amp; gspecificationId != &quot;&quot;">
+			and gs.gspecification_id = #{gspecificationId}
+		</if>
+</select>
+<!-- 
+<delete id="doDeleteBeans" parameterType="list">
+	delete from storage where sid in
+	<foreach collection="list" open="(" close=")" separator="," item="item">
+		#{item}
+	</foreach>
+</delete>
+<insert id="doCreateBean" parameterType="com.lyyzoo.gpss.api.vo.Storage">
+	insert into storage( name, address, eid,  description)
+		values(#{name}, #{address}, #{eid}
+		,#{description});
+</insert>
+
+<update id="doUpdateBean" parameterType="com.lyyzoo.gpss.api.vo.Storage">
+	update  storage set name =#{name}, address=#{address},description=#{description}
+		where sid = #{sid}
+</update>  -->
+
+</mapper>

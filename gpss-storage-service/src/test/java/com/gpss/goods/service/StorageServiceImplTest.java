@@ -1,8 +1,7 @@
 package com.gpss.goods.service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,9 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.lyyzoo.gpss.api.service.IStorageService;
-import com.lyyzoo.gpss.api.service.ISupplierService;
-import com.lyyzoo.gpss.api.vo.Storage;
-import com.lyyzoo.gpss.api.vo.Supplier;
 
 
 @ContextConfiguration(locations = { "classpath*:spring/spring-*.xml" })
@@ -33,6 +29,12 @@ public class StorageServiceImplTest  {
 //		System.out.println(storageService.getStoragesCount("海"));
 //	}
 	
+	@Test
+	public void testGetStorageRecordsCount() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		System.out.println(storageService.getStorageRecordsCount(params));
+	}
+	
 //	@Test
 //	public void testDeleteSuppliers() {
 //		List<String> list = new ArrayList<>();
@@ -44,6 +46,10 @@ public class StorageServiceImplTest  {
 //	public void testGetStorages() {
 //		System.out.println(storageService.getStoragesByName("仓", 8, 1L));
 //	}
+	@Test
+	public void testGetStorageRecords() {
+//		System.out.println(storageService.getStorageRecords(333, 1L));
+	}
 //	@Test
 //	public void testCreateSuppliers() {
 //		Supplier supplier = new Supplier();
@@ -65,14 +71,14 @@ public class StorageServiceImplTest  {
 //		System.out.println(storageService.editStorage(storage));
 //	}
 	
-	@Test
-	public void testCreateStorage() {
-		Storage storage = new Storage();
-		storage.setName("55");
-		storage.setAddress("zz");
-		storage.setDescription("zz");
-		storage.setMobile("13545699875");
-		storage.setEname("xx");
-		System.out.println(storageService.createStorage(storage));
-	}
+//	@Test
+//	public void testCreateStorage() {
+//		Storage storage = new Storage();
+//		storage.setName("55");
+//		storage.setAddress("zz");
+//		storage.setDescription("zz");
+//		storage.setMobile("13545699875");
+//		storage.setEname("xx");
+//		System.out.println(storageService.createStorage(storage));
+//	}
 }

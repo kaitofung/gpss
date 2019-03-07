@@ -37,7 +37,7 @@ public class PurchaseOrderServiceImplTest  {
 	@Test
 	public void testModifyPurchaseOrders() {
 		PurchaseOrder purchaseOrder = new PurchaseOrder();
-		purchaseOrder.setPoid("6");
+		purchaseOrder.setPoid("1");
 		purchaseOrder.setAppendix("备注内容x");
 		purchaseOrder.setAuditStatus("2");
 		purchaseOrder.setCreatedtime(new Date());
@@ -52,6 +52,7 @@ public class PurchaseOrderServiceImplTest  {
 		purchaseOrder.setPurchaseOrderStoreId("3");
 		purchaseOrder.setAuditedTime(new Date());
 		purchaseOrder.setAuditedId("1");
+		purchaseOrder.setAuditedContent("中文");
 		System.out.println(purchcaseOrderService.modifyPurchaseOrder(purchaseOrder));
 	}
 //	@Test
