@@ -44,7 +44,7 @@
 		<table id="storage_record_manage_table" url="${context}/storage/storage_records"
 			data-mobile-responsive="true" class="mb-bootstrap-table text-nowrap"></table>
 	</div>
-
+	<#include "/storage_record_manage_storage_record_edit_diolog.ftl"> 
 </body>
 	<script
 		src="../js/bootstrap-table.min.js"></script> <script

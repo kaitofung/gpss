@@ -87,6 +87,11 @@ public class StorageServiceImpl extends AbstractService implements IStorageServi
 		return getStorageRecords(params);
 	}
 
+	@Override
+	public int editStorageRecord(StorageRecord storageRecord) {
+		return (int) storageRecordDao.doUpdateBean(storageRecord);
+	}
+
 	
 
 }

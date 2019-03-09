@@ -108,6 +108,10 @@ public class SalesController extends AbstractController{
 	public Object salesOrders() {
 		return "sales_order";
 	}
+	@RequestMapping("/sales_orders_audit")
+	public Object salesOrdersAudit() {
+		return "sales_order_audit";
+	}
 	
 	@ResponseBody
 	@RequestMapping("/suppliers")

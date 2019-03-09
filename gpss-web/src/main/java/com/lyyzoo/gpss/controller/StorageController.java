@@ -67,6 +67,12 @@ public class StorageController extends AbstractController implements IMappingPar
 	}
 	
 	@ResponseBody
+	@RequestMapping("/edit_storage_record")
+	public Object editStorage(StorageRecord storageRecord) {
+		return paramToMap("isSucceed" , storageService.editStorageRecord(storageRecord));
+	}
+	
+	@ResponseBody
 	@RequestMapping("/storage_records")
 	public Object editStorage(StorageRecord storageRecord, int pageSize, Long currentPage) {
 		Map<String,Object> map = new HashMap<String,Object>();

@@ -18,7 +18,7 @@ $(document).ready(function(){
 		strictSearch : true,
 		minimumCountColumns : 2, //最少允许的列数
 		clickToSelect : true, //是否启用点击选中行
-		uniqucid : "ID", //每一行的唯一标识，一般为主键列
+		uniqusrid : "ID", //每一行的唯一标识，一般为主键列
 		cardView : false,
 		detailView : true, //是否显示详细视图
 		detailFormatter : detailFormatter,
@@ -89,7 +89,7 @@ $(document).ready(function(){
 			sortable : true
 		},
 		 {
-			field : 'cid',
+			field : 'srid',
 			title : '操作',
 			formatter: actionFormatter
 		} ]
@@ -104,9 +104,9 @@ $(document).ready(function(){
     }
     
     function setOnEditClickLister() {
-    	$("[btn_edit_storage_record_manage_cid]").click(function(){
-    		var cid = $(this).attr("btn_edit_storage_record_manage_cid");
-    		$("#editClientModal").attr("cid",cid);
+    	$("[btn_edit_storage_record_manage_srid]").click(function(){
+    		var srid = $(this).attr("btn_edit_storage_record_manage_srid");
+    		$("#editStorageRecordModal").attr("srid",srid);
     	});
     }
     
@@ -116,7 +116,7 @@ $(document).ready(function(){
     function actionFormatter(value, row, index) {
         var id = value;
         var result = "";
-        result += "<a btn_edit_storage_record_manage_cid='" + id + "' data-toggle='modal' data-target='#editClientModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+        result += "<a btn_edit_storage_record_manage_srid='" + id + "' data-toggle='modal' data-target='#editStorageRecordModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
         return result;
     }
     
@@ -160,7 +160,6 @@ $(document).ready(function(){
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
 							var option = result[i];
-							log(option);
 							html = html +"<option value=" +  option.gspecificationId +  " gspecificationId= " + option.gspecificationId + ">" + option.name + "</option>"
 						}
 					}
@@ -186,14 +185,14 @@ $(document).ready(function(){
 	
 	$("#btn_delete_storage_record_manage").click(function(){
 		var items = $('#storage_record_manage_table').bootstrapTable("getSelections");
-		var cids = new Array();
+		var srids = new Array();
 		for(i = 0; i < items.length; i ++){
-			cids[i] = (items[i].cid) ;
+			srids[i] = (items[i].srid) ;
 		}
 		var url = $("#btn_delete_storage_record_manage").attr("url");
 		$.post(url,
 		   {
-			   cids: cids,
+			   srids: srids,
 			   dataType:"json", 
 		   },
 		    function(status,result){

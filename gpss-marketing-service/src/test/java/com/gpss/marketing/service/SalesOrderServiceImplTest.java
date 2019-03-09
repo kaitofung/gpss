@@ -34,45 +34,47 @@ public class SalesOrderServiceImplTest  {
 //		System.out.println(purchcaseOrderService.getSalesOrdersCount(params));
 //	}
 	
-//	@Test
-//	public void testModifySalesOrders() {
-//		SalesOrder salesOrder = new SalesOrder();
-//		salesOrder.setSoid("1");
-//		salesOrder.setAppendix("qqqqqqqqqqq");
-//		salesOrder.setAuditStatus("2");
-//		salesOrder.setCreatedtime(new Date());
-//		salesOrder.setCreaterId("2");
-//		salesOrder.setName("haoah");
-//		salesOrder.setPrice(222222f);
-//		salesOrder.setNum(2222);
-//		salesOrder.setSupplierId("3");
-//		salesOrder.setStorageId("3");
-//		salesOrder.setSalesOrderGid("3");
-//		salesOrder.setSalesOrderGspecificationId("3");
-//		salesOrder.setSalesOrderStoreId("3");
-//		salesOrder.setAuditedTime(new Date());
-//		salesOrder.setAuditedId("1");
-//		salesOrder.setCid("3");
-//		System.out.println(purchcaseOrderService.modifySalesOrder(salesOrder));
-//	}
 	@Test
-	public void testCreateSalesOrders() {
+	public void testModifySalesOrders() {
 		SalesOrder salesOrder = new SalesOrder();
-		salesOrder.setAppendix("备注内容");
-		salesOrder.setAuditStatus("1");
+		salesOrder.setSoid("1");
+		salesOrder.setAppendix("qqqqqqqqqqq");
+		salesOrder.setAuditStatus("2");
 		salesOrder.setCreatedtime(new Date());
-		salesOrder.setCreaterId("1");
-		salesOrder.setName("");
-		salesOrder.setPrice(11f);
-		salesOrder.setNum(3131);
-		salesOrder.setSupplierId("2");
-		salesOrder.setStorageId("2");
-		salesOrder.setAuditedId(null);
-		salesOrder.setCid("9");
-		salesOrder.setSalesOrderGid("2");
-		salesOrder.setSalesOrderGspecificationId("2");
-		salesOrder.setSalesOrderStoreId("2");
-		System.out.println(purchcaseOrderService.createSalesOrders(salesOrder));
+		salesOrder.setCreaterId("2");
+		salesOrder.setName("haoah");
+		salesOrder.setPrice(222222f);
+		salesOrder.setNum(2222);
+		salesOrder.setSupplierId("3");
+		salesOrder.setStorageId("3");
+		salesOrder.setSalesOrderGid("3");
+		salesOrder.setSalesOrderGspecificationId("3");
+		salesOrder.setSalesOrderStoreId("3");
+		salesOrder.setAuditedTime(new Date());
+		salesOrder.setAuditedId("1");
+		salesOrder.setCid("3");
+		salesOrder.setAuditedContent("aaaaaaaaaaa");
+		System.out.println(purchcaseOrderService.modifySalesOrder(salesOrder));
 	}
+	
+//	@Test
+//	public void testCreateSalesOrders() {
+//		SalesOrder salesOrder = new SalesOrder();
+//		salesOrder.setAppendix("备注内容");
+//		salesOrder.setAuditStatus("1");
+//		salesOrder.setCreatedtime(new Date());
+//		salesOrder.setCreaterId("1");
+//		salesOrder.setName("");
+//		salesOrder.setPrice(11f);
+//		salesOrder.setNum(3131);
+//		salesOrder.setSupplierId("2");
+//		salesOrder.setStorageId("2");
+//		salesOrder.setAuditedId(null);
+//		salesOrder.setCid("9");
+//		salesOrder.setSalesOrderGid("2");
+//		salesOrder.setSalesOrderGspecificationId("2");
+//		salesOrder.setSalesOrderStoreId("2");
+//		System.out.println(purchcaseOrderService.createSalesOrders(salesOrder));
+//	}
 	
 }

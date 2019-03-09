@@ -8,7 +8,7 @@
 		parameterType="java.util.Map">
 		select soid, g.name gname, gs.name gsname,s1.name supplierName,s2.name
 		storageName, sales_order_gspecification_id,so.appendix
-		appendix,out_of_store_time outOfStoreTime,
+		appendix, so.auditedContent auditedContent, out_of_store_time outOfStoreTime,
 		sales_order_store_id,sales_order_supplier_id,
 		num, g.price, (num
 		*
@@ -172,6 +172,9 @@
 			</if>
 			<if test="auditedId != null &amp; auditedId != &quot;&quot;">
 				audited_id = #{auditedId},
+			</if>
+			<if test="auditedContent != null &amp; auditedContent != &quot;&quot;">
+				auditedContent = #{auditedContent},
 			</if>
 			<if test="auditedTime != null">
 				audited_time = #{auditedTime}

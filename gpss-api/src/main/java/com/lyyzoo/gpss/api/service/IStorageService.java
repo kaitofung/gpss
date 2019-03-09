@@ -24,5 +24,8 @@ public interface IStorageService {
 	int createStorage(Storage storage);
 	
 	int editStorage(Storage storage);
+	
+	int editStorageRecord(StorageRecord storageRecord);
+	
 
 }

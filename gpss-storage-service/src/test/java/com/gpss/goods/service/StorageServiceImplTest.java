@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.lyyzoo.gpss.api.service.IStorageService;
+import com.lyyzoo.gpss.api.vo.StorageRecord;
 
 
 @ContextConfiguration(locations = { "classpath*:spring/spring-*.xml" })
@@ -29,11 +30,11 @@ public class StorageServiceImplTest  {
 //		System.out.println(storageService.getStoragesCount("海"));
 //	}
 	
-	@Test
-	public void testGetStorageRecordsCount() {
-		Map<String, Object> params = new HashMap<String, Object>();
-		System.out.println(storageService.getStorageRecordsCount(params));
-	}
+//	@Test
+//	public void testGetStorageRecordsCount() {
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		System.out.println(storageService.getStorageRecordsCount(params));
+//	}
 	
 //	@Test
 //	public void testDeleteSuppliers() {
@@ -62,14 +63,13 @@ public class StorageServiceImplTest  {
 //		System.out.println(supplierService.createSupplier(supplier));
 //	}
 	
-//	@Test
-//	public void testEditStorage() {
-//		Storage storage = storageService.getStorages(1, 1L).get(0);
-//		storage.setName("55");
-//		storage.setAddress("zz");
-//		storage.setDescription("zz");
-//		System.out.println(storageService.editStorage(storage));
-//	}
+	@Test
+	public void testEditStorage() {
+		StorageRecord sr = new StorageRecord();
+		sr.setSrid("1");
+		sr.setPreditedPrice(11.01f);
+		System.out.println(storageService.editStorageRecord(sr));
+	}
 	
 //	@Test
 //	public void testCreateStorage() {
