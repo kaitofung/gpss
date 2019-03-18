@@ -35,6 +35,12 @@ public class UserController extends AbstractController implements IMappingParame
 		return "It works!!";
 	}
 	
+	@ResponseBody
+	@RequestMapping("/admin")
+	public Object testx() {
+		return "admin";
+	}
+	
 	@RequestMapping("/login")
 	public Object login() {
 		return "login";
@@ -78,6 +84,7 @@ public class UserController extends AbstractController implements IMappingParame
 	
 	@RequestMapping("/adminsystem")
 	public Object adminSystem() {
+		getRequest().setAttribute("role", "admin");
 		return "adminsystem";
 	}
 	

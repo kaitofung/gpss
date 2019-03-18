@@ -20,9 +20,9 @@
 		values(#{name},#{url},#{parentId});
 </insert>
 
-<update id="doUpdateSupplier" parameterType="com.lyyzoo.gpss.api.vo.Supplier">
-	update  supplier set name =#{name}, mobile=#{mobile}, contacts_name=#{contacts_name}, address=#{contacts_name}, description=#{description}, updatetime=#{updatetime}
-		where sid = #{sid}
+<update id="doUpdateBean" parameterType="com.lyyzoo.gpss.api.vo.Menu">
+	update  menu set name =#{name} , url =#{url}
+		where mid = #{mid}
 </update>
 
 </mapper>

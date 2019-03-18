@@ -59,17 +59,8 @@ insert into user(uid,eid,name,password,locked) values("admin003",9,"测试小酱
 insert into user(uid,eid,name,password,locked) values("storer005",10,"测试小酱油00","111111",0);
 insert into user(uid,eid,name,password,locked) values("purchaser008",11,"测试小酱油11","111111",0);
 
-drop table if exists role;
-CREATE TABLE role(
-   rid                  int not null auto_increment,  
-   name                 varchar(30)not null,
-   CONSTRAINT pk_mid PRIMARY KEY (rid)
-) engine='innodb'  default charset=utf8;
 
-insert into role(name) values("admin");
-insert into role(name) values("saler");
-insert into role(name) values("storer");
-insert into role(name) values("purchaser");
+
 
 drop table if exists user_role;
 CREATE TABLE user_role(
@@ -78,6 +69,8 @@ CREATE TABLE user_role(
    CONSTRAINT fk_uid FOREIGN KEY(uid) REFERENCES user(uid)
 ) engine='innodb'  default charset=utf8;
 insert into user_role(uid,rid) values("admin001","1");
+
+
 
 drop table if exists permission;
 CREATE TABLE permission(
@@ -201,6 +194,29 @@ INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '系统管理', 1);
 INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '菜单管理', 20, '/system_manage/menu_manage');
 INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '角色管理', 20, '/system_manage/role_manage');
 INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '用户管理', 20, '/system_manage/user_manage');
+
+
+drop table if exists role;
+CREATE TABLE role(
+   rid                 int not null auto_increment, 
+   name                 varchar(30)not null,
+   role_code                 varchar(20)not null,
+   description              varchar(300),
+   created_time  	datetime ,
+   CONSTRAINT pk_rid PRIMARY KEY (rid)
+) engine='innodb' default charset=utf8;
+insert into role(name, role_code) values("超级管理员","admin");
+insert into role(name, role_code) values("销售员","saler");
+insert into role(name, role_code) values("仓储员","storer");
+insert into role(name, role_code) values("采购员","purchaser");
+
+drop table if exists role_menu;
+CREATE TABLE role_menu(
+   rid                 int not null , 
+   mid                 int not null , 
+ CONSTRAINT fk_mid FOREIGN KEY(mid) REFERENCES menu(mid),
+ CONSTRAINT fk_rid FOREIGN KEY(rid) REFERENCES role(rid)
+) engine='innodb' default charset=utf8;
 
 
 

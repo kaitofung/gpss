@@ -101,14 +101,14 @@
 			</ul>
 		</li>
 		
-		<@shiro.hasAnyRoles name="admin">
+		<@shiro.hasAnyRoles name="${role}">
 			<li class="treeview"><a href="#"><i class="fa fa-cogs"></i> <span>系统管理</span>
 					<span class="pull-right-container"> <i
 						class="fa fa-angle-left pull-right"></i>
 				</span> </a>
 				<ul class="treeview-menu">
 					<li><a class="list-sub-item" url="${context}/system_manage/menu_manage">菜单管理</a></li>
-					<li><a class="list-sub-item" url="${context}/user/welcome">角色管理</a></li>
+					<li><a class="list-sub-item" url="${context}/system_manage/role_manage">角色管理</a></li>
 					<li><a class="list-sub-item" url="${context}/user/user_manage">用户管理</a></li>
 					<li><a class="list-sub-item" url="${context}/user/modify_user_profile">修改资料</a></li>
 				</ul>

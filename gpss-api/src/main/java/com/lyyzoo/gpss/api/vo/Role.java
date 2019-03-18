@@ -1,23 +1,30 @@
 package com.lyyzoo.gpss.api.vo;
 
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+@ToString
 public class Role {
+	@Setter
+	@Getter
 	private int rid;
+	@Setter
+	@Getter
 	private String name;
-	public int getRid() {
-		return rid;
-	}
-	public void setRid(int rid) {
-		this.rid = rid;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	@Override
-	public String toString() {
-		return "Role [rid=" + rid + ", roleName=" + name + "]";
-	}
+	@Setter
+	@Getter
+	private String roleCode;
+	@Setter
+	@Getter
+	private Date CreatedTime;
+	@Setter
+	@Getter
+	private String description;
+	@Setter
+	@Getter
+	private String menuList;
+	
 	
 }

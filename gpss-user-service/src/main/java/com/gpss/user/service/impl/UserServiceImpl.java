@@ -58,11 +58,11 @@ public class UserServiceImpl extends AbstractService implements IUserService,IMa
 	public Collection<String> getRolesByUserId(String uid) {
 		List<Role> roles = userDao.doGetRoles(uid);
 		if(roles == null ) return new ArrayList<String>();
-		List<String> roleNames = new ArrayList<String>();
+		List<String> roleCodes = new ArrayList<String>();
 		for (int i = 0; i < roles.size(); i++) {
-			roleNames.add(roles.get(i).getName());
+			roleCodes.add(roles.get(i).getRoleCode());
 		}
-		return roleNames;
+		return roleCodes;
 	}
 
 	@Override

@@ -42,7 +42,7 @@
 	
 	<select id="doGetRoles" parameterType="String"
 		resultType="com.lyyzoo.gpss.api.vo.Role">
-		select rid,name from role where rid in(
+		select rid,name, role_code roleCode from role where rid in(
 		select rid from user_role where uid = #{uid}
 		)
 	</select>

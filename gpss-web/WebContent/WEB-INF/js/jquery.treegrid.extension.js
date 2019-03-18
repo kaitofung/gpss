@@ -48,7 +48,7 @@
         	        $.each(options.columns, function (index, column) {
         	            var td = $('<td></td>');
         	            if (column.formatter != null && column.formatter != undefined) {
-        	                td.html(column.formatter(item[column.field]));
+        	                td.html(column.formatter(item[column.field],item));
         	            } else {
         	                td.html(item[column.field]);
         	            }
@@ -79,7 +79,11 @@
                     var thr = $('<tr></tr>');
                     $.each(options.columns, function (i, item) {
                         var th = $('<th style="padding:10px;"></th>');
-                        th.text(item.title);
+                        if(checkHtml(item.title)) {
+                        	th.html(item.title);
+                        } else{
+                        	th.text(item.title);
+                        }
                         thr.append(th);
                     });
                     var thead = $('<thead></thead>');
@@ -106,7 +110,7 @@
                         $.each(options.columns, function (index, column) {
                             var td = $('<td></td>');
                             if (column.formatter != null && column.formatter != undefined) {
-                                td.html(column.formatter(item[column.field]));
+                                td.html(column.formatter(item[column.field],item));
                             } else {
                                 td.html(item[column.field]);
                             }
@@ -123,11 +127,15 @@
                     if (!options.expandAll) {
                         target.treegrid('collapseAll');
                     }
+                
                 }
             });
         }
         else {
             //也可以通过defaults里面的data属性通过传递一个数据集合进来对组件进行初始化....有兴趣可以自己实现，思路和上述类似
+        }
+        if (options.onLoadFinish != null) {
+        	options.onLoadFinish;
         }
         return target;
     };
@@ -138,6 +146,15 @@
         },
         //组件的其他方法也可以进行类似封装........
     };
+    
+    /**
+     * 字符串是否含有html标签的检测
+     * @param htmlStr
+     */
+    function checkHtml(htmlStr) {
+        var  reg = /<[^>]+>/g;
+        return reg.test(htmlStr);
+    }
 
     $.fn.treegridData.defaults = {
         id: 'Id',
@@ -151,6 +168,7 @@
         striped: false,   //是否各行渐变色
         bordered: false,  //是否显示边框
         columns: [],
+        onLoadFinish : null, //数据加载成功的回调
         expanderExpandedClass: 'glyphicon glyphicon-chevron-down',//展开的按钮的图标
         expanderCollapsedClass: 'glyphicon glyphicon-chevron-right'//缩起的按钮的图标
         
