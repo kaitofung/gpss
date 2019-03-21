@@ -2,6 +2,7 @@ package com.gpss.system.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -42,6 +43,11 @@ public class MenuServiceImpl implements IMenuService{
 	@Override
 	public boolean removeMenus(List<String> mids) {
 		return menuDao.doDeleteBeans(mids) == mids.size();
+	}
+
+	@Override
+	public List<Menu> getMenus(Map<String, Object> param) {
+		return menuDao.doGetBeans(param);
 	}
 	
 	

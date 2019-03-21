@@ -5,7 +5,33 @@
 	
 
 <select id="doGetBeans" resultType="com.lyyzoo.gpss.api.vo.Menu" parameterType="java.util.Map">
-	select mid, name, url, parent_mid parentId from menu
+SELECT m.mid,
+         name,
+         url,
+         parent_mid parentId,
+        menu_icon menuIcon,
+         max(if(mr.rid=
+    (SELECT rid
+    FROM role
+    WHERE role_code="admin"),"admin","")) admin, max(if(mr.rid=
+        (SELECT rid
+        FROM role
+        WHERE role_code="saler"),"saler","")) saler,max(if(mr.rid=
+            (SELECT rid
+            FROM role
+            WHERE role_code="storer"),"storer","")) storer,max(if(mr.rid=
+                (SELECT rid
+                FROM role
+                WHERE role_code="purchaser"),"purchaser","")) purchaser
+            FROM menu m
+        LEFT JOIN menu_role mr
+        ON m.mid = mr.mid 
+        WHERE true 
+		<if test="menuLevel != null &amp; menuLevel != &quot;&quot;">
+			and menu_level= #{menuLevel}
+		</if>
+ GROUP BY  m.mid
+
 </select>
 
 <delete id="doDeleteBeans" parameterType="list">

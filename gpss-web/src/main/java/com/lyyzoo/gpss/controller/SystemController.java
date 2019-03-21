@@ -79,6 +79,15 @@ public class SystemController extends AbstractController implements IMappingPara
 		return paramToMap("isSucceed",menuService.removeMenu(menu));
 	}
 	
+	@ResponseBody
+	@RequestMapping("/top_menus")
+	public Object getTopMenus() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("menuLevel", 1);
+		List<Menu> menus = menuService.getMenus(map);
+		return menus;
+	}
+	
 	
 
 	

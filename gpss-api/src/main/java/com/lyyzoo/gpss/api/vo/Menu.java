@@ -1,36 +1,39 @@
 package com.lyyzoo.gpss.api.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
 public class Menu {
+	@Setter
+	@Getter
 	private String mid;
+	@Setter
+	@Getter
 	private String name;
+	@Setter
+	@Getter
 	private String url;
-	@Override
-	public String toString() {
-		return "Menu [mid=" + mid + ", name=" + name + ", url=" + url + ", parentId=" + parentId + "]";
-	}
-	public String getMid() {
-		return mid;
-	}
-	public void setMid(String mid) {
-		this.mid = mid;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	public String getParentId() {
-		return parentId;
-	}
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
+	@Setter
+	@Getter
 	private String parentId;
+	@Setter
+	@Getter
+	private String menuIcon;
+	@Setter
+	@Getter
+	private String menuLevel;
+	@Setter
+	@Getter
+	private String admin;
+	@Setter
+	@Getter
+	private String storer;
+	@Setter
+	@Getter
+	private String purchaser;
+	@Setter
+	@Getter
+	private String saler;
 }

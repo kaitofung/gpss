@@ -29,7 +29,7 @@ public abstract class AbstractController implements IMappingParameter {
 		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 	}
 	
-	public void setAttribute(String attributeName, Object value) {
+	public void setRequestAttribute(String attributeName, Object value) {
 		getRequest().setAttribute(attributeName, value);
 	}
 	

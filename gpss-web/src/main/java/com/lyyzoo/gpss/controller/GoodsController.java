@@ -151,7 +151,7 @@ public class GoodsController extends AbstractController implements IMappingParam
 	@RequestMapping("/goodses")
 	public Object getGoodses(int pageSize, Long currentPage, String name) {
 		long goodsesCount = goodsService.getGoodsesCount(name);	
-		setAttribute("goodsesCount", goodsesCount);
+		setRequestAttribute("goodsesCount", goodsesCount);
 		return goodsService.getGoodses(pageSize, currentPage,name);
 	}
 	
@@ -170,7 +170,7 @@ public class GoodsController extends AbstractController implements IMappingParam
 	@RequestMapping("/goods_manage")
 	public Object goodsManage() {
 		long goodsesCount = goodsService.getGoodsesCount("");
-		setAttribute("goodsesCount", goodsesCount);
+		setRequestAttribute("goodsesCount", goodsesCount);
 		return "goods_manage";
 	}
 	
@@ -216,7 +216,7 @@ public class GoodsController extends AbstractController implements IMappingParam
 	@RequestMapping("/goods_specifications")
 	public Object getGoodsSpecifications(int pageSize, Long currentPage, String gspecificationType) {
 		long gspecificationCount = goodsService.getGoodsSpecificationsCount(gspecificationType);
-		setAttribute("gspecificationCount", gspecificationCount);
+		setRequestAttribute("gspecificationCount", gspecificationCount);
 		return goodsService.getGoodsSpecifications(pageSize, currentPage, gspecificationType);
 	}
 	

@@ -1,12 +1,10 @@
 package com.lyyzoo.gpss.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.Semaphore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gpss.common.utils.BeanUtils;
 import com.gpss.common.utils.CaptchaUtil;
 import com.gpss.common.utils.IMappingParameter;
+import com.lyyzoo.gpss.api.service.IMenuService;
 import com.lyyzoo.gpss.api.service.IUserService;
 import com.lyyzoo.gpss.api.vo.Employee;
+import com.lyyzoo.gpss.api.vo.Menu;
 import com.lyyzoo.gpss.api.vo.User;
 
 @Controller
@@ -28,6 +28,8 @@ import com.lyyzoo.gpss.api.vo.User;
 public class UserController extends AbstractController implements IMappingParameter {
 	@Resource
 	private IUserService userService;
+	@Resource
+	private IMenuService menuService;
 	
 	@ResponseBody
 	@RequestMapping("/tests")
@@ -84,7 +86,12 @@ public class UserController extends AbstractController implements IMappingParame
 	
 	@RequestMapping("/adminsystem")
 	public Object adminSystem() {
-		getRequest().setAttribute("role", "admin");
+		setRequestAttribute("role", "admin");
+		setRequestAttribute("role2", "");
+		List<Menu> menus = menuService.getMenus(paramToMap("menuLevel", 1));
+		List<Menu> menus2 = menuService.getMenus(paramToMap("menuLevel", 2));
+		setRequestAttribute("menus", menus);
+		setRequestAttribute("menus2", menus2);
 		return "adminsystem";
 	}
 	
@@ -178,8 +185,6 @@ public class UserController extends AbstractController implements IMappingParame
 		if(Objects.isNull(uid) || Objects.isNull(password) || Objects.isNull(newPassword) || Objects.isNull(newPasswordAgain)) {
 			return paramToMap("isSuccessful",false);
 		}
-		System.err.println(uid);
-		System.err.println(newPassword);
 		boolean isSuccessful = userService.modifyUserProfile(paramToMap("uid", uid ,"newPassword", newPassword)) > 0;
 		return paramToMap("isSuccessful",isSuccessful);
 	}

@@ -168,32 +168,35 @@ CREATE TABLE menu(
    name                 varchar(30)not null,
    url                 varchar(150),
    parent_mid              int ,
+   menu_level				int not null ,
+   menu_icon				varchar(80),
    CONSTRAINT pk_gid PRIMARY KEY (mid),
    CONSTRAINT fk_parent_mid FOREIGN KEY(parent_mid) REFERENCES menu(mid)
 ) engine='innodb' default charset=utf8;
-INSERT INTO `menu`( `name`, `url`) VALUES ( '菜单', '/gpss-web');
-INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '基础设置', 1);
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '商品管理', 2, '/goods/goods_manage');
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '仓库管理', 2, '/storage/storage_manage');
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '员工管理', 2, '/user/employee_manage');
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '基础参数', 2, '/goods/goods_param_manage');
-INSERT INTO `menu`( `name`,`parent_mid` ) VALUES ( '采购管理', 1);
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '供应商管理', 7, '/procurement/supplier_manage');
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '采购订单', 7, '/procurement/procurement_order');
-INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '销售管理', 1);
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '客户管理', 10, '/market/customer_manage');
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '销售订单', 10, '/market/marketing_order');
-INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '库存管理', 1);
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '库存查看', 13, '/storage/view_storage');
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '采购审核', 13, '/storage/procurement_check');
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '销售审核', 13, '/storage/marketing_check');
-INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '统计分析', 1);
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '采购统计', 17, '/statistics_analization/procurement_statistics');
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '销售统计', 17, '/statistics_analization/marketing_statistics');
-INSERT INTO `menu`( `name`,`parent_mid`) VALUES ( '系统管理', 1);
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '菜单管理', 20, '/system_manage/menu_manage');
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '角色管理', 20, '/system_manage/role_manage');
-INSERT INTO `menu`( `name`,`parent_mid`, url) VALUES ( '用户管理', 20, '/system_manage/user_manage');
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '菜单', '/gpss-web', NULL, 0, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '基础设置', NULL, 1, 1, 'fa fa-cog');
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '商品管理', '/goods/goods_manage', 2, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ('仓库管理', '/storage/storage_manage', 2, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '员工管理', '/user/employee_manage', 2, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '基础参数', '/goods/goods_param_manage', 2, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '采购管理', NULL, 1, 1, 'fa fa-money');
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '供应商管理', '/supplier/supplier_manage', 7, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '采购订单', '/purchase/purchase_orders_manage', 7, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '销售管理', NULL, 1, 1, 'fa fa-balance-scale');
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '客户管理', '/marketing_manage/client_manage', 10, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '销售订单', '/sales/sales_orders_manage', 10, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '库存管理', NULL, 1, 1, 'fa  fa-cubes');
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '库存查看', '/storage/summary', 13, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '采购审核', '/purchase/purchase_orders_audit', 13, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '销售审核', '/sales/sales_orders_audit', 13, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '统计分析', NULL, 1, 1, 'fa  fa-bar-chart-o');
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '采购统计', '/statistics_analization/procurement_statistics', 17, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '销售统计', '/statistics_analization/marketing_statistics', 17, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '系统管理', NULL, 1, 1, 'fa fa-cogs');
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '菜单管理', '/system_manage/menu_manage', 20, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '角色管理', '/system_manage/role_manage', 20, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '用户管理', '/user/user_manage', 20, 2, NULL);
+INSERT INTO `menu`( `name`, `url`, `parent_mid`, `menu_level`, `menu_icon`) VALUES ( '修改资料', '/user/modify_user_profile', 20, 2, NULL);
 
 
 drop table if exists role;
@@ -211,9 +214,10 @@ insert into role(name, role_code) values("仓储员","storer");
 insert into role(name, role_code) values("采购员","purchaser");
 
 drop table if exists role_menu;
-CREATE TABLE role_menu(
-   rid                 int not null , 
+drop table if exists menu_role;
+CREATE TABLE menu_role(
    mid                 int not null , 
+   rid                 int not null , 
  CONSTRAINT fk_mid FOREIGN KEY(mid) REFERENCES menu(mid),
  CONSTRAINT fk_rid FOREIGN KEY(rid) REFERENCES role(rid)
 ) engine='innodb' default charset=utf8;
