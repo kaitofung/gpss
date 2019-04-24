@@ -104,11 +104,10 @@ $(document).ready(function() {
      	          contentType: false,  
      	          processData: false,  
      	          success: function (data, status) {  
-  					console.log( data);
-  					console.log(status);
   					if(data.isSucceed) {
   						$('#editgoodsesModal').modal('hide');
   						showSuccess('编辑成功！');
+						$('#goods_manage_table').bootstrapTable('refresh');
   					}else{
   						showError('编辑失败！');
   					}

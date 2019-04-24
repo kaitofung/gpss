@@ -2,25 +2,34 @@
 <html>
 <head>
 <!-- Toast的样式 -->
-<link href="https://cdn.bootcss.com/toastr.js/latest/toastr.min.css"
+<link href="https://cdn.staticfile.org/toastr.js/latest/css/toastr.min.css"
 	rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>商品管理</title>
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- Toast的样式 -->
+<link
+	href="https://cdn.staticfile.org/toastr.js/latest/css/toastr.min.css"
+	rel="stylesheet">
+<link
+	href="http://cdn.staticfile.org/bootstrap-table/1.12.1/bootstrap-table.min.css"
+	rel="stylesheet">
 </head>
 <style type="text/css">
 .main-container {
 	padding: 20px
 }
 </style>
+
 <body class="main-container ">
-	<div class="form-inline">
+	<div id="goods_manage_toolbar" class="btn-group">
+			<div class="form-inline">
 		<div class="form-group">
-			<label for="goods_name">仓库名称</label> <input
+			<label for="goods_name">商品名称</label> <input
 				name="input_goodses_search_goods_manage"
 				id="input_goodses_search_goods_manage" type="text"
-				class="form-control" id="goods_name" placeholder="请输入要搜索的仓库名称">
+				class="form-control" id="goods_name" placeholder="请输入要搜索的商品名称">
 		</div>
 		<button id="btn_search_goodses"
 			url="${context}/goods/goodses/count" type="button"
@@ -37,8 +46,10 @@
 			<span class="glyphicon glyphicon-minus"></span> 删除
 		</button>
 	</div>
+	</div>
 
-	<table class="table table-bordered">
+
+<!-- 	<table class="table table-bordered">
 		<caption></caption>
 		<thead>
 			<tr class="info">
@@ -56,10 +67,14 @@
 		</thead>
 		<tbody id="itemContainer_goodses" class="itemContainer_goodses">
 		</tbody>
-	</table>
+	</table> -->
+	
+		<table id="goods_manage_table"
+		url="${context}/goods/goodses"
+		data-mobile-responsive="true" class="mb-bootstrap-table text-nowrap"></table>
 
 	<!-- 分页组件 -->
-	<div class="row">
+<!-- 	<div class="row">
 		<div class="col-sm-5 pagination" style="padding-left: 15px;">
 			<div style="display: inline;" role="status" aria-live="polite">共
 				${Request.goodsesCount!'0'}项记录,</div>
@@ -70,7 +85,7 @@
 						<option value="10">10</option>
 						<option value="20">20</option>
 						<option value="50">50</option>
-						<!-- <option value="-1">全部</option> -->
+						<option value="-1">全部</option>
 				</select>
 				</label>记录/页
 			</div>
@@ -93,13 +108,17 @@
 			<ul class="pagination" id="pagination_goodses"></ul>
 			</nav>
 		</div>
-	</div>
-
-
+	</div> -->
 	<!-- 添加仓库弹出框 -->
 	<#include "/goods_manage_goods_create_diolog.ftl"> 
 	<!-- 仓库信息编辑弹出框 -->
 	<#include "/goods_manage_goods_edit_diolog.ftl"> 
+
+
+		<script src="../js/bootstrap-table.min.js"></script>
+	<script src="../js/bootstrap-table-zh-CN.min.js"></script>
+	<script
+		src="https://cdn.staticfile.org/toastr.js/latest/js/toastr.min.js"></script>
 	<script
 		src="${base}/js/base.js"></script>
 	<script

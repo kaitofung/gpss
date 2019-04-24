@@ -63,8 +63,6 @@ $(document).ready(function() {
 				eid : eid,
 				etypeid : etypeid
      		},function(data,status){
-					console.log( data);
-					console.log(status);
 					if(data.isSucceed) {
 						$('#editEmployeeModal').modal('hide');
 						$('#employee_manage_table').bootstrapTable('refresh');

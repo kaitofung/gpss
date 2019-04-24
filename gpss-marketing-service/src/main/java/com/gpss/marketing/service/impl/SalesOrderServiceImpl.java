@@ -42,4 +42,9 @@ public class SalesOrderServiceImpl extends AbstractService implements ISalesOrde
 	public boolean modifySalesOrder(SalesOrder salesOrder) {
 		return salesOrderDao.doUpdateBean(salesOrder) > 0;
 	}
+
+	@Override
+	public boolean modifySalesOrder(List<String> sids) {
+		return salesOrderDao.doReturnsSalesOrders(sids) == sids.size();
+	}
 }

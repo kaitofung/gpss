@@ -9,8 +9,7 @@
 </head>
 <body>
 	<!-- 模态框（Modal） -->
-	<div class="modal fade" 
-		url="${context}/purchase/purchase_order_modify"
+	<div class="modal fade" url="${context}/purchase/purchase_order_modify"
 		id="editPurchaseOrderModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true" poid="">
 		<div class="modal-dialog" style="min-width: 700px;">
@@ -21,9 +20,9 @@
 					<h4 class="modal-title" id="myModalLabel">编辑采购订单</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal form-label-left" id="edit_purchase_order_form"
-						novalidate="novalidate" enctype="multipart/form-data"
-						name="edit_client_form">
+					<form class="form-horizontal form-label-left"
+						id="edit_purchase_order_form" novalidate="novalidate"
+						enctype="multipart/form-data" name="edit_client_form">
 						<div class="item form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="">商品名称：
 								<span class="required" aria-required="true">*</span>
@@ -83,8 +82,8 @@
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input id="input_goods_count_purchase_order_edit"
 									class="form-control col-md-7 col-xs-12"
-									name="input_goods_count_purchase_order_edit" placeholder="请输入商品数量"
-									type="number" value="" linkage="money">
+									name="input_goods_count_purchase_order_edit"
+									placeholder="请输入商品数量" type="number" value="" linkage="money">
 							</div>
 						</div>
 						<div class="item form-group">
@@ -92,10 +91,11 @@
 								<span class="required" aria-required="true">*</span>
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<input  id="input_goods_price_purchase_order_edit" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" 
+								<input id="input_goods_price_purchase_order_edit"
+									onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"
 									class="form-control col-md-7 col-xs-12"
-									name="input_goods_price_purchase_order_edit" placeholder="请输入商品单价"
-									type="text" value="" linkage="money">
+									name="input_goods_price_purchase_order_edit"
+									placeholder="请输入商品单价" type="text" value="" linkage="money">
 							</div>
 						</div>
 						<div class="item form-group">
@@ -106,7 +106,7 @@
 								<input id="input_goods_sum_purchase_order_edit"
 									class="form-control col-md-7 col-xs-12"
 									name="input_goods_sum_purchase_order_edit" placeholder="请输入总价"
-									type="text" value="0"  readonly="true" >
+									type="text" value="0" readonly="true">
 							</div>
 						</div>
 						<div class="item form-group">
@@ -117,20 +117,21 @@
 								<textarea id="input_appendix_purchase_order_edit"
 									class="form-control col-md-7 col-xs-12"
 									name="input_appendix_purchase_order_edit" placeholder="请输入订单备注"
-									type="text"  />
+									type="text" />
 							</div>
 						</div>
 						<div class="ln_solid"></div>
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-3">
-								<!-- <button type="submit" class="btn btn-primary">Cancel</button> -->
-								<button id="summit_purchase_order_edit" class="btn btn-success"
-									type="button">提交</button>
-							</div>
-						</div>
 					</form>
 				</div>
-				<div class="modal-footer"></div>
+				<div class="modal-footer">
+					<div class="form-group">
+						<div class="">
+							<button id="summit_purchase_order_edit" class="btn btn-success"
+								type="button">提交</button>
+							<button data-dismiss="modal" class="btn btn-info" type="button">取消</button>
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- /.modal-content -->
 		</div>

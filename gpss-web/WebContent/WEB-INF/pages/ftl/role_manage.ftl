@@ -2,10 +2,10 @@
 <html>
 <head>
 <!-- Toast的样式 -->
-<link href="https://cdn.bootcss.com/toastr.js/latest/toastr.min.css"
+<link href="https://cdn.staticfile.org/toastr.js/latest/css/toastr.min.css"
 	rel="stylesheet">
 <link
-	href="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.css"
+	href="http://cdn.staticfile.org/bootstrap-table/1.12.1/bootstrap-table.min.css"
 	rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>角色管理</title>
@@ -20,19 +20,19 @@
 <body class="main-container ">
 	<div class="panel-body" style="padding-bottom: 0px;">
 
-		<div id="toolbar" class="btn-group">
+		<div id="role_manage_toolbar" class="btn-group">
 			<div class="form-inline">
-				<button disabled="true" data-toggle="modal" data-target="#createClientModal" id="btn_add" type="button" class="btn btn-default btn-info">
+<!-- 				<button disabled="true" data-toggle="modal" data-target="#createClientModal" id="btn_add" type="button" class="btn btn-default btn-info">
 					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
 				</button>
 				<button disabled="true" url="${context}/marketing_manage/delete/client_delete" id="btn_delete_role_manage" type="button"
 					class="btn btn-default btn-danger">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
-				</button>
+				</button> -->
 			 <input name="input_name_search_role_manage"
 					id="input_name_search_role_manage" type="text"
-					class="form-control" placeholder="请输入要查询的角色编码"> </input>
-				<button id="btn_search_client" type="button"
+					class="form-control" placeholder="请输入角色编码"> </input>
+				<button id="btn_search_role" type="button"
 					class="btn btn-default btn-primary">
 					<span class="glyphicon glyphicon-search"></span> 查询
 				</button>

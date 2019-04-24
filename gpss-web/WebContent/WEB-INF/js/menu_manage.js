@@ -38,10 +38,12 @@
 	    	 var editbtn = "";
 	    	 var createbtn = "";
 	    	 var deletebtn = "";
-	     		 editbtn = "<button  data-toggle='modal' data-target='#editMenuModal' edit_btn_mid='"+ mid + "' type='button' class=' btn btn-default btn-info btn-xs fa fa-edit 'style='margin: 2px'>编辑</button>";
-	     		 deletebtn = "<button menuUrl='"+row.url+"' menuName='"+row.name+"' data-toggle='modal' data-target='#removeMenuModal' remove_btn_mid='"+ mid + "' type='button' class=' btn btn-default btn-danger btn-xs fa fa-remove 'style='margin: 2px'>删除</button>";
+	    	 if("菜单" != row.name) {
+	    		 editbtn = "<button  data-toggle='modal' data-target='#editMenuModal' edit_btn_mid='"+ mid + "' type='button' class=' btn btn-default btn-info btn-xs fa fa-edit 'style='margin: 2px'>编辑</button>";
+	    		 deletebtn = "<button menuUrl='"+row.url+"' menuName='"+row.name+"' data-toggle='modal' data-target='#removeMenuModal' remove_btn_mid='"+ mid + "' type='button' class=' btn btn-default btn-danger btn-xs fa fa-remove 'style='margin: 2px'>删除</button>";
+	    	 }
 	    		 if(row.url == null || row.url ==""){
-	    		 createbtn = "<button  create_btn_parentId='" + row.mid + "' data-toggle='modal' data-target='#createMenuModal' create_btn_mid='"+ "" + "' type='button' class=' btn btn-default btn-primary btn-xs fa fa-plus 'style='margin: 2px'>添加</button>";
+	    		 createbtn = "<button  menu_level='" + row.menuLevel + "' create_btn_parentId='" + row.mid + "' data-toggle='modal' data-target='#createMenuModal' create_btn_mid='"+ "" + "' type='button' class=' btn btn-default btn-primary btn-xs fa fa-plus 'style='margin: 2px'>添加</button>";
 	    	 } 
 		        var result = "";
 	    		result += editbtn;
@@ -75,6 +77,8 @@
 	    function setOnCreateClickLister() {
 	    	$('body').on('click','[create_btn_parentId]',function(){
 	    		var parentId = $(this).attr("create_btn_parentId");
+	    		var menu_level = $(this).attr("menu_level");
+	    		$("#createMenuModal").attr("menuLevel",menu_level);
 	    		$("#createMenuModal").attr("parentId",parentId);
 	    	});
 	    }

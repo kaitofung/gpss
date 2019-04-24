@@ -21,7 +21,7 @@
 					<h4 class="modal-title" id="myModalLabel">采购订单审核</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal form-label-left" id="edit_purchase_order_form"
+					<form class="form-horizontal form-label-left" id="edit_purchase_order_form_audit"
 						novalidate="novalidate" enctype="multipart/form-data"
 						name="edit_client_form">
 						<div class="item form-group">
@@ -49,16 +49,17 @@
 							</div>
 						</div>
 						<div class="ln_solid"></div>
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-3">
-								<!-- <button type="submit" class="btn btn-primary">Cancel</button> -->
-								<button id="summit_purchase_order_edit" class="btn btn-success"
-									type="button">提交</button>
-							</div>
-						</div>
 					</form>
 				</div>
-				<div class="modal-footer"></div>
+				<div class="modal-footer">
+						<div class="form-group">
+						<div class="">
+							<button id="summit_purchase_order_edit_audit" class="btn btn-success"
+								type="button">提交</button>
+							<button data-dismiss="modal" class="btn btn-info" type="button">取消</button>
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- /.modal-content -->
 		</div>

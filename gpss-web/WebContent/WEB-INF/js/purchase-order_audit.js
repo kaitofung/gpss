@@ -11,15 +11,15 @@ $(document).ready(function(){
 	var storageId = null;
 	var createrName = null;
 	var createdTime = null;
-	var url = $('#purchase_order_table').attr("url");
-	$('#purchase_order_table').bootstrapTable({
+	var url = $('#purchase_order_table_audit').attr("url");
+	$('#purchase_order_table_audit').bootstrapTable({
 		method : 'get', // 服务器数据的请求方式 get or post
 		url : url, // 服务器数据的加载地址
 		striped : true, //是否显示行间隔色
-		toolbar : "#toolbar", //toolbar
+		toolbar : "#purchase_order_audit_toolbar", //toolbar
 		cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pagination : true, //是否显示分页（*）
-		sortable : true, //是否启用排序
+		sortable : false, //是否启用排序
 		//sortName : 'createTime',
 		sidePagination : "server", //分页方式：client客户端分页，server服务端分页（*）
 		pageNumber : 1, //初始化加载第一页，默认第一页
@@ -80,37 +80,37 @@ $(document).ready(function(){
 		}, {
 			field : 'supplierName',
 			title : '供应商名称',
-			sortable : true
+			sortable : false
 		}
 		, {
 			field : 'storageName',
-			sortable : true,
+			sortable : false,
 			title : '仓库名称'
 		} 
 		, {
 			field : 'num',
-			sortable : true,
+			sortable : false,
 			title : '数量'
 		} 
 		, {
 			field : 'price',
-			sortable : true,
+			sortable : false,
 			title : '单价'
 		} 
 		, {
 			field : 'sum',
-			sortable : true,
+			sortable : false,
 			title : '总价'
 		} 
 		, {
 			field : 'auditStatusName',
-			sortable : true,
+			sortable : false,
 			title : '审核状态',
 			formatter:auditStatusNameFormatter
 		} 
 		, {
 			field : 'createdtime',
-			sortable : true,
+			sortable : false,
 			title : '创建时间',
 			formatter: updatedTimeFormatter
 		} 
@@ -132,7 +132,15 @@ $(document).ready(function(){
     function setOnEditClickLister() {
     	$("[btn_purchase_order_audit_poid]").click(function(){
     		var poid = $(this).attr("btn_purchase_order_audit_poid");
+    		var num = $(this).attr("num");
+    		var gid = $(this).attr("gid");
+    		var gspecificationId = $(this).attr("gspecificationId");
+    		var storageId = $(this).attr("storageId");
     		$("#editPurchaseOrderAuditModal").attr("poid",poid);
+    		$("#editPurchaseOrderAuditModal").attr("num",num);
+    		$("#editPurchaseOrderAuditModal").attr("gspecificationId",gspecificationId);
+    		$("#editPurchaseOrderAuditModal").attr("storageId",storageId);
+    		$("#editPurchaseOrderAuditModal").attr("gid",gid);
     	});
     }
     
@@ -140,7 +148,7 @@ $(document).ready(function(){
     function actionFormatter(value, row, index) {
         var id = value;
         var result = "";
-        result += "<a btn_purchase_order_audit_poid='" + id + "' data-toggle='modal' data-target='#editPurchaseOrderAuditModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+        result += "<a storageId='"+row.storageId+"' gspecificationId='"+ row.purchaseOrderGspecificationId +"' gid='" + row.purchaseOrderGid + "' num='" + row.num + "' btn_purchase_order_audit_poid='" + id + "' data-toggle='modal' data-target='#editPurchaseOrderAuditModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
         return result;
     }
     
@@ -182,7 +190,6 @@ $(document).ready(function(){
 						createrName : createrName
     				},
     				    function(result,status){
-    					  log("download...");
     				   }
     		);
     	});
@@ -219,7 +226,7 @@ $(document).ready(function(){
 
 	// 搜索方法
 	function search() {
-		$('#purchase_order_table').bootstrapTable('refresh');
+		$('#purchase_order_table_audit').bootstrapTable('refresh');
 		setOutputUrl();
 	}
 	
@@ -229,8 +236,8 @@ $(document).ready(function(){
 		search();
 	}
 	
-	$("#btn_search_client").click(function(){
-		$('#purchase_order_table').bootstrapTable('refresh');
+	$("#btn_search_purchase_order_audit").click(function(){
+		$('#purchase_order_table_audit').bootstrapTable('refresh');
 	});
 	
 	//获取仓库列表数据
@@ -240,7 +247,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				    function(result,status){
-					   var html = "<option value=''>请选择要查询的仓库</option>";
+					   var html = "<option value=''>请选择仓库</option>";
 					   select.empty();
 					   if(result != null) {
 						   for(i = 0; i <result.length; i++){
@@ -260,7 +267,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value>请选择要查询的供应商</option>";
+					var html = "<option value>请选择供应商</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -280,7 +287,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value>请选择要查询的订单的审核状态</option>";
+					var html = "<option value>请选择订单的审核状态</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -299,7 +306,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value>请选择要查询的供应商</option>";
+					var html = "<option value>请选择供应商</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -313,7 +320,7 @@ $(document).ready(function(){
 	}
 	
 	$("#btn_delete_client_manage").click(function(){
-		var items = $('#purchase_order_table').bootstrapTable("getSelections");
+		var items = $('#purchase_order_table_audit').bootstrapTable("getSelections");
 		var cids = new Array();
 		for(i = 0; i < items.length; i ++){
 			cids[i] = (items[i].cid) ;
@@ -326,7 +333,7 @@ $(document).ready(function(){
 		   },
 		    function(status,result){
 			   if(status.isSucceed == true) {
-					$('#purchase_order_table').bootstrapTable('refresh');
+					$('#purchase_order_table_audit').bootstrapTable('refresh');
 					toastr.success('删除成功');
 			   }else {
 				   toastr.error('删除失败');

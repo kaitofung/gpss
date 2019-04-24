@@ -1,5 +1,6 @@
 package com.lyyzoo.gpss.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,11 @@ import java.util.Objects;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,10 +24,13 @@ import com.gpss.common.utils.BeanUtils;
 import com.gpss.common.utils.CaptchaUtil;
 import com.gpss.common.utils.IMappingParameter;
 import com.lyyzoo.gpss.api.service.IMenuService;
+import com.lyyzoo.gpss.api.service.IRoleService;
 import com.lyyzoo.gpss.api.service.IUserService;
 import com.lyyzoo.gpss.api.vo.Employee;
 import com.lyyzoo.gpss.api.vo.Menu;
+import com.lyyzoo.gpss.api.vo.Role;
 import com.lyyzoo.gpss.api.vo.User;
+import com.lyyzoo.gpss.api.vo.UsersDataItem;
 
 @Controller
 @RequestMapping("/user")
@@ -30,12 +39,8 @@ public class UserController extends AbstractController implements IMappingParame
 	private IUserService userService;
 	@Resource
 	private IMenuService menuService;
-	
-	@ResponseBody
-	@RequestMapping("/tests")
-	public Object test() {
-		return "It works!!";
-	}
+	@Resource
+	private IRoleService roleService;
 	
 	@ResponseBody
 	@RequestMapping("/admin")
@@ -43,13 +48,44 @@ public class UserController extends AbstractController implements IMappingParame
 		return "admin";
 	}
 	
+	@ResponseBody
+	@RequestMapping("/roles")
+	public Object roles() {
+		List<Role> list = roleService.getRoles(null, Integer.MAX_VALUE, 1L);
+		return list;
+	}
+	
+	
 	@RequestMapping("/login")
-	public Object login() {
+	public Object login(String loginTag) {
+		getRequest().getSession().setAttribute("loginTag", this.hashCode());
 		return "login";
 	}
 	
+	@RequestMapping("/logining")
+	public Object logining(String uid, String password, HttpServletResponse response) {
+		System.err.println(uid+"   " + password);
+		AuthenticationToken token = new UsernamePasswordToken(uid,password);
+		try {
+			SecurityUtils.getSubject().login(token);
+			setRequestAttribute("role", "admin");
+			setRequestAttribute("role2", "");
+			List<Menu> menus = menuService.getMenus(paramToMap("menuLevel", 1));
+			List<Menu> menus2 = menuService.getMenus(paramToMap("menuLevel", 2));
+			setRequestAttribute("menus", menus);
+			setRequestAttribute("menus2", menus2);
+			return "/adminsystem";
+		} catch (Exception e) {
+			e.printStackTrace();
+			getRequest().setAttribute("error", e);
+			return "login";
+		}
+	}
+	
+	
 	@RequestMapping("/welcome")
 	public Object welcome() {
+		System.err.println(getRequest().getSession().getAttribute("user"));
 		return "welcome";
 	}
 	
@@ -86,7 +122,8 @@ public class UserController extends AbstractController implements IMappingParame
 	
 	@RequestMapping("/adminsystem")
 	public Object adminSystem() {
-		setRequestAttribute("role", "admin");
+		User user =  (User) getRequest().getSession().getAttribute("user");
+		setRequestAttribute("role", user.getRoleCode());
 		setRequestAttribute("role2", "");
 		List<Menu> menus = menuService.getMenus(paramToMap("menuLevel", 1));
 		List<Menu> menus2 = menuService.getMenus(paramToMap("menuLevel", 2));
@@ -150,9 +187,60 @@ public class UserController extends AbstractController implements IMappingParame
 	}
 	
 	@ResponseBody
+	@RequestMapping("/create/user_data_items")
+	public Object createUserDataItem(UsersDataItem userDataItem) {
+		List<Employee> employees = userService.getEmployees(1, 1L, userDataItem.getRealName(), null);
+		Employee employee  =  (employees != null) && employees.size() > 0 ? employees.get(0) : null;
+		Map<String, Object> responseData = paramToMap("isSucceed", false);
+		if(employee == null) {
+			responseData.put("resultMessage", "入职员工没有此员工");
+			return responseData;
+		}
+		User user = new User();
+		user.setEid(employee.getEid());
+		user.setLocked(0);
+		user.setUid(userDataItem.getUid());
+		user.setName(userDataItem.getNickName());
+		user.setPassword(userDataItem.getPassword());
+		user.setName(userDataItem.getNickName());
+		user.setUpdatedTime(new Date());
+		boolean addUserFlag = userService.addUser(user);
+		boolean addUserRoleFlag = false;
+		if(addUserFlag) {
+			addUserRoleFlag = userService.addUserRole(userDataItem);
+			return paramToMap("isSucceed", addUserRoleFlag);
+		}
+		return paramToMap("isSucceed", addUserFlag);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/edit/user_data_items")
+	public Object editUserDataItem(UsersDataItem userDataItem) {
+		User user = new User();
+		user.setUid(userDataItem.getUid());
+		user.setName(userDataItem.getNickName());
+		user.setPassword(userDataItem.getPassword());
+		user.setName(userDataItem.getNickName());
+		user.setUpdatedTime(new Date());
+		
+		boolean editUserFlag = userService.modifyUser(user);
+		boolean editUserRoleFlag = false;
+		if(editUserFlag) {
+			editUserRoleFlag = userService.modifyUserRole(userDataItem);
+			return paramToMap("isSucceed", editUserRoleFlag);
+		}
+		return paramToMap("isSucceed", editUserFlag);
+	}
+	
+	@ResponseBody
 	@RequestMapping("/user_data_items")
-	public Object userDataItems(int pageSize , Long currentPage) {
-		return userService.getUsersDataItem(pageSize, currentPage);
+	public Object userDataItems(int pageSize , Long currentPage, UsersDataItem userDataItem) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> params = BeanUtils.beanToMap(userDataItem);
+		map.put("total", userService.getUsersDataItemCount(params));
+		List<UsersDataItem> list = userService.getUsersDataItem(BeanUtils.beanToMap(userDataItem), pageSize, currentPage);
+		map.put("rows", list);
+		return map;
 	}
 	
 	@ResponseBody

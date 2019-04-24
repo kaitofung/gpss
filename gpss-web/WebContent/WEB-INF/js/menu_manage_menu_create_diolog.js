@@ -31,11 +31,13 @@ $(document).ready(function() {
     		var url = $("#createMenuModal").attr("url");
     		var param_url = $("#menu_url_input_create").val();
     		var name = $("#menu_name_input_create").val();
-    		var parentId = $("#createMenuModal").attr("parentId")
+    		var parentId = $("#createMenuModal").attr("parentId");
+    		var menuLevel = $("#createMenuModal").attr("menuLevel");
      		$.post(url,  {
 				name : name,
 				url : param_url,
-				parentId: parentId
+				parentId: parentId,
+				menuLevel: parseInt(menuLevel) + 1
      		},function(data,status){
 					if(data.isSucceed) {
 						$('#createMenuModal').modal('hide');

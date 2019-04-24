@@ -62,6 +62,7 @@ $(document).ready(function() {
      	          success: function (data, status) {  
   					if(data.isSucceed) {
   						$('#editgoods_paramesModal').modal('hide');
+  						$('#goods_param_manage_table').bootstrapTable('refresh');
   						showSuccess('编辑成功！');
   					}else{
   						showError('编辑失败！');

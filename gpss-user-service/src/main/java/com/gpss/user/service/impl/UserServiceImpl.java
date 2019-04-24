@@ -78,7 +78,7 @@ public class UserServiceImpl extends AbstractService implements IUserService,IMa
 	
 	@Override
 	public long getAllUserDataItemCount() {
-		return userDao.doGetUsersDataItemCount();
+		return userDao.doGetUsersDataItemCount(null);
 	}
 
 	@Override
@@ -132,6 +132,36 @@ public class UserServiceImpl extends AbstractService implements IUserService,IMa
 	@Override
 	public boolean removeEmployees(List<String> eids) {
 		return userDao.doRemoveEmployees(eids) == eids.size();
+	}
+
+	@Override
+	public List<UsersDataItem> getUsersDataItem(Map<String, Object> params) {
+		return userDao.doGetUsersDataItems(params);
+	}
+
+	@Override
+	public List<UsersDataItem> getUsersDataItem(Map<String, Object> params, int pageSize, Long currentPage) {
+		return getUsersDataItem(queryData(params, pageSize, currentPage));
+	}
+
+	@Override
+	public Integer getUsersDataItemCount(Map<String, Object> params) {
+		return (int) userDao.doGetUsersDataItemCount(params);
+	}
+
+	@Override
+	public boolean modifyUser(User user) {
+		return userDao.doUpdateBean(user) > 0;
+	}
+
+	@Override
+	public boolean addUserRole(UsersDataItem userDataItem) {
+		return userDao.doAddRole(userDataItem) > 0;
+	}
+
+	@Override
+	public boolean modifyUserRole(UsersDataItem userDataItem) {
+		return userDao.doEditRole(userDataItem) > 0;
 	}
 
 }

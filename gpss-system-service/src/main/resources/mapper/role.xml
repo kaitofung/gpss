@@ -9,18 +9,44 @@
 		SELECT r.rid, concat_ws(",", (
 		SELECT name
 		FROM menu
-		WHERE mid = SUM(if(rm.mid
-		= 1, rm.mid, NULL))
+		WHERE mid = SUM(if(mr.mid
+		= 1, mr.mid, NULL))
 		), (
 		SELECT name
 		FROM menu
-		WHERE mid = SUM(if(rm.mid = 2, rm.mid, NULL))
-		)) AS menuList
+		WHERE mid = SUM(if(mr.mid = 2, mr.mid, NULL))
+		)
+		, (
+		SELECT name
+		FROM menu
+		WHERE mid = SUM(if(mr.mid = 7, mr.mid, NULL))
+		)
+		, (
+		SELECT name
+		FROM menu
+		WHERE mid = SUM(if(mr.mid = 10, mr.mid, NULL))
+		)
+		, (
+		SELECT name
+		FROM menu
+		WHERE mid = SUM(if(mr.mid = 13, mr.mid, NULL))
+		)
+		, (
+		SELECT name
+		FROM menu
+		WHERE mid = SUM(if(mr.mid = 17, mr.mid, NULL))
+		)
+		, (
+		SELECT name
+		FROM menu
+		WHERE mid = SUM(if(mr.mid = 20, mr.mid, NULL))
+		)
+		) AS menuList
 		, r.name, description, role_code AS roleCode, created_time AS
 		createdTime
 		FROM role r
-		LEFT JOIN role_menu rm ON r.rid = rm.rid
-		LEFT JOIN menu m ON m.mid = rm.mid where true 
+		LEFT JOIN menu_role mr ON r.rid = mr.rid
+		LEFT JOIN menu m ON m.mid = mr.mid where true 
 		<if test="roleCode != null &amp; roleCode != &quot;&quot;">
 			and role_code like CONCAT(CONCAT('%',#{roleCode}),'%')
 		</if>
@@ -32,18 +58,44 @@
 			SELECT r.rid rid, concat_ws(",", (
 		SELECT name
 		FROM menu
-		WHERE mid = SUM(if(rm.mid
-		= 1, rm.mid, NULL))
+		WHERE mid = SUM(if(mr.mid
+		= 1, mr.mid, NULL))
 		), (
 		SELECT name
 		FROM menu
-		WHERE mid = SUM(if(rm.mid = 2, rm.mid, NULL))
-		)) AS menuList
+		WHERE mid = SUM(if(mr.mid = 2, mr.mid, NULL))
+		)
+		, (
+		SELECT name
+		FROM menu
+		WHERE mid = SUM(if(mr.mid = 7, mr.mid, NULL))
+		)
+		, (
+		SELECT name
+		FROM menu
+		WHERE mid = SUM(if(mr.mid = 10, mr.mid, NULL))
+		)
+		, (
+		SELECT name
+		FROM menu
+		WHERE mid = SUM(if(mr.mid = 13, mr.mid, NULL))
+		)
+		, (
+		SELECT name
+		FROM menu
+		WHERE mid = SUM(if(mr.mid = 17, mr.mid, NULL))
+		)
+		, (
+		SELECT name
+		FROM menu
+		WHERE mid = SUM(if(mr.mid = 20, mr.mid, NULL))
+		)
+		) AS menuList
 		, r.name, description, role_code AS roleCode, created_time AS
 		createdTime
 		FROM role r
-		LEFT JOIN role_menu rm ON r.rid = rm.rid
-		LEFT JOIN menu m ON m.mid = rm.mid where true 
+		LEFT JOIN menu_role mr ON r.rid = mr.rid
+		LEFT JOIN menu m ON m.mid = mr.mid where true 
 		<if test="roleCode != null &amp; roleCode != &quot;&quot;">
 			and r.role_code like CONCAT(CONCAT('%',#{roleCode}),'%')
 		</if>

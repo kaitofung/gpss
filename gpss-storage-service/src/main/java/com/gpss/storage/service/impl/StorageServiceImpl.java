@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.gpss.common.utils.BeanUtils;
 import com.gpss.common.utils.IMappingParameter;
 import com.gpss.storage.service.dao.IStorageDao;
 import com.gpss.storage.service.dao.IStorageRecordDao;
@@ -90,6 +91,26 @@ public class StorageServiceImpl extends AbstractService implements IStorageServi
 	@Override
 	public int editStorageRecord(StorageRecord storageRecord) {
 		return (int) storageRecordDao.doUpdateBean(storageRecord);
+	}
+
+	@Override
+	public boolean createStorageRecord(StorageRecord storageRecord) {
+		return storageRecordDao.doCreateBean(storageRecord) > 0;
+	}
+
+	@Override
+	public List<StorageRecord> getSimpleStorageRecord(Map<String, Object> params) {
+		return storageRecordDao.doGetSimpleBean(params);
+	}
+
+	@Override
+	public List<StorageRecord> getSimpleStorageRecord(StorageRecord storageRecord) {
+		return storageRecordDao.doGetSimpleBean(BeanUtils.beanToMap(storageRecord));
+	}
+
+	@Override
+	public boolean modifyStorageCount(StorageRecord storageRecord) {
+		return storageRecordDao.doUpdateStorageCount(BeanUtils.beanToMap(storageRecord)) >0;
 	}
 
 	

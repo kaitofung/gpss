@@ -1,6 +1,8 @@
 package com.lyyzoo.gpss.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gpss.common.utils.IMappingParameter;
 import com.lyyzoo.gpss.api.service.ISupplierService;
+import com.lyyzoo.gpss.api.vo.Goods;
 import com.lyyzoo.gpss.api.vo.Supplier;
 
 @Controller
@@ -24,7 +27,12 @@ public class SupplierController extends AbstractController implements IMappingPa
 	public Object getSuppliers(int pageSize, Long currentPage, String name) {
 		int suppliersCount = supplierService.getSuppliersCount(name);
 		getRequest().setAttribute("suppliersCount", suppliersCount);
-		return supplierService.getSuppliersByName(pageSize, currentPage, name);
+		setRequestAttribute("suppliersCount", suppliersCount);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total", suppliersCount);
+		List<Supplier> list = supplierService.getSuppliersByName(pageSize, currentPage, name);
+		map.put("rows", list);
+		return map;
 	}
 	
 	@ResponseBody

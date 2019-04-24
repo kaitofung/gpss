@@ -43,7 +43,7 @@
 								<input id="employee_mobile_input_create"
 									class="form-control col-md-7 col-xs-12"
 									name="employee_mobile_input_create" placeholder="请输入员工电话号码"
-									type="text" value="13565447890">
+									type="text" >
 							</div>
 						</div>
 						<div class="item form-group">
@@ -79,16 +79,18 @@
 							</div>
 						</div>
 						<div class="ln_solid"></div>
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-3">
-								<!-- <button type="submit" class="btn btn-primary">Cancel</button> -->
-								<button id="summit_employee_create" class="btn btn-success"
-									type="button">提交</button>
-							</div>
-						</div>
 					</form>
 				</div>
-				<div class="modal-footer"></div>
+				<div class="modal-footer">
+					<div class="form-group">
+						<div >
+							<button id="summit_employee_create" class="btn btn-success"
+								type="button">提交</button>
+							<button data-dismiss="modal" class="btn btn-info"
+								type="button">取消</button>
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- /.modal-content -->
 		</div>

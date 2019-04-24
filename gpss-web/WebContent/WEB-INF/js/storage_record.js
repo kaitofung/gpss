@@ -6,10 +6,10 @@ $(document).ready(function(){
 		method : 'get', // 服务器数据的请求方式 get or post
 		url : url, // 服务器数据的加载地址
 		striped : true, //是否显示行间隔色
-		toolbar : "#toolbar", //toolbar
+		toolbar : "#toolbar_storage_record", //toolbar
 		cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pagination : true, //是否显示分页（*）
-		sortable : true, //是否启用排序
+		sortable : false, //是否启用排序
 		//sortName : 'createTime',
 		sidePagination : "server", //分页方式：storage_record客户端分页，server服务端分页（*）
 		pageNumber : 1, //初始化加载第一页，默认第一页
@@ -56,37 +56,37 @@ $(document).ready(function(){
 		}, {
 			field : 'storageName',
 			title : '仓库名称',
-			sortable : true
+			sortable : false
 		}, 
 		 {
 			field : 'storageCount',
 			title : '库存量',
-			sortable : true
+			sortable : false
 		},
 		{
 			field : 'salesCount',
 			title : '销售量',
-			sortable : true
+			sortable : false
 		},
 		{
 			field : 'avgPurchasePrice',
 			title : '平均进价',
-			sortable : true
+			sortable : false
 		},
 		{
 			field : 'preditedPrice',
 			title : '预设售价',
-			sortable : true
+			sortable : false
 		},
 		{
 			field : 'storageSumValue',
 			title : '库存总值',
-			sortable : true
+			sortable : false
 		},
 		{
 			field : 'salesSumValue',
 			title : '销售总值',
-			sortable : true
+			sortable : false
 		},
 		 {
 			field : 'srid',
@@ -134,7 +134,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				    function(result,status){
-					   var html = "<option value>请选择要查询的仓库</option>";
+					   var html = "<option value>请选择仓库</option>";
 					   select.empty();
 					   if(result != null) {
 						   for(i = 0; i <result.length; i++){

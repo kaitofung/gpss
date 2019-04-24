@@ -4,10 +4,10 @@ $(document).ready(function(){
 		method : 'get', // 服务器数据的请求方式 get or post
 		url : url, // 服务器数据的加载地址
 		striped : true, //是否显示行间隔色
-		toolbar : "#toolbar", //toolbar
+		toolbar : "#client_manage_toolbar", //toolbar
 		cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pagination : true, //是否显示分页（*）
-		sortable : true, //是否启用排序
+		sortable : false, //是否启用排序
 		//sortName : 'createTime',
 		sidePagination : "server", //分页方式：client客户端分页，server服务端分页（*）
 		pageNumber : 1, //初始化加载第一页，默认第一页
@@ -52,14 +52,14 @@ $(document).ready(function(){
 		}, {
 			field : 'address',
 			title : '客户地址',
-			sortable : true
+			sortable : false
 		}, {
 			field : 'description',
-			sortable : true,
+			sortable : false,
 			title : '客户描述'
 		} , {
 			field : 'updatedTime',
-			sortable : true,
+			sortable : false,
 			title : '最后更新时间',
 			formatter: updatedTimeFormatter
 		} , {

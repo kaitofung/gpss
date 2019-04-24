@@ -91,8 +91,6 @@ $(document).ready(function() {
 				appendix : appendix,
 				createrId : createrId
      		},function(data,status){
-					console.log( data);
-					console.log(status);
 					if(data.isSucceed) {
 						$('#createPurchaseModal').modal('hide');
 						$('#purchase_order_table').bootstrapTable('refresh');
@@ -160,7 +158,6 @@ $(document).ready(function() {
 	function getSpecifications(){
 		var select = $("#input_goods_specification_purchase_order_create");
 		var url = select.attr("url");
-		log(url);
 		$.post(url,
 				{},
 				function(result,status){

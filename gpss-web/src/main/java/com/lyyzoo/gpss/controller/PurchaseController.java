@@ -26,6 +26,7 @@ import com.lyyzoo.gpss.api.service.IStorageService;
 import com.lyyzoo.gpss.api.service.ISupplierService;
 import com.lyyzoo.gpss.api.vo.OrderStatus;
 import com.lyyzoo.gpss.api.vo.PurchaseOrder;
+import com.lyyzoo.gpss.api.vo.StorageRecord;
 import com.lyyzoo.gpss.api.vo.Supplier;
 
 @RequestMapping("/purchase")
@@ -46,7 +47,6 @@ public class PurchaseController extends AbstractController{
 	@ResponseBody
 	@RequestMapping(value ="/purchase_orders", method = RequestMethod.GET)
 	public Object getPurchaseOrders(int pageSize , Long currentPage, PurchaseOrder purchaseOrder) {
-		System.err.println(purchaseOrder.getAuditStatus() == null);
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> params = BeanUtils.beanToMap(purchaseOrder);
 		map.put("total", purchaseOrderService.getPurchaseOrdersCount(params));
@@ -158,6 +158,30 @@ public class PurchaseController extends AbstractController{
 	@ResponseBody
 	@RequestMapping("/purchase_order_modify")
 	public Object modifyPurchaseOrder(PurchaseOrder purchaseOrder) {
-		return paramToMap("isSucceed",purchaseOrderService.modifyPurchaseOrder(purchaseOrder));
+		boolean purhaseOrderModifyFlag = purchaseOrderService.modifyPurchaseOrder(purchaseOrder);
+		boolean storageRecordFlag = false;
+		System.err.println(purchaseOrder);
+		if(purhaseOrderModifyFlag && "审核通过".equals(purchaseOrder.getAuditStatusName())) {
+			StorageRecord sr = new StorageRecord();
+			sr.setGid(purchaseOrder.getPurchaseOrderGid());
+			sr.setGspecificationId(purchaseOrder.getPurchaseOrderGspecificationId());
+			sr.setStorageId(purchaseOrder.getStorageId());
+			sr.setStorageCount(0);
+			List<StorageRecord> storageRecord = storageService.getSimpleStorageRecord(sr);
+			boolean hasRecord = storageRecord != null && storageRecord.size() > 0;
+			System.err.println("审核通过，要修改库存");
+			if(hasRecord) {
+				System.err.println("有库存记录，直接修改即可");
+				sr.setStorageCount(purchaseOrder.getNum());
+				storageRecordFlag = storageService.modifyStorageCount(sr);
+			} else {
+				System.err.println("无库存记录，添加库存记录");
+				sr.setStorageCount(purchaseOrder.getNum());
+			sr.setPreditedPrice(0);
+			storageRecordFlag = storageService.createStorageRecord(sr);
+			}
+			return paramToMap("isSucceed",storageRecordFlag);
+		}
+		return paramToMap("isSucceed",purhaseOrderModifyFlag);
 	}
 }

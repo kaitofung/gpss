@@ -7,10 +7,6 @@
 					var password = $("#password").val();
 					var newPassword = $("#newPassword").val();
 					var newPasswordAgain = $("#newPasswordAgain").val();
-//					console.log(uid+"-------");
-//					console.log($("#password").val() + "-------");
-//					console.log($("#newPassword").val() +"-------");
-//					console.log($("#newPasswordAgain").val() + "-------");
 					$.post(
 							url,
 							{

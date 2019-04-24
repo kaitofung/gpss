@@ -16,4 +16,6 @@ public interface ISalesOrderService {
 	boolean createSalesOrders(SalesOrder SalesOrder);
 	
 	boolean modifySalesOrder(SalesOrder SalesOrder);
+	
+	boolean modifySalesOrder(List<String> sids);
 }

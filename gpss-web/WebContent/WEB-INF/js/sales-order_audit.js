@@ -12,15 +12,15 @@ $(document).ready(function(){
 	var createrName = null;
 	var createdTime = null;
 	var outOfStoreTime = null;
-	var url = $('#sales_order_table').attr("url");
-	$('#sales_order_table').bootstrapTable({
+	var url = $('#sales_order_table_audit').attr("url");
+	$('#sales_order_table_audit').bootstrapTable({
 		method : 'get', // 服务器数据的请求方式 get or post
 		url : url, // 服务器数据的加载地址
 		striped : true, //是否显示行间隔色
-		toolbar : "#toolbar_sales_order", //toolbar
+		toolbar : "#toolbar_sales_order_audit", //toolbar
 		cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pagination : true, //是否显示分页（*）
-		sortable : true, //是否启用排序
+		sortable : false, //是否启用排序
 		//sortName : 'createTime',
 		sidePagination : "server", //分页方式：client客户端分页，server服务端分页（*）
 		pageNumber : 1, //初始化加载第一页，默认第一页
@@ -51,7 +51,6 @@ $(document).ready(function(){
 			var clientName = $("#input_clientName_search_sales_order_audit").val();
 			var auditStatus = $("#input_audit_status_search_sales_order_audit").val();
 			
-			log(auditStatus);
 			currentPage = params.offset / params.limit + 1;
 			pageSize = params.limit;
 			return {
@@ -87,48 +86,48 @@ $(document).ready(function(){
 		}, {
 			field : 'supplierName',
 			title : '供应商名称',
-			sortable : true
+			sortable : false
 		}
 		, {
 			field : 'clientName',
 			title : '客户名称',
-			sortable : true
+			sortable : false
 		}
 		, {
 			field : 'storageName',
-			sortable : true,
+			sortable : false,
 			title : '仓库名称'
 		} 
 		, {
 			field : 'num',
-			sortable : true,
+			sortable : false,
 			title : '数量'
 		} 
 		, {
 			field : 'price',
-			sortable : true,
+			sortable : false,
 			title : '单价'
 		} 
 		, {
 			field : 'sum',
-			sortable : true,
+			sortable : false,
 			title : '总价'
 		} 
 		, {
 			field : 'auditStatusName',
-			sortable : true,
+			sortable : false,
 			title : '审核状态',
 			formatter: auditStatusNameFormatter
 		} 
 		, {
 			field : 'createdtime',
-			sortable : true,
+			sortable : false,
 			title : '创建时间',
 			formatter: timeFormatter
 		} 
 		, {
 			field : 'outOfStoreTime',
-			sortable : true,
+			sortable : false,
 			title : '出库时间',
 			formatter:timeFormatter
 		} 
@@ -151,6 +150,15 @@ $(document).ready(function(){
     	$("[btn_sales_order_audit_soid]").click(function(){
     		var soid = $(this).attr("btn_sales_order_audit_soid");
     		$("#editSalesOrderAuditModal").attr("soid",soid);
+    		
+    		var num = $(this).attr("num");
+    		var gid = $(this).attr("gid");
+    		var gspecificationId = $(this).attr("gspecificationId");
+    		var storageId = $(this).attr("storageId");
+    		$("#editSalesOrderAuditModal").attr("num",num);
+    		$("#editSalesOrderAuditModal").attr("gspecificationId",gspecificationId);
+    		$("#editSalesOrderAuditModal").attr("storageId",storageId);
+    		$("#editSalesOrderAuditModal").attr("gid",gid);
     	});
     }
     
@@ -158,7 +166,8 @@ $(document).ready(function(){
     function actionFormatter(value, row, index) {
         var id = value;
         var result = "";
-        result += "<a btn_sales_order_audit_soid='" + id + "' data-toggle='modal' data-target='#editSalesOrderAuditModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+        
+        result += "<a  gid='" + row.salesOrderGid + "' num='" + row.num + "' gspecificationId='"+ row.salesOrderGspecificationId +"' storageId='"+row.storageId+"' btn_sales_order_audit_soid='" + id + "' data-toggle='modal' data-target='#editSalesOrderAuditModal' href='javascript:;' class='btn btn-xs blue'  title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
         return result;
     }
     
@@ -209,7 +218,6 @@ $(document).ready(function(){
 						outOfStoreTime : outOfStoreTime
     				},
     				    function(result,status){
-    					  log("download...");
     				   }
     		);
     	});
@@ -244,7 +252,7 @@ $(document).ready(function(){
 
 	// 搜索方法
 	function search() {
-		$('#sales_order_table').bootstrapTable('refresh');
+		$('#sales_order_table_audit').bootstrapTable('refresh');
 		setOutputUrl();
 	}
 	
@@ -254,8 +262,8 @@ $(document).ready(function(){
 		search();
 	}
 	
-	$("#btn_search_client").click(function(){
-		$('#sales_order_table').bootstrapTable('refresh');
+	$("#btn_search_sales_order_audit").click(function(){
+		$('#sales_order_table_audit').bootstrapTable('refresh');
 	});
 	
 	//获取订单状态列表的数据
@@ -265,7 +273,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value>请选择要查询的审核状态</option>";
+					var html = "<option value>请选择审核状态</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -285,7 +293,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				    function(result,status){
-					   var html = "<option value=''>请选择要查询的仓库</option>";
+					   var html = "<option value=''>请选择仓库</option>";
 					   select.empty();
 					   if(result != null) {
 						   for(i = 0; i <result.length; i++){
@@ -305,7 +313,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value=''>请选择要查询的供应商</option>";
+					var html = "<option value=''>请选择供应商</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -324,7 +332,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value=''>请选择要查询的供应商</option>";
+					var html = "<option value=''>请选择供应商</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -338,7 +346,7 @@ $(document).ready(function(){
 	}
 	
 	$("#btn_delete_client_manage").click(function(){
-		var items = $('#sales_order_table').bootstrapTable("getSelections");
+		var items = $('#sales_order_table_audit').bootstrapTable("getSelections");
 		var cids = new Array();
 		for(i = 0; i < items.length; i ++){
 			cids[i] = (items[i].cid) ;
@@ -351,7 +359,7 @@ $(document).ready(function(){
 		   },
 		    function(status,result){
 			   if(status.isSucceed == true) {
-					$('#sales_order_table').bootstrapTable('refresh');
+					$('#sales_order_table_audit').bootstrapTable('refresh');
 					toastr.success('删除成功');
 			   }else {
 				   toastr.error('删除失败');

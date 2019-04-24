@@ -2,10 +2,10 @@
 <html>
 <head>
 <!-- Toast的样式 -->
-<link href="https://cdn.bootcss.com/toastr.js/latest/toastr.min.css"
+<link href="https://cdn.staticfile.org/toastr.js/latest/css/toastr.min.css"
 	rel="stylesheet">
 <link
-	href="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.css"
+	href="http://cdn.staticfile.org/bootstrap-table/1.12.1/bootstrap-table.min.css"
 	rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>员工管理</title>
@@ -19,8 +19,7 @@
 </style>
 <body class="main-container ">
 	<div class="panel-body" style="padding-bottom: 0px;">
-
-		<div id="toolbar" class="btn-group">
+		<div id="employee_manage_toolbar" class="btn-group">
 			<div class="form-inline">
 				<button data-toggle="modal" data-target="#createEmployeeModal" id="btn_add" type="button" class="btn btn-default btn-info">
 					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
@@ -37,7 +36,7 @@
 					<option value="">-</option>
 				</select> <input name="input_name_search_employee_manage"
 					id="input_name_search_employee_manage" type="text"
-					class="form-control" placeholder="请输入要查询的员工名称"> </input>
+					class="form-control" placeholder="请输入员工名称"> </input>
 				<button id="btn_search_employee" type="button"
 					class="btn btn-default btn-primary">
 					<span class="glyphicon glyphicon-search"></span> 查询

@@ -2,10 +2,10 @@
 <html>
 <head>
 <!-- Toast的样式 -->
-<link href="https://cdn.bootcss.com/toastr.js/latest/toastr.min.css"
+<link href="https://cdn.staticfile.org/toastr.js/latest/css/toastr.min.css"
 	rel="stylesheet">
 <link
-	href="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.css"
+	href="http://cdn.staticfile.org/bootstrap-table/1.12.1/bootstrap-table.min.css"
 	rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>库存记录</title>
@@ -20,11 +20,11 @@
 <body class="main-container ">
 	<div class="panel-body" style="padding-bottom: 0px;">
 
-		<div id="toolbar" class="btn-group">
+		<div id="toolbar_storage_record" class="btn-group">
 			<div class="form-inline">
 			 <input name="input_name_search_storage_record_manage"
 					id="input_name_search_storage_record_manage" type="text"
-					class="form-control" placeholder="请输入要查询的商品名称"> </input>
+					class="form-control" placeholder="请输入商品名称"> </input>
 			 <select name="input_name_gspecification_search_storage_record"
 					id="input_name_gspecification_search_storage_record" type="text"
 					class="form-control" url="${context}/purchase//goods_specications">

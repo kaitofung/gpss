@@ -37,8 +37,11 @@
         Optionally, you can add icons to the links
         <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> -->
+		
 		<#list menus as menu>
-			<@shiro.hasAnyRoles name="${menu.admin},${menu.storer},${menu.purchaser},${menu.saler}">
+		
+			<#if menu.name != "统计分析">
+							<@shiro.hasAnyRoles name="${menu.admin},${menu.storer},${menu.purchaser},${menu.saler}">
 			<li class="treeview"><a href="#"><i class="${menu.menuIcon}" ></i> <span>${menu.name}</span>
 				<span class="pull-right-container"> <i
 					class="fa fa-angle-left pull-right"></i>
@@ -53,6 +56,7 @@
 			</ul>
 			</li>
 			</@shiro.hasAnyRoles>
+			</#if>
 
 		</#list>
 		

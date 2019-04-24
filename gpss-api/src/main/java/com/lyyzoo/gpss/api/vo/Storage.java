@@ -1,59 +1,31 @@
 package com.lyyzoo.gpss.api.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
 public class Storage {
+	@Getter
+	@Setter
 	private String name;
+	@Getter
+	@Setter
 	private String address;
+	@Getter
+	@Setter
 	private String mobile;
+	@Getter
+	@Setter
 	private String description;
+	@Getter
+	@Setter
 	private String ename;
+	@Getter
+	@Setter
 	private String sid;
+	@Getter
+	@Setter
 	private String eid;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getMobile() {
-		return mobile;
-	}
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getEname() {
-		return ename;
-	}
-	public void setEname(String ename) {
-		this.ename = ename;
-	}
-	public String getSid() {
-		return sid;
-	}
-	public void setSid(String sid) {
-		this.sid = sid;
-	}
-	public String getEid() {
-		return eid;
-	}
-	public void setEid(String eid) {
-		this.eid = eid;
-	}
-	@Override
-	public String toString() {
-		return "Storage [name=" + name + ", address=" + address + ", mobile=" + mobile + ", description=" + description
-				+ ", ename=" + ename + ", sid=" + sid + "eid=" + eid + "]";
-	}
 	
 }

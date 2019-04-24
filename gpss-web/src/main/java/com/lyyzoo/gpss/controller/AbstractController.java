@@ -43,9 +43,12 @@ public abstract class AbstractController implements IMappingParameter {
 	protected void setPhoto(IPhotoSetter goods, MultipartFile photox, boolean processNullFile) throws IOException {
 		if(photox !=null && !photox.isEmpty()) {
 			String suffix = photox.getOriginalFilename().substring(photox.getOriginalFilename().lastIndexOf("."));
-			String path = getRequest().getServletContext().getRealPath("/upload/") + UUID.randomUUID() + suffix;
+			String radom = UUID.randomUUID()+"";
+			String fileSavePath = getRequest().getServletContext().getRealPath("/upload/") + radom + suffix;
+			String path = getRequest().getContextPath()+ "/upload/" + radom + suffix;
 			System.err.println(path);
-			photox.transferTo(new File(path));
+			System.err.println(fileSavePath);
+			photox.transferTo(new File(fileSavePath));
 			goods.setPhoto(path);
 		} else {
 			if(processNullFile) {

@@ -45,6 +45,14 @@
 			<artifactId>gpss-common</artifactId>
 		</dependency>
 		<dependency>
+			    <groupId>org.apache.shiro</groupId>
+			    <artifactId>shiro-ehcache</artifactId>
+			</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
 		</dependency>

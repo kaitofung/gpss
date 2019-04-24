@@ -20,7 +20,7 @@ $(document).ready(function(){
 		toolbar : "#toolbar_sales_order", //toolbar
 		cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pagination : true, //是否显示分页（*）
-		sortable : true, //是否启用排序
+		sortable : false, //是否启用排序
 		//sortName : 'createTime',
 		sidePagination : "server", //分页方式：client客户端分页，server服务端分页（*）
 		pageNumber : 1, //初始化加载第一页，默认第一页
@@ -51,7 +51,6 @@ $(document).ready(function(){
 			var clientName = $("#input_clientName_search_sales_order_manage").val();
 			var auditStatus = $("#input_audit_status_search_sales_order_manage").val();
 			
-			log(auditStatus);
 			currentPage = params.offset / params.limit + 1;
 			pageSize = params.limit;
 			return {
@@ -87,48 +86,48 @@ $(document).ready(function(){
 		}, {
 			field : 'supplierName',
 			title : '供应商名称',
-			sortable : true
+			sortable : false
 		}
 		, {
 			field : 'clientName',
 			title : '客户名称',
-			sortable : true
+			sortable : false
 		}
 		, {
 			field : 'storageName',
-			sortable : true,
+			sortable : false,
 			title : '仓库名称'
 		} 
 		, {
 			field : 'num',
-			sortable : true,
+			sortable : false,
 			title : '数量'
 		} 
 		, {
 			field : 'price',
-			sortable : true,
+			sortable : false,
 			title : '单价'
 		} 
 		, {
 			field : 'sum',
-			sortable : true,
+			sortable : false,
 			title : '总价'
 		} 
 		, {
 			field : 'auditStatusName',
-			sortable : true,
+			sortable : false,
 			title : '审核状态',
 			formatter: auditStatusNameFormatter
 		} 
 		, {
 			field : 'createdtime',
-			sortable : true,
+			sortable : false,
 			title : '创建时间',
 			formatter: timeFormatter
 		} 
 		, {
 			field : 'outOfStoreTime',
-			sortable : true,
+			sortable : false,
 			title : '出库时间',
 			formatter:timeFormatter
 		} 
@@ -209,7 +208,6 @@ $(document).ready(function(){
 						outOfStoreTime : outOfStoreTime
     				},
     				    function(result,status){
-    					  log("download...");
     				   }
     		);
     	});
@@ -254,7 +252,34 @@ $(document).ready(function(){
 		search();
 	}
 	
-	$("#btn_search_client").click(function(){
+	function refreshPage() {
+		$('#sales_order_table').bootstrapTable('refresh');
+	}
+	
+	$("#btn_returns_sales_order_manage").click(function(){
+		var items = $('#sales_order_table').bootstrapTable("getSelections");
+		var soids = new Array();
+		for(i = 0; i < items.length; i ++){
+			soids[i] = (items[i].soid) ;
+		}
+		var url = $("#btn_returns_sales_order_manage").attr("url");
+		$.post(url,
+		   {
+			soids: soids,
+			   dataType:"json", 
+		   },
+		    function(status,result){
+			   if(status.isSucceed == true) {
+				   refreshPage();
+				   toastr.success('退货成功');
+			   }else {
+				   toastr.error('退货失败');
+			   }
+		   }
+		);
+	});
+	
+	$("#btn_search_sales_order_manage").click(function(){
 		$('#sales_order_table').bootstrapTable('refresh');
 	});
 	
@@ -265,7 +290,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value>请选择要查询的审核状态</option>";
+					var html = "<option value>请选择审核状态</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -285,7 +310,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				    function(result,status){
-					   var html = "<option value=''>请选择要查询的仓库</option>";
+					   var html = "<option value=''>请选择仓库</option>";
 					   select.empty();
 					   if(result != null) {
 						   for(i = 0; i <result.length; i++){
@@ -305,7 +330,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value=''>请选择要查询的供应商</option>";
+					var html = "<option value=''>请选择供应商</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -324,7 +349,7 @@ $(document).ready(function(){
 		$.post(url,
 				{},
 				function(result,status){
-					var html = "<option value=''>请选择要查询的供应商</option>";
+					var html = "<option value=''>请选择供应商</option>";
 					select.empty();
 					if(result != null) {
 						for(i = 0; i <result.length; i++){
@@ -337,29 +362,29 @@ $(document).ready(function(){
 		);
 	}
 	
-	$("#btn_delete_client_manage").click(function(){
-		var items = $('#sales_order_table').bootstrapTable("getSelections");
-		var cids = new Array();
-		for(i = 0; i < items.length; i ++){
-			cids[i] = (items[i].cid) ;
-		}
-		var url = $("#btn_delete_client_manage").attr("url");
-		$.post(url,
-		   {
-			   cids: cids,
-			   dataType:"json", 
-		   },
-		    function(status,result){
-			   if(status.isSucceed == true) {
-					$('#sales_order_table').bootstrapTable('refresh');
-					toastr.success('删除成功');
-			   }else {
-				   toastr.error('删除失败');
-			   }
-		   }
-		);
-		
-	});
+//	$("#btn_delete_client_manage").click(function(){
+//		var items = $('#sales_order_table').bootstrapTable("getSelections");
+//		var cids = new Array();
+//		for(i = 0; i < items.length; i ++){
+//			cids[i] = (items[i].cid) ;
+//		}
+//		var url = $("#btn_delete_client_manage").attr("url");
+//		$.post(url,
+//		   {
+//			   cids: cids,
+//			   dataType:"json", 
+//		   },
+//		    function(status,result){
+//			   if(status.isSucceed == true) {
+//					$('#sales_order_table').bootstrapTable('refresh');
+//					toastr.success('删除成功');
+//			   }else {
+//				   toastr.error('删除失败');
+//			   }
+//		   }
+//		);
+//		
+//	});
 	
 });
 

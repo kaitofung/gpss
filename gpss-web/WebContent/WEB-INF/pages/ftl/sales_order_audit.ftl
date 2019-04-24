@@ -2,10 +2,10 @@
 <html>
 <head>
 <!-- Toast的样式 -->
-<link href="https://cdn.bootcss.com/toastr.js/latest/toastr.min.css"
+<link href="https://cdn.staticfile.org/toastr.js/latest/css/toastr.min.css"
 	rel="stylesheet">
 <link
-	href="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.css"
+	href="http://cdn.staticfile.org/bootstrap-table/1.12.1/bootstrap-table.min.css"
 	rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>销售订单审核</title>
@@ -24,35 +24,35 @@
 
 	<div class="panel-body" style="padding-bottom: 0px;">
 
-		<div id="toolbar_sales_order" class="btn-group">
+		<div id="toolbar_sales_order_audit" class="btn-group">
 			 <div class="form-inline">
 
 				<div class="col-md-12">
 					<span style="margin-right: 5px;"> <label>订单号：</label> <input
 						name="input_id_search_sales_order_audit"
 						id="input_id_search_sales_order_audit" type="text"
-						class="form-control" placeholder="请输入要查询的订单号"> </input>
+						class="form-control" placeholder="请输入订单号"> </input>
 					</span> <span style="margin-right: 5px;"> <label>商品名称：</label> <input
 						name="input_gname_search_sales_order_audit"
 						id="input_gname_search_sales_order_audit" type="text"
-						class="form-control" placeholder="请输入要查询的商品"> </input>
+						class="form-control" placeholder="请输入商品"> </input>
 					</span> 
 					 <span style="margin-right: 5px;"> <label>客户名称：</label> <input
 						name="input_clientName_search_sales_order_audit"
 						id="input_clientName_search_sales_order_audit" type="text"
-						class="form-control" placeholder="请输入要查询的客户名称"> </input>
+						class="form-control" placeholder="请输入客户名称"> </input>
 					</span>
 					<span style="margin-right: 5px;"> <label>供应商：</label> <select
 						name="input_supplier_name_search_sales_order_audit"
 						id="input_supplier_name_search_sales_order_audit" url="${context}/sales/suppliers" type="text"
 						class="form-control">
-							<option value>请选择要查询的供应商</option>
+							<option value>请选择供应商</option>
 					</select>
 					</span> <span style="margin-right: 5px;"> <label>仓库：</label> <select
 						name="input_storage_name_search_sales_order_audit"
 						id="input_storage_name_search_sales_order_audit" type="text" url="${context}/sales/storages"
 						class="form-control">
-							<option value>请选择要查询的仓库</option>
+							<option value>请选择仓库</option>
 					</select>
 					</span>
 				</div>
@@ -61,12 +61,12 @@
 					<span style="margin-right: 5px;"> <label>经办人：</label> <input
 						name="input_creater_name_search_sales_order_audit"
 						id="input_creater_name_search_sales_order_audit" type="text"
-						class="form-control" placeholder="请输入要查询的经办人"> </input>
+						class="form-control" placeholder="请输入经办人"> </input>
 					</span> <span style="margin-right: 5px;"> <label>审核状态：</label> <select
 						name="input_audit_status_search_sales_order_audit"
 						id="input_audit_status_search_sales_order_audit" type="text"
 						class="form-control" url="${context}/purchase/order_status">
-							<option value>请选择要查询的审核状态</option>
+							<option value>请选择审核状态</option>
 					</select>
 					</span> <span style="margin-right: 5px;"> <label>创建时间：</label>
 						<div class="input-group date form_date " data-date=""
@@ -95,7 +95,7 @@
 						</div>
 					</span>
 
-					<button id="btn_search_client" type="button"
+					<button id="btn_search_sales_order_audit" type="button"
 						class="btn btn-default btn-primary">
 						<span class="glyphicon glyphicon-search"></span> 查询
 					</button>
@@ -103,7 +103,7 @@
 
 			</div>
 		</div>
-		<table id="sales_order_table"
+		<table id="sales_order_table_audit"
 			url="${context}/sales/sales_orders"
 			data-mobile-responsive="true" class="mb-bootstrap-table text-nowrap"></table>
 	</div>

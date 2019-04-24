@@ -58,11 +58,10 @@ $(document).ready(function() {
      	          contentType: false,  
      	          processData: false,  
      	          success: function (data, status) {  
-  					console.log( data);
-  					console.log(status);
   					if(data.isSucceed) {
   						$('#creategoods_paramesModal').modal('hide');
   						showSuccess('创建成功！');
+						$('#goods_param_manage_table').bootstrapTable('refresh');
   					}else{
   						showError('创建失败！');
   					}

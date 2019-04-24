@@ -2,10 +2,10 @@
 <html>
 <head>
 <!-- Toast的样式 -->
-<link href="https://cdn.bootcss.com/toastr.js/latest/toastr.min.css"
+<link href="https://cdn.staticfile.org/toastr.js/latest/css/toastr.min.css"
 	rel="stylesheet">
 <link
-	href="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.css"
+	href="http://cdn.staticfile.org/bootstrap-table/1.12.1/bootstrap-table.min.css"
 	rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>销售订单</title>
@@ -31,28 +31,28 @@
 					<span style="margin-right: 5px;"> <label>订单号：</label> <input
 						name="input_id_search_sales_order_manage"
 						id="input_id_search_sales_order_manage" type="text"
-						class="form-control" placeholder="请输入要查询的订单号"> </input>
+						class="form-control" placeholder="请输入订单号"> </input>
 					</span> <span style="margin-right: 5px;"> <label>商品名称：</label> <input
 						name="input_gname_search_sales_order_manage"
 						id="input_gname_search_sales_order_manage" type="text"
-						class="form-control" placeholder="请输入要查询的商品"> </input>
+						class="form-control" placeholder="请输入商品"> </input>
 					</span> 
 					 <span style="margin-right: 5px;"> <label>客户名称：</label> <input
 						name="input_clientName_search_sales_order_manage"
 						id="input_clientName_search_sales_order_manage" type="text"
-						class="form-control" placeholder="请输入要查询的客户名称"> </input>
+						class="form-control" placeholder="请输入客户名称"> </input>
 					</span>
 					<span style="margin-right: 5px;"> <label>供应商：</label> <select
 						name="input_supplier_name_search_sales_order_manage"
 						id="input_supplier_name_search_sales_order_manage" url="${context}/sales/suppliers" type="text"
 						class="form-control">
-							<option value>请选择要查询的供应商</option>
+							<option value>请选择供应商</option>
 					</select>
 					</span> <span style="margin-right: 5px;"> <label>仓库：</label> <select
 						name="input_storage_name_search_sales_order_manage"
 						id="input_storage_name_search_sales_order_manage" type="text" url="${context}/sales/storages"
 						class="form-control">
-							<option value>请选择要查询的仓库</option>
+							<option value>请选择仓库</option>
 					</select>
 					</span>
 				</div>
@@ -61,12 +61,12 @@
 					<span style="margin-right: 5px;"> <label>经办人：</label> <input
 						name="input_creater_name_search_sales_order_manage"
 						id="input_creater_name_search_sales_order_manage" type="text"
-						class="form-control" placeholder="请输入要查询的经办人"> </input>
+						class="form-control" placeholder="请输入经办人"> </input>
 					</span> <span style="margin-right: 5px;"> <label>审核状态：</label> <select
 						name="input_audit_status_search_sales_order_manage"
 						id="input_audit_status_search_sales_order_manage" type="text"
 						class="form-control" url="${context}/purchase/order_status">
-							<option value>请选择要查询的审核状态</option>
+							<option value>请选择审核状态</option>
 					</select>
 					</span> <span style="margin-right: 5px;"> <label>创建时间：</label>
 						<div class="input-group date form_date " data-date=""
@@ -95,7 +95,7 @@
 						</div>
 					</span>
 
-					<button id="btn_search_client" type="button"
+					<button id="btn_search_sales_order_manage" type="button"
 						class="btn btn-default btn-primary">
 						<span class="glyphicon glyphicon-search"></span> 查询
 					</button>
@@ -103,11 +103,10 @@
 						class="btn btn-default btn-primary">
 						<span class="glyphicon glyphicon-plus"></span> 出售
 					</button>
-					<button id="btn_search_client"  
-						class="btn  disabled" >
-						<span class="glyphicon glyphicon-minus" ></span> 退货
+					<button url="${context}/sales/sales_orders_modify" id="btn_returns_sales_order_manage" type="button"
+						class="btn btn-default btn-primary">
+						<span class="glyphicon glyphicon-minus"></span> 退货
 					</button>
-					
 					<a href="${context}/sales/sales_orders/output_data" url="${context}/sales/sales_orders/output_data" id="btn_output_data_sales_order_manage" type="button"
 						class="btn btn-default btn-primary" target="_blank">
 						<span class="glyphicon glyphicon-save"></span> 导出
@@ -130,6 +129,7 @@
 <script src="../js/bootstrap-table.min.js"></script>
 <script src="../js/bootstrap-table-zh-CN.min.js"></script>
 <script src="${base}/js/sales-order.js"></script>
+<script src="${base}/js/base.js"></script>
 
 <script>
 	$('.form_date').datetimepicker({

@@ -27,5 +27,13 @@ public interface IStorageService {
 	
 	int editStorageRecord(StorageRecord storageRecord);
 	
-
+	
+	boolean createStorageRecord(StorageRecord storageRecord);
+	
+	List<StorageRecord> getSimpleStorageRecord(Map<String, Object> params);
+	
+	List<StorageRecord> getSimpleStorageRecord(StorageRecord storageRecord);
+	
+	boolean modifyStorageCount(StorageRecord storageRecord);
+	
 }

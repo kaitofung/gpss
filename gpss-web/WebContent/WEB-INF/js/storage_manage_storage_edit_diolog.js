@@ -49,28 +49,22 @@ $(document).ready(function() {
     		var address = $("#storage_address_input_edit").val();
     		var description = $("#storage_description_input_edit").val();
     		var sid = $("#editStoragesModal").attr("sid");
-    		console.log(url);
      		$.post(url,  {
 				name : name,
 				sid : sid,
 				address : address,
 				description : description
 			},function(data,status){
-					console.log( data);
-					console.log(status);
 					if(data.isSucceed) {
 						$('#editStoragesModal').modal('hide');
 						toastr.success('编辑成功');
-						$("[col-storage-name_sid="+sid+"]").empty().text(name);
-						$("[col-storage-address_sid="+sid+"]").empty().text(address);
-						$("[col-storage-description_sid="+sid+"]").empty().text(description);
+						$('#storage_manage_table').bootstrapTable('refresh');
 					} else{
 						toastr.error('编辑失败');
 					}
 			    }
 			);
     	}else{
-    		console.log("参数有误！！");
     	}
     });
 	    

@@ -74,13 +74,13 @@ $(document).ready(function() {
 				description : description,
 				mobile : mobile
 			},function(data,status){
-					console.log( data);
-					console.log(status);
 					if(data.isSucceed) {
 						$('#createStoragesModal').modal('hide');
 						showSuccess('创建成功！');
+						$('#storage_manage_table').bootstrapTable('refresh');
 					}else{
 						showError('创建失败！');
+						$('#createStoragesModal').modal('hide');
 					}
 			    }
 			);

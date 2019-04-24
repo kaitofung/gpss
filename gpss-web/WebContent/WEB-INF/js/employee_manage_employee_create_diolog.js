@@ -61,8 +61,6 @@ $(document).ready(function() {
 				updater : updater,
 				etypeid : etypeid
      		},function(data,status){
-					console.log( data);
-					console.log(status);
 					if(data.isSucceed) {
 						$('#createEmployeeModal').modal('hide');
 						$('#employee_manage_table').bootstrapTable('refresh');

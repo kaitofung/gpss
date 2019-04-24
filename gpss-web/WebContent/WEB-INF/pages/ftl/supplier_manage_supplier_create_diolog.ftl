@@ -78,19 +78,17 @@
 							</div>
 						</div>
 						<div class="ln_solid"></div>
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-3">
-								<!-- <button type="submit" class="btn btn-primary">Cancel</button> -->
-								<button id="summit_supplier_create" class="btn btn-success" type="button">提交</button>
-							</div>
-						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-					</button>
-					<button id="summit_data" name="summit_data" data-dismiss="modal"
-						type="button" class="btn btn-primary">提交更改</button> -->
+						<div class="form-group">
+							<div class="">
+							<!-- <button type="submit" class="btn btn-primary">Cancel</button> -->
+							<button id="summit_supplier_create" class="btn btn-success" type="button">提交</button>
+							<button  data-dismiss="modal" class="btn btn-info"
+								type="button">取消</button>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- /.modal-content -->

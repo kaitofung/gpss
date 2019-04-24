@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gpss.common.utils.IMappingParameter;
 import com.lyyzoo.gpss.api.service.IGoodsService;
+import com.lyyzoo.gpss.api.vo.Client;
 import com.lyyzoo.gpss.api.vo.Goods;
 import com.lyyzoo.gpss.api.vo.GoodsSpecification;
 
@@ -81,7 +82,6 @@ public class GoodsController extends AbstractController implements IMappingParam
 				break;
 			}
 		}
-		System.err.println("!!!!!!!!!!!!!!");
 		return testsx;
 	}
 	static class Role{
@@ -107,7 +107,6 @@ public class GoodsController extends AbstractController implements IMappingParam
 				break;
 			}
 		}
-		System.err.println("roles-----------");
 		map.put("rows", list);
 		return map;
 	}
@@ -125,7 +124,6 @@ public class GoodsController extends AbstractController implements IMappingParam
 			map.put("createTime", System.currentTimeMillis());
 			list.add(map);
 		}
-		System.err.println("------------");
 		return list;
 	}
 	@ResponseBody
@@ -143,7 +141,6 @@ public class GoodsController extends AbstractController implements IMappingParam
 			Map<String,Object> map = list.get(i);
 			map.put("ParentId", new Random().nextInt(3));
 		}
-		System.err.println("------------");
 		return list;
 	}
 	
@@ -152,7 +149,11 @@ public class GoodsController extends AbstractController implements IMappingParam
 	public Object getGoodses(int pageSize, Long currentPage, String name) {
 		long goodsesCount = goodsService.getGoodsesCount(name);	
 		setRequestAttribute("goodsesCount", goodsesCount);
-		return goodsService.getGoodses(pageSize, currentPage,name);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total", goodsesCount);
+		List<Goods> list = goodsService.getGoodses(pageSize, currentPage, name);
+		map.put("rows", list);
+		return map;
 	}
 	
 	@ResponseBody
@@ -190,7 +191,6 @@ public class GoodsController extends AbstractController implements IMappingParam
 	@ResponseBody
 	@RequestMapping("/delete/goods_specification")
 	public Object deleteGoodsSpecificationns(@RequestParam("gspecificationIds[]") List<String> gspecificationIds) {
-		System.err.println(gspecificationIds);
 		boolean result = false;
 		try {
 			result = goodsService.deleteGoodsSpecifications(gspecificationIds);
@@ -217,7 +217,11 @@ public class GoodsController extends AbstractController implements IMappingParam
 	public Object getGoodsSpecifications(int pageSize, Long currentPage, String gspecificationType) {
 		long gspecificationCount = goodsService.getGoodsSpecificationsCount(gspecificationType);
 		setRequestAttribute("gspecificationCount", gspecificationCount);
-		return goodsService.getGoodsSpecifications(pageSize, currentPage, gspecificationType);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total", gspecificationCount);
+		List<GoodsSpecification> list = goodsService.getGoodsSpecifications(pageSize, currentPage, gspecificationType);
+		map.put("rows", list);
+		return map;
 	}
 	
 	@ResponseBody

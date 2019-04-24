@@ -16,34 +16,20 @@
 </head>     
 <body>    
 
-<table id="tb" ></table>
+你好，${Session.user.name!"--用户"},欢迎进入Gpss后台管理系统
  
 </body>     
-<!-- jquery.treegrid.extension -->
-<script src="../js/jquery.treegrid.extension.js"></script>
 <script >
-$(document).ready(function () {
-    $('#tb').treegridData({
-        id: 'Id',
-        parentColumn: 'ParentId',
-        type: "GET", //请求数据的ajax类型
-        url: '/gpss-web/goods/TestMVC/GetData',   //请求数据的ajax的url
-        ajaxParams: {}, //请求数据的ajax的data属性
-        expandColumn: null,//在哪一列上面显示展开按钮
-        striped: true,   //是否各行渐变色
-        bordered: true,  //是否显示边框
-        expandAll: false,  //是否全部展开
-        columns: [
-            {
-                title: '机构名称',
-                field: 'Name'
-            },
-            {
-                title: '机构描述',
-                field: 'Desc'
-            }
-        ]
-    });
+
+$("#foucusInput").on("blur",function(){
+	var url = "http://t.weather.sojson.com/api/weather/city/101030100";
+	/* $.post(url,
+			{},
+			function(result,status){
+				console.log(result);
+			}
+	); */
+	console.log("写你的查询事件");
 });
 </script>
 </html>  

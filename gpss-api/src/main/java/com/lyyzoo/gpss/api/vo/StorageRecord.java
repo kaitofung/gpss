@@ -15,6 +15,9 @@ public class StorageRecord {
 	private String gname;
 	@Setter
 	@Getter
+	private String gid;
+	@Setter
+	@Getter
 	private String gspecificationName;
 	@Setter
 	@Getter

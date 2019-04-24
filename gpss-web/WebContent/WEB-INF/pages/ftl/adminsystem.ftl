@@ -16,7 +16,7 @@
 <!-- <link rel="stylesheet"
 	href="../bower_components/bootstrap/dist/css/bootstrap.min.css"> -->
 <link rel="stylesheet"
-	href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	href="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- Font Awesome -->
 <link rel="stylesheet"
 	href="../bower_components/font-awesome/css/font-awesome.min.css">
@@ -134,7 +134,7 @@ desired effect
 				 <!-- 此处是相关代码 -->
 			    <ul class="nav nav-tabs admin-tab closed-tab-component"  id="bootstrap-closed-tab" role="tablist" count="0">
 			    </ul>
-			    <div class="tab-content" style="width:100%;padding:20px;">
+			    <div class="tab-content closed-tab-content" closed-tab-content="" style="width:100%;padding:20px;">
 			    </div>
     			<!-- 相关代码结束 -->				
 			</div>

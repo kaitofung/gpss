@@ -82,7 +82,6 @@ $(document).ready(function() {
     		var gtype_id = $("#goods_gtype_input_create").val();
     		var gspecification_id = $("#goods_specification_input_create").val();
     		var description = $("#goods_description_input_create").val();
-    		log(gspecification_id+"!!!!!!!!!!");
     		// 创建
     		var form_data = new FormData();
     		// 获取文件
@@ -103,11 +102,10 @@ $(document).ready(function() {
      	          contentType: false,  
      	          processData: false,  
      	          success: function (data, status) {  
-  					console.log( data);
-  					console.log(status);
   					if(data.isSucceed) {
   						$('#creategoodsesModal').modal('hide');
   						showSuccess('创建成功！');
+						$('#goods_manage_table').bootstrapTable('refresh');
   					}else{
   						showError('创建失败！');
   					}

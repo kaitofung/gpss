@@ -5,7 +5,7 @@
 	
 
 <select id="doGetBeans" resultType="com.lyyzoo.gpss.api.vo.Menu" parameterType="java.util.Map">
-SELECT m.mid,
+SELECT m.mid,m.menu_level menuLevel,
          name,
          url,
          parent_mid parentId,
@@ -42,8 +42,8 @@ SELECT m.mid,
 </delete>
 
 <insert id="doCreateBean" parameterType="com.lyyzoo.gpss.api.vo.Menu">
-	insert into menu( name, url, parent_mid)
-		values(#{name},#{url},#{parentId});
+	insert into menu( name, url, parent_mid,menu_level)
+		values(#{name},#{url},#{parentId}, #{menuLevel});
 </insert>
 
 <update id="doUpdateBean" parameterType="com.lyyzoo.gpss.api.vo.Menu">

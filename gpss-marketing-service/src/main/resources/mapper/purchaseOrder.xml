@@ -7,11 +7,11 @@
 	<select id="doGetBeans"
 		resultType="com.lyyzoo.gpss.api.vo.PurchaseOrder"
 		parameterType="java.util.Map">
-		select poid, g.name gname, gs.name gsname,s1.name supplierName,s2.name
-		storageName, purchase_order_gspecification_id,po.appendix appendix,
+		select poid, g.gid purchaseOrderGid, g.name gname, gs.name gsname,s1.name supplierName,s2.name
+		storageName, s2.sid storageId, purchase_order_gspecification_id purchaseOrderGspecificationId,po.appendix appendix,
 		purchase_order_store_id,purchase_order_supplier_id,
-		num, g.price, (num
-		* g.price) sum, po.name name, audit_status auditStatus,os.name auditStatusName,
+		num, po.price, (num
+		* po.price) sum, po.name name, audit_status auditStatus,os.name auditStatusName,
 		createdtime,
 		creater_id createrId, audited_id auditedId, audited_time
 		auditedTime

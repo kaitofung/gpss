@@ -4,6 +4,7 @@ package com.gpss.user.service.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.gpss.common.base.IBaseDao;
 import com.lyyzoo.gpss.api.vo.Employee;
 import com.lyyzoo.gpss.api.vo.Role;
 import com.lyyzoo.gpss.api.vo.User;
@@ -14,7 +15,7 @@ import com.lyyzoo.gpss.api.vo.UsersDataItem;
  * @author Administrator
  *
  */
-public interface IUserDao {
+public interface IUserDao extends IBaseDao<User>{
 	public abstract boolean doCreateUser(User user);
 	
 	public abstract boolean doCreateEmployee(Employee employee);
@@ -29,7 +30,7 @@ public interface IUserDao {
 	
 	public abstract List<Map<String,Object>> doGetEmployeeTypes();
 	
-	public abstract long doGetUsersDataItemCount();
+	public abstract long doGetUsersDataItemCount(Map<String, Object> params);
 	
 	public abstract long doGetEmployeesCount(Map<String,Object> param);
 	
@@ -42,6 +43,10 @@ public interface IUserDao {
 	public abstract Employee doGetEmployee(Map<String,Object> param);
 	
 	public abstract Long doRemoveEmployees(List<String> eids);
+	
+	public abstract Long doAddRole(UsersDataItem usersDataItem);
+	
+	public abstract Long doEditRole(UsersDataItem usersDataItem);
 	
 	
 }

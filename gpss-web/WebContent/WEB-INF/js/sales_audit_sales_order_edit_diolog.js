@@ -45,21 +45,32 @@ $(document).ready(function() {
 	}
     
     //提交
-    $("#summit_sales_order_edit").click(function(){
+    $("#summit_sales_order_edit_audit").click(function(){
     	if(validateForm(validator)){
             // jquery 表单提交   
     		var url = $("#editSalesOrderAuditModal").attr("url");
     		var auditedContent = $("#input_appendix_sales_order_audit_edit").val();
     		var soid = $("#editSalesOrderAuditModal").attr("soid");
     		var auditStatus = $("#input_order_status_sales_order_audit_edit").val();
-     		$.post(url,  {
+    		var storageCount = $("#editSalesOrderAuditModal").attr("num");
+    		var gid = $("#editSalesOrderAuditModal").attr("gid");
+    		var storageId = $("#editSalesOrderAuditModal").attr("storageId");
+    		var gspecificationId = $("#editSalesOrderAuditModal").attr("gspecificationId");
+    		var auditStatusName = $("#input_order_status_sales_order_audit_edit").find("option:selected").text();
+    		
+    		$.post(url,  {
      			soid : soid,
 				auditedContent : auditedContent,
-				auditStatus : auditStatus
+				auditStatus : auditStatus,
+     			storageId : storageId,
+     			salesOrderGid : gid,
+     			salesOrderGspecificationId : gspecificationId,
+     			num : storageCount,
+				auditStatusName : auditStatusName
      		},function(data,status){
 					if(data.isSucceed) {
 						$('#editSalesOrderAuditModal').modal('hide');
-						$('#sales_order_table').bootstrapTable('refresh');
+						$('#sales_order_table_audit').bootstrapTable('refresh');
 						toastr.success('审核成功');
 					} else{
 						toastr.error('审核失败');

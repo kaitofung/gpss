@@ -71,8 +71,6 @@ $(document).ready(function() {
 				contacts : contacts,
 				updater : updater
      		},function(data,status){
-					console.log( data);
-					console.log(status);
 					if(data.isSucceed) {
 						$('#createClientModal').modal('hide');
 						$('#client_manage_table').bootstrapTable('refresh');

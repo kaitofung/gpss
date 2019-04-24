@@ -3,10 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>usersInfo</title>
-<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
-
+<script type="module" src="https://cdn.bootcss.com/popper.js/1.12.9/popper.min.js"></script>
 <!-- Toast的样式 -->
-<link href="https://cdn.bootcss.com/toastr.js/latest/toastr.min.css"
+<link href="https://cdn.staticfile.org/toastr.js/latest/css/toastr.min.css"
 	rel="stylesheet">
 <!-- jquery.treegrid -->
 <link
@@ -25,6 +24,7 @@
 	<#include "/menu_manage_menu_create_diolog.ftl"> 
 	<#include "/menu_manage_menu_remove_diolog.ftl"> 
 </body>
+<script src="https://cdn.staticfile.org/toastr.js/latest/toastr.min.js"></script>
 <!-- jquery.treegrid.extension -->
 <script src="../js/jquery.treegrid.extension.js"></script>
 <script src="../js/menu_manage.js"></script>

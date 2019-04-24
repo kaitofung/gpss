@@ -1,137 +1,122 @@
-	function sub() {  
-        // jquery 表单提交   
-		var url = $("#editUserModal").attr("url");
-		var updaterId = $("#editUserModal").attr("updater");
-		var eid = $("#editUserModal").attr("eid");
-		var realName = $("#real_name").val();
-		var etypeid = $("#employee_type").val();
-		var birthday = $("#birthday").val();
-		var mobile = $("#mobile").val();
-//		console.log( updaterId);
-//		console.log( etypeid);
-//		console.log( eid);
-
-//		  $.post(url,{
-//			  	eid : eid,
-//				updaterId : updaterId,
-//				realName : realName,
-//				etypeid : 1,
-//				birthday : birthday,
-//				mobile : mobile
-//				},
-//				function(result){
-//			  count = result;
-//			  
-//		  });
-		
-		$.post(url,  {
-			eid : eid,
-			updaterId : updaterId,
-			realName : realName,
-			etypeid : 1,
-			birthday : birthday,
-			mobile : mobile
-		},function(data,status){
-				console.log( data);
-				console.log(status);
-				if(data.isSuccessful) {
-					$('#editUserModal').modal('hide');
-					toastr.success('操作成功');
+$(document).ready(function() {
+	getRoles();
+    var validator = $("#edit_user_form").validate({rules : {
+//    	input_uid_user_manage_edit : {
+//			required : true,
+//			minlength : 2,
+//			maxlength:11
+//		},
+//		input_real_name_user_manage_edit : {
+//			required : true,
+//			minlength : 2,
+//			maxlength:11
+//		},
+		input_nickName_user_manage_edit : {
+			required : true,
+			minlength : 2,
+			maxlength:11
+		},
+		input_password_user_manage_edit : {
+			required : true,
+			minlength : 2,
+			maxlength:11
+		},
+		input_role_user_manage_edit : {
+			required : true,
+			url : false
+		}
+	},
+		messages : {
+//			input_uid_user_manage_edit : {
+//				required : "请输入用户id",
+//				minlength : "请输入2-11位的字符",
+//				maxlength : "请输入2-11位的字符"
+//			},
+			input_password_user_manage_edit : {
+				required : "请输入用户密码",
+				minlength : "请输入2-11位的字符",
+				maxlength : "请输入2-11位的字符"
+			},
+//			input_real_name_user_manage_edit : {
+//				required : "请输入用户名称",
+//				minlength : "请输入2-11位的字符",
+//				maxlength : "请输入2-11位的字符"
+//			},
+			input_nickName_user_manage_edit : {
+				required : "请输入用户昵称",
+				minlength : "请输入2-11位的字符",
+				maxlength : "请输入2-11位的字符"
+			},
+			input_role_user_manage_edit : {
+				required : "请选择用户角色"
+			}
+		}
+	});
+    
+    setUpResetForm("#edituserModal", validator);
+    
+    $("#summit_user_edit").click(function(){
+    	if(validateForm(validator)){
+            // jquery 表单提交   
+    		var url = $("#edituserModal").attr("url");
+    		var uid = $("#input_uid_user_manage_edit").val();
+    		var realName = $("#input_real_name_user_manage_edit").val();
+    		var nickName = $("#input_nickName_user_manage_edit").val();
+    		var password = $("#input_password_user_manage_edit").val();
+    		var rid = $("#input_role_user_manage_edit").val();
+    		// 创建
+    		var form_data = new FormData();
+    		form_data.append("uid", uid);
+//    		form_data.append("realName", realName);
+    		form_data.append("nickName", nickName);
+    		form_data.append("password", password);
+    		form_data.append("rid", rid);
+     	     $.ajax({  
+     	          url: url ,  
+     	          type: 'POST',  
+     	          data: form_data,  
+     	          async: false,  
+     	          cache: false,  
+     	          contentType: false,  
+     	          processData: false,  
+     	          rid: rid,  
+     	          success: function (data, status) {  
+  					if(data.isSucceed) {
+  						$('#edituserModal').modal('hide');
+  						showSuccess('修改成功！');
+						$('#user_manage_table').bootstrapTable('refresh');
+  					}else{
+  						showError('修改失败！');
+  					}
+     	          },  
+     	          error: function (returndata) {  
+  					showError('修改失败！');
+     	          }  
+     	     });  
+     		
+    	}else{
+    		showError('参数有误！！');
+    	}
+    });
+    
+    //获取角色列表信息
+    function getRoles(){
+		var url = $("#input_role_user_manage_edit").attr("url");
+ 		$.post(url,function(data,status){
+				var html = "";
+				$("#input_role_user_manage_edit").empty();
+				html = html + "<option value=''>请选择角色名称</option>";
+				if(data != null) {
+					for(i = 0; i < data.length; i ++) {
+						var item = data[i];
+					html = html 
+					+ "<option value='" + item.rid + "' rid_user_manage='" + item.rid + "'>" + item.name + "</option>";
+					}
+					$("#input_role_user_manage_edit").html(html);
 				}
 		    }
 		);
-        return false; // 必须返回false，否则表单会自己再做一次提交操作，并且页面跳转   
-    }
-	
-	
-	$("#data_modify_form").validate({
-        submitHandler:function(form){
-            form.submit();
-        }    
-    });
+	}
 
-$(document).ready(function() {
-	/**
-	 * 提交修改资料
-	 */
-	$("#summit_data").click(function() {
-
-	});
-	
-	
-	$('.form_date').datetimepicker({
-		language : 'ZH',
-		weekStart : 1,
-		todayBtn : 1,
-		autoclose : 1,
-		todayHighlight : 1,
-		startView : 2,
-		minView : 2,
-		forceParse : 0
-	});
-
-	$(".form_date").datetimepicker({   
-	      dateFormat: 'yy-mm-dd hh:ii',  
-	      language: 'zh-CN',
-	      autoclose:true
-	  });  
-
-	  $('.form_date').datetimepicker().on('changeDate',function(ev){
-			this.focus();
-			this.blur();
-	  });
-
-	  
-
-		// 在键盘按下并释放及提交后验证提交表单
-		$("#data_modify_form").validate({
-			rules : {
-				real_name : {
-					required : true,
-					minlength : 5,
-					maxlength:11
-				},
-				employee_type : {
-					required : true
-				},
-				dtp_input2 : {
-					required : true,
-					date:true
-				},
-				mobile : {
-				    required: true,
-	                maxlength:11,
-	                isphoneNum:true
-				}
-			},
-			messages : {
-				real_name : {
-					required : "请输入真实姓名",
-					minlength : "真实姓名最少5个字符组成",
-					maxlength : "真实姓名最多11个字符组成"
-				},
-				employee_type : {
-					required : "请选择员工类型"
-				},
-				dtp_input2 : {
-					required : "请选择生日日期",
-					date: "生日日期必须为日期型"
-				},
-				mobile : {
-					required : "请输入手机号码",
-					maxlength: "请输入11位的手机号码",
-	                isphoneNum: "请输入正确的手机号码"
-				}
-			}
-		});
-		
-		   //自定义手机号验证
-	    jQuery.validator.addMethod("isphoneNum", function(value, element) {
-	        var length = value.length;
-	        var mobile = /^1[3|5|8]{1}[0-9]{9}$/;
-	        return this.optional(element) || (length == 11 && mobile.test(value));
-	    }, "请正确填写您的手机号码");
-
-	
-	
 });
+

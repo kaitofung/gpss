@@ -29,10 +29,13 @@ public class StorageController extends AbstractController implements IMappingPar
 	}
 	@ResponseBody
 	@RequestMapping("/storages")
-	public Object getStorages(int pageSize, Long currentPage, String name) {
-		long storagesCount = storageService.getStoragesCount(name);	
-		getRequest().setAttribute("storagesCount", storagesCount);
-		return storageService.getStoragesByName(name, pageSize, currentPage);
+	public Object getStorages(int pageSize, Long currentPage, Storage storage) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> params = BeanUtils.beanToMap(storage);
+		map.put("total", storageService.getStoragesCount(storage.getName()));
+		List<Storage> list = storageService.getStoragesByName(storage.getName(), pageSize, currentPage);
+		map.put("rows", list);
+		return map;
 	}
 	
 	@ResponseBody
@@ -64,6 +67,12 @@ public class StorageController extends AbstractController implements IMappingPar
 	@RequestMapping("/edit")
 	public Object editStorage(Storage storage) {
 		return paramToMap("isSucceed" , storageService.editStorage(storage) >0);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/create_storage")
+	public Object createStorage(Storage storage) {
+		return paramToMap("isSucceed" , storageService.createStorage(storage) >0);
 	}
 	
 	@ResponseBody

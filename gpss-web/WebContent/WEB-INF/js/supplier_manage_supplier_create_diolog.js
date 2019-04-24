@@ -90,16 +90,16 @@ $(document).ready(function() {
 				description : description,
 				mobile : mobile
 			},function(data,status){
-					console.log( data);
-					console.log(status);
 					if(data.isSucceed) {
 						$('#createSuppliersModal').modal('hide');
 						toastr.success('创建成功');
+						$('#supplier_manage_table').bootstrapTable('refresh');
+					}else{
+						toastr.error('创建失败');
 					}
 			    }
 			);
     	}else{
-    		console.log("参数有误！！");
     	}
     });
     	

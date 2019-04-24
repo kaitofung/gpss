@@ -41,8 +41,6 @@ $(document).ready(function() {
 				description : description,
 				rid : rid
      		},function(data,status){
-					console.log( data);
-					console.log(status);
 					if(data.isSucceed) {
 						$('#editRoleModal').modal('hide');
 						$('#role_manage_table').bootstrapTable('refresh');

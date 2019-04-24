@@ -2,12 +2,18 @@
 <html>
 <head>
 <!-- Toast的样式 -->
-<link href="https://cdn.bootcss.com/toastr.js/latest/toastr.min.css"
+<link href="https://cdn.staticfile.org/toastr.js/latest/css/toastr.min.css"
 	rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>供应商管理</title>
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link
+	href="https://cdn.staticfile.org/toastr.js/latest/css/toastr.min.css"
+	rel="stylesheet">
+<link
+	href="http://cdn.staticfile.org/bootstrap-table/1.12.1/bootstrap-table.min.css"
+	rel="stylesheet">
 </head>
 <style type="text/css">
 .main-container {
@@ -15,7 +21,8 @@
 }
 </style>
 <body class="main-container ">
-	<div class="form-inline">
+	<div id="supplier_manage_toolbar" class="btn-group">
+		<div class="form-inline">
 		<div class="form-group">
 			<label for="supplier_name">供应商名称</label> <input
 				name="input_suppliers_search_supplier_manage"
@@ -37,8 +44,9 @@
 			<span class="glyphicon glyphicon-minus"></span> 删除
 		</button>
 	</div>
+	</div>
 
-	<table class="table table-bordered">
+	<!-- <table class="table table-bordered">
 		<caption></caption>
 		<thead>
 			<tr class="info">
@@ -54,10 +62,14 @@
 		</thead>
 		<tbody id="itemContainer_suppliers" class="itemContainer_suppliers">
 		</tbody>
-	</table>
+	</table> -->
+	
+		<table id="supplier_manage_table"
+		url="${context}/supplier/suppliers"
+		data-mobile-responsive="true" class=""></table>
 
-	<!-- 分页组件 -->
-	<div class="row">
+	 <!-- 分页组件 -->
+	<!--<div class="row">
 		<div class="col-sm-5 pagination" style="padding-left: 15px;">
 			<div style="display: inline;" role="status" aria-live="polite">共
 				${Request.suppliersCount!'0'}项记录,</div>
@@ -68,7 +80,7 @@
 						<option value="10">10</option>
 						<option value="20">20</option>
 						<option value="50">50</option>
-						<!-- <option value="-1">全部</option> -->
+						<option value="-1">全部</option>
 				</select>
 				</label>记录/页
 			</div>
@@ -91,13 +103,17 @@
 			<ul class="pagination" id="pagination_suppliers"></ul>
 			</nav>
 		</div>
-	</div>
+	</div> -->
 
 
 	<!-- 添加供应商弹出框 -->
 	<#include "/supplier_manage_supplier_create_diolog.ftl"> 
 	<!-- 供应商信息编辑弹出框 -->
 	<#include "/supplier_manage_supplier_edit_diolog.ftl"> 
+			<script src="../js/bootstrap-table.min.js"></script>
+	<script src="../js/bootstrap-table-zh-CN.min.js"></script>
+	<script
+		src="https://cdn.staticfile.org/toastr.js/latest/js/toastr.min.js"></script>
 	<script
 		src="${base}/js/supplier-manage.js"></script>
 </body>

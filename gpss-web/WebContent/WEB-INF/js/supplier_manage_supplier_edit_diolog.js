@@ -90,21 +90,14 @@ $(document).ready(function() {
 				description : description,
 				mobile : mobile
 			},function(data,status){
-					console.log( data);
-					console.log(status);
 					if(data.isSucceed) {
 						$('#editSuppliersModal').modal('hide');
 						toastr.success('编辑成功');
-						$("[col-supplier-name_sid="+sid+"]").empty().text(name);
-						$("[col-supplier-mobile_sid="+sid+"]").empty().text(mobile);
-						$("[col-supplier-address_sid="+sid+"]").empty().text(address);
-						$("[col-supplier-contacts_name_sid="+sid+"]").empty().text(contacts_name);
-						$("[col-supplier-updatetime_sid="+sid+"]").empty().text(dateFormat(new Date()));
+						$('#supplier_manage_table').bootstrapTable('refresh');
 					}
 			    }
 			);
     	}else{
-    		console.log("参数有误！！");
     	}
     });
     	

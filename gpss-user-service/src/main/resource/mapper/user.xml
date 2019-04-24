@@ -2,14 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gpss.user.service.dao.IUserDao">
-	<!-- <select id="findMemberByAccountNum" parameterType="java.util.Map" resultType="cn.fssyer.api.vo.Member"> 
-		SELECT mid,name,password,locked,accountNum FROM member WHERE accountNum=#{accountNum} 
-		<if test="mid!=null"> and mid=#{mid} </if> </select> -->
 
 	<insert id="doCreateUser"
 		parameterType="com.lyyzoo.gpss.api.vo.User">
-		insert into user( uid ,name,password,locked) values(
-		#{uid},#{name},#{password},#{locked});
+		insert into user( uid ,name,password,locked, eid) values(
+		#{uid},#{name},#{password},#{locked}, #{eid});
+	</insert>
+	
+	<insert id="doAddRole"
+		parameterType="com.lyyzoo.gpss.api.vo.UsersDataItem">
+		insert into user_role( uid ,rid) values(
+		#{uid},#{rid});
+	</insert>
+	
+	<insert id="doEditRole"
+		parameterType="com.lyyzoo.gpss.api.vo.UsersDataItem">
+		update user_role set uid = #{uid}, rid = #{rid} where uid = #{uid}
 	</insert>
 	
 	<insert id="doCreateEmployee"
@@ -21,10 +29,8 @@
 
 	<select id="doGetUser" parameterType="java.util.Map"
 		resultType="com.lyyzoo.gpss.api.vo.User">
-		select uid ,name ,password,eid, locked from user
-		<if test="uid != null &amp; uid != &quot;&quot;">
-			where uid = #{uid}
-		</if>
+		select ur.uid, r.name roleName, r.rid rid, r.role_code roleCode, u.name ,u.password,u.eid, u.locked from user u ,user_role ur, role r 
+		where u.uid = #{uid} and u.uid =ur.uid and  ur.rid = r.rid
 	</select>
 	
 	<delete id="doRemoveEmployees" parameterType="java.util.List" >
@@ -49,12 +55,42 @@
 
 	<select id="doGetUsersDataItems" parameterType="java.util.Map"
 		resultType="com.lyyzoo.gpss.api.vo.UsersDataItem">
-		select u.uid,ur.rid,r.name rolename, e.name realname, e.eid
+		select u.name nickName, u.uid,ur.rid,r.name rolename, e.name realname, e.eid
 		, e.updatedtime , u.locked from
 		employee e right outer join
 		user u on e.eid = u.eid left outer join
 		user_role ur on ur.uid = u.uid left outer join
-		role r on ur.rid = r.rid limit #{offset} , #{pagesize}
+		role r on ur.rid = r.rid 
+		where true
+		<if test="uid != null &amp; uid != &quot;&quot;">
+			and u.uid like concat("%",#{uid},"%")
+		</if>
+		<if test="roleName != null &amp; roleName != &quot;&quot;">
+			and r.name like concat("%",#{roleName},"%")
+		</if>
+		<if test="locked != null &amp; locked != &quot;&quot;">
+			and u.locked = #{locked}
+		</if>
+		limit #{offset} , #{pagesize}
+	</select>
+	
+	<select id="doGetUsersDataItemCount" resultType="long">
+		select
+		count(u.uid) from
+		employee e right outer join
+		user u on e.eid = u.eid left outer join
+		user_role ur on ur.uid = u.uid left outer join
+		role r on ur.rid = r.rid
+		where true
+		<if test="uid != null &amp; uid != &quot;&quot;">
+			and u.uid like concat("%",#{uid},"%")
+		</if>
+		<if test="roleName != null &amp; roleName != &quot;&quot;">
+				and r.name like concat("%",#{roleName},"%")
+		</if>
+		<if test="locked != null &amp; locked != &quot;&quot;">
+			and u.locked = #{locked}
+		</if>
 	</select>
 	
 	<select id="doGetEmployees" parameterType="java.util.Map"
@@ -85,18 +121,15 @@
 		select etypeid, name from employee_type
 	</select>
 
-	<select id="doGetUsersDataItemCount" resultType="long">
-		select
-		count(u.uid) from
-		employee e right outer join
-		user u on e.eid = u.eid left outer join
-		user_role ur on ur.uid = u.uid left outer join
-		role r on ur.rid = r.rid
-	</select>
 
 	<update id="doLock" parameterType="java.util.Map">
 		update user set locked =
 		#{locked} where uid = #{uid}
+	</update>
+	
+	<update id="doUpdateBean" parameterType="java.util.Map">
+		update user set name =#{name}, password = #{password}
+		where uid = #{uid}
 	</update>
 	
 

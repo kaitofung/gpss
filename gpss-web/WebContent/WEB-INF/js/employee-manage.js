@@ -5,10 +5,10 @@ $(document).ready(function(){
 		method : 'get', // 服务器数据的请求方式 get or post
 		url : url, // 服务器数据的加载地址
 		striped : true, //是否显示行间隔色
-		toolbar : "#toolbar", //toolbar
+		toolbar : "#employee_manage_toolbar", //toolbar
 		cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pagination : true, //是否显示分页（*）
-		sortable : true, //是否启用排序
+		sortable : false, //是否启用排序
 		//sortName : 'createTime',
 		sidePagination : "server", //分页方式：client客户端分页，server服务端分页（*）
 		pageNumber : 1, //初始化加载第一页，默认第一页
@@ -56,11 +56,12 @@ $(document).ready(function(){
 		}, {
 			field : 'etypeName',
 			title : '员工类型',
-			sortable : true
+			sortable : false
 		}, {
 			field : 'birthday',
-			sortable : true,
-			title : '员工生日'
+			sortable : false,
+			title : '员工生日',
+			formatter: birthdayFormatter
 		} , {
 			field : 'eid',
 			title : '操作',
@@ -84,12 +85,15 @@ $(document).ready(function(){
     }
     
     
+    //最后更新时间栏格式化
+    function birthdayFormatter(value, row, index) {
+    	var time = value;
+    	var result = dateFormat(time);
+    	return result;
+    }
     
   //操作栏的格式化
     function actionFormatter(value, row, index) {
-//    	log(value);
-//    	log(row);
-//    	log(index);
         var id = value;
         var result = "";
         result += "<a btn_edit_employee_manage_eid='" + id + "' data-toggle='modal' data-target='#editEmployeeModal' href='javascript:;' class='btn btn-xs blue' onclick=\"onEditClick('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
@@ -135,7 +139,6 @@ $(document).ready(function(){
 		var eids = new Array();
 		for(i = 0; i < items.length; i ++){
 			eids[i] = (items[i].eid) ;
-			log(eids[i]);
 		}
 		var url = $("#btn_delete_employee_manage").attr("url");
 		$.post(url,

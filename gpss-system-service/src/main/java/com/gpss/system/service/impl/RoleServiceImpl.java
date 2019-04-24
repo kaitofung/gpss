@@ -8,11 +8,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.gpss.system.service.dao.IRoleDao;
+import com.lyyzoo.gpss.api.service.AbstractService;
 import com.lyyzoo.gpss.api.service.IRoleService;
 import com.lyyzoo.gpss.api.vo.Role;
 
 @Service
-public class RoleServiceImpl implements IRoleService{
+public class RoleServiceImpl extends AbstractService implements IRoleService{
 
 	@Resource
 	private IRoleDao roleDao;
@@ -29,9 +30,7 @@ public class RoleServiceImpl implements IRoleService{
 
 	@Override
 	public List<Role> getRoles(Map<String, Object> param, Integer pageSize, Long currentPage) {
-		param.put("pageSize", pageSize);
-		param.put("currentPage", currentPage);
-		return getRoles(param);
+		return getRoles(offsetNPageSize(pageSize, currentPage));
 	}
 
 	@Override

@@ -5,23 +5,20 @@
 	
 <select id="doGetBeans" resultType="com.lyyzoo.gpss.api.vo.StorageRecord" parameterType="java.util.Map">
 	SELECT sr.srid, g.name AS gname, g.gid, gs.name AS gspecificationName, gs.gspecification_id AS gspecificationId
-	, s.sid storageId, s.name AS storageName, so.num salesCount, sr.num storageCount, sr.price preditedPrice, temp.avgPurchasePrice
+	, s.sid storageId, s.name AS storageName, temp.num salesCount, sr.num storageCount, sr.price preditedPrice, temp.avgPurchasePrice
 	, sr.num * sr.price AS salesSumValue, sr.num * temp.avgPurchasePrice AS storageSumValue
 FROM ((
-	SELECT po.purchase_order_gid AS gid, po.purchase_order_gspecification_id AS gspecificationId, po.purchase_order_store_id AS store_id, AVG(po.price) AS avgPurchasePrice
+	select temp1.gid, temp1.gspecificationId, temp1.store_id, temp1.avgPurchasePrice,temp2.num from (	SELECT  po.purchase_order_gid AS gid, po.purchase_order_gspecification_id AS gspecificationId, po.purchase_order_store_id AS store_id, AVG(po.price) AS avgPurchasePrice
 	FROM purchase_order po, storage_record sr
 	WHERE po.purchase_order_gid = sr.storage_record_gid
 		AND po.purchase_order_gspecification_id = sr.storage_record_gspecification_id
 		AND po.purchase_order_store_id = sr.storage_record_store_id
-	GROUP BY gid, gspecificationId, store_id
+	GROUP BY gid, gspecificationId, store_id)temp1 left join(
+select so.sales_order_gid tgid, so.sales_order_store_id tsid, so.sales_order_gspecification_id tgsid, sum(num) num from sales_order so where (so.sales_order_gid,so.sales_order_gspecification_id, so.sales_order_store_id) in(select sr.storage_record_gid,sr.storage_record_gspecification_id, sr.storage_record_store_id from storage_record sr) group by tgid, tsid, tgsid)temp2 on temp1.gid = temp2.tgid and temp1.store_id = temp2.tsid and temp1.gspecificationId = temp2.tgsid
 ) temp, storage_record sr)
 	LEFT JOIN goods g ON sr.storage_record_gid = g.gid
 	LEFT JOIN goods_specification gs ON sr.storage_record_gspecification_id = gs.gspecification_id
 	LEFT JOIN storage s ON s.sid = sr.storage_record_store_id
-	LEFT JOIN sales_order so
-	ON so.sales_order_gid = sr.storage_record_gid
-		AND so.sales_order_gspecification_id = sr.storage_record_gspecification_id
-		AND so.sales_order_store_id = sr.storage_record_store_id
 WHERE temp.gid = sr.storage_record_gid
 	AND temp.gspecificationId = sr.storage_record_gspecification_id
 	AND temp.store_id = sr.storage_record_store_id  
@@ -38,25 +35,22 @@ WHERE temp.gid = sr.storage_record_gid
 </select>
 
  <select id="doGetBeansCount" resultType="long" parameterType="java.util.Map">
-	SELECT COUNT(*)
+	SELECT count(sr.srid)
 FROM ((
-	SELECT po.purchase_order_gid AS gid, po.purchase_order_gspecification_id AS gspecificationId, po.purchase_order_store_id AS store_id, AVG(po.price) AS avgPurchasePrice
+select temp1.gid, temp1.gspecificationId, temp1.store_id, temp1.avgPurchasePrice,temp2.num from (	SELECT  po.purchase_order_gid AS gid, po.purchase_order_gspecification_id AS gspecificationId, po.purchase_order_store_id AS store_id, AVG(po.price) AS avgPurchasePrice
 	FROM purchase_order po, storage_record sr
 	WHERE po.purchase_order_gid = sr.storage_record_gid
 		AND po.purchase_order_gspecification_id = sr.storage_record_gspecification_id
 		AND po.purchase_order_store_id = sr.storage_record_store_id
-	GROUP BY gid, gspecificationId, store_id
+	GROUP BY gid, gspecificationId, store_id)temp1 left join(
+select so.sales_order_gid tgid, so.sales_order_store_id tsid, so.sales_order_gspecification_id tgsid, sum(num) num from sales_order so where (so.sales_order_gid,so.sales_order_gspecification_id, so.sales_order_store_id) in(select sr.storage_record_gid,sr.storage_record_gspecification_id, sr.storage_record_store_id from storage_record sr) group by tgid, tsid, tgsid)temp2 on temp1.gid = temp2.tgid and temp1.store_id = temp2.tsid and temp1.gspecificationId = temp2.tgsid
 ) temp, storage_record sr)
 	LEFT JOIN goods g ON sr.storage_record_gid = g.gid
 	LEFT JOIN goods_specification gs ON sr.storage_record_gspecification_id = gs.gspecification_id
 	LEFT JOIN storage s ON s.sid = sr.storage_record_store_id
-	LEFT JOIN sales_order so
-	ON so.sales_order_gid = sr.storage_record_gid
-		AND so.sales_order_gspecification_id = sr.storage_record_gspecification_id
-		AND so.sales_order_store_id = sr.storage_record_store_id
 WHERE temp.gid = sr.storage_record_gid
 	AND temp.gspecificationId = sr.storage_record_gspecification_id
-	AND temp.store_id = sr.storage_record_store_id
+	AND temp.store_id = sr.storage_record_store_id 
 			<if test="gname != null &amp; gname != &quot;&quot;">
 			and g.name like CONCAT(CONCAT('%',#{gname}),'%')
 		</if>
@@ -69,8 +63,50 @@ WHERE temp.gid = sr.storage_record_gid
 </select>
 
 <update id="doUpdateBean" parameterType="com.lyyzoo.gpss.api.vo.StorageRecord">
-	update  storage_record sr set price =#{preditedPrice} 
+	update  storage_record sr 
+	<set>
+		<if test="preditedPrice != null ">
+			price = #{preditedPrice},
+		</if>
+	</set>
 		where srid = #{srid}
 </update>  
+
+<update id="doUpdateStorageCount" parameterType="com.lyyzoo.gpss.api.vo.StorageRecord">
+	update  storage_record sr 
+	<set>
+		<if test="storageCount != null">
+			num = num + #{storageCount}
+		</if>
+	</set>
+		where true 
+	<if test="gid != null &amp; gid != &quot;&quot;">
+			and storage_record_gid = #{gid}
+	</if>
+	<if test="gspecificationId != null &amp; gspecificationId != &quot;&quot;">
+			and storage_record_gspecification_id = #{gspecificationId}
+	</if>
+	<if test="storageId != null &amp; storageId != &quot;&quot;">
+			and storage_record_store_id = #{storageId}
+	</if>
+</update>  
+
+<insert id="doCreateBean" parameterType="com.lyyzoo.gpss.api.vo.StorageRecord">
+	insert into storage_record( storage_record_gid, storage_record_gspecification_id, storage_record_store_id, num, price) 
+	 values( #{gid}, #{gspecificationId}, #{storageId}, #{storageCount}, #{preditedPrice})
+</insert>  
+
+<select id="doGetSimpleBean" resultType="com.lyyzoo.gpss.api.vo.StorageRecord" parameterType="java.util.Map">
+	select * from storage_record where true 
+	<if test="gid != null &amp; gid != &quot;&quot;">
+			and storage_record_gid = #{gid}
+	</if>
+	<if test="gspecificationId != null &amp; gspecificationId != &quot;&quot;">
+			and storage_record_gspecification_id = #{gspecificationId}
+	</if>
+	<if test="storageId != null &amp; storageId != &quot;&quot;">
+			and storage_record_store_id = #{storageId}
+	</if>
+</select>  
 
 </mapper>

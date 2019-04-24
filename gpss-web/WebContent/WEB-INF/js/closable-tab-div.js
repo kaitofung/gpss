@@ -22,7 +22,7 @@ var closableTab = {
 
 
 			$('.closed-tab-component').append(li_tab);
-			$('.tab-content').append(tabpanel);
+			$('[closed-tab-content]').append(tabpanel);
 			$('#'+container).load(tabItem.url,function(response,status,xhr){
 				if(status=='error'){//status的值为success和error，如果error则显示一个错误页面
 					$(this).html(response);

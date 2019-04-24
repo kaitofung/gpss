@@ -73,8 +73,6 @@ $(document).ready(function() {
 				cid : cid,
 				updater : updater
      		},function(data,status){
-					console.log( data);
-					console.log(status);
 					if(data.isSucceed) {
 						$('#editClientModal').modal('hide');
 						$('#client_manage_table').bootstrapTable('refresh');

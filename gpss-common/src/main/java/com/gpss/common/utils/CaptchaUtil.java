@@ -115,6 +115,9 @@ public class CaptchaUtil {
         }
         session.removeAttribute(RANDOMCODEKEY);
         session.setAttribute(RANDOMCODEKEY, randomString);
+        session.removeAttribute("rand");
+        System.err.println("设置验证码！！！");
+        session.setAttribute("rand", randomString);
         g.dispose();
         try {
             ImageIO.write(image, "JPEG", response.getOutputStream());// 将内存中的图片通过流动形式输出到客户端

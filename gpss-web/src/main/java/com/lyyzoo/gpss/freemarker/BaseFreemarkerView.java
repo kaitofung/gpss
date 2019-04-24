@@ -18,7 +18,9 @@ public class BaseFreemarkerView extends FreeMarkerView {
 		 String path = request.getContextPath();
 		 String basePath = scheme + "://" + serverName + ":" + port + path;
 		 model.put(BASE_PATH, basePath);
-		 model.put(CONTEXT_PATH, path);
+		 model.put(CONTEXT_PATH, basePath);
+		 //当在server.xml中把Context的路径设置成/的话，就用path
+//		 model.put(CONTEXT_PATH, path);
 		 logger.info("===========" + basePath);
 		 super.exposeHelpers(model, request);
     }
